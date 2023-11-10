@@ -16,11 +16,15 @@ namespace Ship
                     "",
                     Faction.Rebel,
                     3,
-                    5,
-                    6,
+                    4,
+                    4,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Torpedo
+                        UpgradeType.Sensor,
+                        UpgradeType.Cannon,
+                        UpgradeType.Cannon,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

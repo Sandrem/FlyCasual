@@ -36,10 +36,7 @@ namespace Ship
                         new ActionInfo(typeof(BoostAction)),
                         new ActionInfo(typeof(BarrelRollAction))
                     ),
-                    new ShipUpgradesInfo
-                    (
-                        UpgradeType.Configuration
-                    ),
+                    new ShipUpgradesInfo(),
                     abilityText: "Vectored Thrusters: After you perfrom and action, you may perform a red boost action."
                 );
 

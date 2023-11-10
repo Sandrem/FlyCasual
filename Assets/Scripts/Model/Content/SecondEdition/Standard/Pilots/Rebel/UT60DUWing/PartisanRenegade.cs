@@ -20,7 +20,8 @@ namespace Ship
                     6,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Illicit
+                        UpgradeType.Illicit,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

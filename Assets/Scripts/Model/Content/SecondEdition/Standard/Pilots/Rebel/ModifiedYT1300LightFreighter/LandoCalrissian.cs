@@ -21,19 +21,21 @@ namespace Ship
                     "General of the Alliance",
                     Faction.Rebel,
                     5,
-                    8,
+                    7,
                     21,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LandoCalrissianRebelPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Missile,
                         UpgradeType.Crew,
                         UpgradeType.Crew,
+                        UpgradeType.Gunner,
                         UpgradeType.Illicit,
                         UpgradeType.Modification,
                         UpgradeType.Modification,
-                        UpgradeType.Title,
+                        UpgradeType.Title                        
                     },
                     tags: new List<Tags>
                     {

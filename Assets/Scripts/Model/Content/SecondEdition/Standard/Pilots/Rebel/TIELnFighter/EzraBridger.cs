@@ -29,9 +29,9 @@ namespace Ship
                     },
                     tags: new List<Tags>
                     {
+                        Tags.LightSide,
                         Tags.Spectre,
-                        Tags.Tie,
-                        Tags.LightSide
+                        Tags.Tie                        
                     },
                     seImageNumber: 46
                 );

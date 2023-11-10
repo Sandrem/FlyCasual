@@ -22,13 +22,17 @@ namespace Ship
                     "Reluctant Rebel",
                     Faction.Rebel,
                     6,
-                    4,
-                    9,
+                    5,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.FennRauRebelAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent
+                        UpgradeType.Talent,
+                        UpgradeType.Crew,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
                     },
                     tags: new List<Tags>
                     {

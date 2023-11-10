@@ -22,7 +22,7 @@ namespace Ship
                     "Battle of Yavin",
                     Faction.Rebel,
                     5,
-                    6,
+                    5,
                     0,
                     isLimited: true,
                     abilityType: typeof(LukeSkywalkerAbility),
@@ -32,7 +32,8 @@ namespace Ship
                         UpgradeType.ForcePower,
                         UpgradeType.Talent,
                         UpgradeType.Torpedo,
-                        UpgradeType.Astromech
+                        UpgradeType.Astromech,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

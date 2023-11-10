@@ -21,7 +21,8 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Astromech,
-                        UpgradeType.Illicit
+                        UpgradeType.Illicit,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

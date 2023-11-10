@@ -19,7 +19,8 @@ namespace Ship
                     6,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Modification
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     seImageNumber: 60
                 );

@@ -19,15 +19,17 @@ namespace Ship
                     "Wrathful Warrior",
                     Faction.Rebel,
                     4,
-                    5,
-                    6,
+                    4,
+                    9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.BodicaVenjAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
                         UpgradeType.Talent,
-                        UpgradeType.Torpedo
+                        UpgradeType.Torpedo,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>()
                     {

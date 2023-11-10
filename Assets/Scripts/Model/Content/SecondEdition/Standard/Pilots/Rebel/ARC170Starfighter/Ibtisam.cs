@@ -16,16 +16,14 @@ namespace Ship
                     "Survivor of Endor",
                     Faction.Rebel,
                     3,
-                    5,
-                    14,
+                    4,
+                    9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.IbtisamAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
                         UpgradeType.Torpedo,
-                        UpgradeType.Crew,
-                        UpgradeType.Crew,
                         UpgradeType.Gunner,
                         UpgradeType.Astromech,
                         UpgradeType.Modification

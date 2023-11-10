@@ -19,8 +19,8 @@ namespace Ship
                     "Intelligence Chief",
                     Faction.Rebel,
                     5,
-                    3,
-                    9,
+                    4,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AirenCrackenAbiliity),
                     extraUpgradeIcons: new List<UpgradeType>

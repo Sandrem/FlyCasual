@@ -27,7 +27,8 @@ namespace Ship.SecondEdition.RZ1AWing
                 extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Missile
+                        UpgradeType.Missile,
+                        UpgradeType.Configuration
                     },
                 tags: new List<Tags>
                 {

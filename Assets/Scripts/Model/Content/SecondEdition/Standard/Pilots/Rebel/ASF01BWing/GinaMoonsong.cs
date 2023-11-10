@@ -22,16 +22,20 @@ namespace Ship
                     "Insubordinate Ace",
                     Faction.Rebel,
                     5,
-                    5,
-                    16,
+                    4,
+                    11,
                     isLimited: true,
                     abilityType: typeof(GinaMoonsongAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Cannon,
+                        UpgradeType.Cannon,
                         UpgradeType.Torpedo,
                         UpgradeType.Device,
-                        UpgradeType.Modification
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

@@ -20,8 +20,8 @@ namespace Ship
                     "Good-Hearted Smuggler",
                     Faction.Rebel,
                     4,
-                    6,
-                    15,
+                    5,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RoarkGarnetAbility),
                     extraUpgradeIcons: new List<UpgradeType>

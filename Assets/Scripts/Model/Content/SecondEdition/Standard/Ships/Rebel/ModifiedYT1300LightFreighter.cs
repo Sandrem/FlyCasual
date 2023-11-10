@@ -33,11 +33,7 @@ namespace Ship.SecondEdition.ModifiedYT1300LightFreighter
                     new ActionInfo(typeof(RotateArcAction)),
                     new ActionInfo(typeof(BoostAction), ActionColor.Red)
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Missile,
-                    UpgradeType.Gunner
-                )
+                new ShipUpgradesInfo()
             );
 
             ModelInfo = new ShipModelInfo

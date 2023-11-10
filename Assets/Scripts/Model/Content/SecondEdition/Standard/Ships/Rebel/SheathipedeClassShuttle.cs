@@ -39,13 +39,7 @@ namespace Ship
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(CoordinateAction))
                     ),
-                    new ShipUpgradesInfo
-                    (
-                        UpgradeType.Title,
-                        UpgradeType.Modification,
-                        UpgradeType.Astromech,
-                        UpgradeType.Crew
-                    )
+                    new ShipUpgradesInfo()
                 );
 
                 ShipAbilities.Add(new Abilities.SecondEdition.CommsShuttle());

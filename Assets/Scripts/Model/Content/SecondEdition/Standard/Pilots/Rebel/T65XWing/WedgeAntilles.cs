@@ -19,8 +19,8 @@ namespace Ship
                     "Red Two",
                     Faction.Rebel,
                     6,
-                    6,
-                    18,
+                    5,
+                    9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.WedgeAntillesAbility),
                     extraUpgradeIcons: new List<UpgradeType>
@@ -29,7 +29,8 @@ namespace Ship
                         UpgradeType.Talent,
                         UpgradeType.Torpedo,
                         UpgradeType.Astromech,
-                        UpgradeType.Modification
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

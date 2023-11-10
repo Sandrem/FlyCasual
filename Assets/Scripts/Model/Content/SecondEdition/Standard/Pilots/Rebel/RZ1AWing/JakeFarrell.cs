@@ -22,7 +22,7 @@ namespace Ship
                     Faction.Rebel,
                     4,
                     4,
-                    8,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JakeFarrellAbility),
                     extraUpgradeIcons: new List<UpgradeType>
@@ -30,7 +30,8 @@ namespace Ship
                         UpgradeType.Talent,
                         UpgradeType.Talent,
                         UpgradeType.Missile,
-                        UpgradeType.Modification
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

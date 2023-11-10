@@ -26,7 +26,8 @@ namespace Ship
                         UpgradeType.Sensor,
                         UpgradeType.Crew,
                         UpgradeType.Crew,
-                        UpgradeType.Modification
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     seImageNumber: 54
                 );

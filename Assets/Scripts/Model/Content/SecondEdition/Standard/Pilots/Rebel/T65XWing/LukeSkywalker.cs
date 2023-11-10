@@ -18,7 +18,7 @@ namespace Ship
                     Faction.Rebel,
                     5,
                     6,
-                    22,
+                    24,
                     isLimited: true,
                     abilityType: typeof(LukeSkywalkerAbility),
                     force: 2,
@@ -28,7 +28,8 @@ namespace Ship
                         UpgradeType.Talent,
                         UpgradeType.Torpedo,
                         UpgradeType.Astromech,
-                        UpgradeType.Modification
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

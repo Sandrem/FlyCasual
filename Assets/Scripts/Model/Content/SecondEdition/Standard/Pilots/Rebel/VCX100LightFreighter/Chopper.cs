@@ -19,23 +19,26 @@ namespace Ship
                     "Spectre-3",
                     Faction.Rebel,
                     2,
-                    7,
-                    18,
+                    6,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ChopperPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Sensor,
+                        UpgradeType.Turret,
+                        UpgradeType.Torpedo,
                         UpgradeType.Crew,
                         UpgradeType.Crew,
+                        UpgradeType.Gunner,
                         UpgradeType.Modification,
-                        UpgradeType.Title
+                        UpgradeType.Title                        
                     },
                     tags: new List<Tags>
                     {
+                        Tags.Droid,
                         Tags.Freighter,
-                        Tags.Spectre,
-                        Tags.Droid
+                        Tags.Spectre                        
                     },
                     seImageNumber: 75
                 );

@@ -24,13 +24,15 @@ namespace Ship
                     "Aspiring Commando",
                     Faction.Rebel,
                     3,
-                    5,
-                    10,
+                    4,
+                    9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DirkUllodinAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
-                        UpgradeType.Torpedo
+                        UpgradeType.Torpedo,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>()
                     {

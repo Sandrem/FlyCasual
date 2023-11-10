@@ -19,7 +19,7 @@ namespace Ship
                     "Tenacious Investigator",
                     Faction.Rebel,
                     5,
-                    7,
+                    6,
                     20,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CorranHornAbility),

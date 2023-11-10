@@ -22,13 +22,12 @@ namespace Ship
                     "Gray Leader",
                     Faction.Rebel,
                     4,
-                    4,
-                    14,
+                    3,
+                    7,
                     isLimited: true,
                     abilityType: typeof(HortonSalmAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent,
                         UpgradeType.Turret,
                         UpgradeType.Torpedo,
                         UpgradeType.Missile,

@@ -17,8 +17,8 @@ namespace Ship
                     "Spectre-3",
                     Faction.Rebel,
                     2,
-                    7,
-                    18,
+                    6,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ChopperPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
@@ -26,6 +26,7 @@ namespace Ship
                         UpgradeType.Crew,
                         UpgradeType.Gunner,
                         UpgradeType.Device,
+                        UpgradeType.Illicit,
                         UpgradeType.Modification,
                         UpgradeType.Modification,
                         UpgradeType.Configuration,

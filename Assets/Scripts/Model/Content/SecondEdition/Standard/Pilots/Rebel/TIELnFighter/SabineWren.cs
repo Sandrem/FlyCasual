@@ -18,21 +18,20 @@ namespace Ship
                     "Spectre-5",
                     Faction.Rebel,
                     3,
+                    2,
                     3,
-                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SabineWrenPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Missile,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {
-                        Tags.Spectre,
+                        Tags.Mandalorian,
                         Tags.Tie,
-                        Tags.Mandalorian
+                        Tags.Spectre
                     },
                     seImageNumber: 47
                 );

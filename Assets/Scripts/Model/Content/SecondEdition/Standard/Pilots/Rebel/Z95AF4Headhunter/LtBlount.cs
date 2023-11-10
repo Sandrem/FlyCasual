@@ -19,7 +19,7 @@ namespace Ship
                     Faction.Rebel,
                     4,
                     3,
-                    5,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LtBlountAbiliity),
                     extraUpgradeIcons: new List<UpgradeType>

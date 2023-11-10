@@ -20,7 +20,7 @@ namespace Ship
                     "There Is Another",
                     Faction.Rebel,
                     5,
-                    8,
+                    7,
                     24,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LeiaOrganaPilotAbility),
@@ -28,11 +28,13 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.ForcePower,
+                        UpgradeType.Missile,
                         UpgradeType.Crew,
                         UpgradeType.Crew,
+                        UpgradeType.Gunner,
                         UpgradeType.Modification,
                         UpgradeType.Modification,
-                        UpgradeType.Title,
+                        UpgradeType.Title
                     },
                     tags: new List<Tags>
                     {

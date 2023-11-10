@@ -20,7 +20,8 @@ namespace Ship
                     4,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Astromech
+                        UpgradeType.Astromech,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

@@ -23,7 +23,7 @@ namespace Ship
                     "Battle of Yavin",
                     Faction.Rebel,
                     2,
-                    4,
+                    3,
                     0,
                     isLimited: true,
                     abilityType: typeof(HolOkandBoYAbility),

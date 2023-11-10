@@ -15,16 +15,15 @@ namespace Ship
                     "Gold Nine",
                     Faction.Rebel,
                     5,
-                    6,
-                    16,
+                    5,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.NorraWexleyAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Talent,
                         UpgradeType.Torpedo,
-                        UpgradeType.Crew,
-                        UpgradeType.Crew,
                         UpgradeType.Gunner,
                         UpgradeType.Astromech,
                         UpgradeType.Modification

@@ -19,7 +19,7 @@ namespace Ship
                     1,
                     5,
                     6,
-                    extraUpgradeIcons: new List<UpgradeType>()
+                    extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Crew,
                         UpgradeType.Modification

@@ -29,7 +29,8 @@ namespace Ship
                         UpgradeType.Talent,
                         UpgradeType.Sensor,
                         UpgradeType.Crew,
-                        UpgradeType.Modification
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     seImageNumber: 56
                 );

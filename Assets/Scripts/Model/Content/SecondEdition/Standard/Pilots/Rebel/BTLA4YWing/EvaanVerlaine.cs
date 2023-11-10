@@ -21,13 +21,12 @@ namespace Ship
                     "Gold Three",
                     Faction.Rebel,
                     3,
-                    4,
-                    15,
+                    3,
+                    8,
                     isLimited: true,
                     abilityType: typeof(EvaanVerlaineAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent,
                         UpgradeType.Turret,
                         UpgradeType.Torpedo,
                         UpgradeType.Missile,

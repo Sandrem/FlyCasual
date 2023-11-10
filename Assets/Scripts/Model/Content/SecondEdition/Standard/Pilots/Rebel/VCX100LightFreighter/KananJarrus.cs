@@ -21,7 +21,7 @@ namespace Ship
                     "Spectre-1",
                     Faction.Rebel,
                     3,
-                    8,
+                    7,
                     20,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KananJarrusPilotAbility),
@@ -30,17 +30,20 @@ namespace Ship
                     {
                         UpgradeType.ForcePower,
                         UpgradeType.Sensor,
+                        UpgradeType.Turret,
+                        UpgradeType.Torpedo,
                         UpgradeType.Crew,
                         UpgradeType.Crew,
+                        UpgradeType.Gunner,
                         UpgradeType.Modification,
                         UpgradeType.Title
                     },
                     tags: new List<Tags>
                     {
                         Tags.Freighter,
-                        Tags.Spectre,
+                        Tags.Jedi,
                         Tags.LightSide,
-                        Tags.Jedi
+                        Tags.Spectre
                     },
                     seImageNumber: 74
                 );

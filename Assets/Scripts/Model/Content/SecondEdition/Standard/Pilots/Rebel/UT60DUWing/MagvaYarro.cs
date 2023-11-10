@@ -29,7 +29,8 @@ namespace Ship
                         UpgradeType.Crew,
                         UpgradeType.Crew,
                         UpgradeType.Illicit,
-                        UpgradeType.Modification
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

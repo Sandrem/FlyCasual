@@ -18,7 +18,7 @@ namespace Ship
                     "Scoundrel for Hire",
                     Faction.Rebel,
                     6,
-                    8,
+                    7,
                     20,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HanSoloRebelPilotAbility),
@@ -27,12 +27,14 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Missile,
                         UpgradeType.Crew,
                         UpgradeType.Crew,
+                        UpgradeType.Gunner,
                         UpgradeType.Illicit,
                         UpgradeType.Modification,
                         UpgradeType.Modification,
-                        UpgradeType.Title,
+                        UpgradeType.Title                        
                     },
                     tags: new List<Tags>
                     {

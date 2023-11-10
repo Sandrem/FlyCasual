@@ -18,14 +18,15 @@ namespace Ship
                     "Unlikely Ally",
                     Faction.Rebel,
                     3,
-                    5,
-                    10,
+                    4,
+                    12,
                     limited: 2,
                     abilityType: typeof(Abilities.SecondEdition.ClanWrenVolunteerAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
                         UpgradeType.Torpedo,
+                        UpgradeType.Modification,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>()

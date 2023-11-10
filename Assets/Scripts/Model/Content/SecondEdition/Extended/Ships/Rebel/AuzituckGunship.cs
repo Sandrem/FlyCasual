@@ -5,6 +5,7 @@ using Actions;
 using Arcs;
 using Ship.CardInfo;
 using UnityEngine;
+using Upgrade;
 
 namespace Ship
 {

@@ -27,7 +27,8 @@ namespace Ship
                         UpgradeType.Talent,
                         UpgradeType.Talent,
                         UpgradeType.Cannon,
-                        UpgradeType.Missile
+                        UpgradeType.Missile,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

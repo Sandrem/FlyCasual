@@ -21,8 +21,8 @@ namespace Ship
                     "Relentless Operative",
                     Faction.Rebel,
                     3,
-                    6,
-                    12,
+                    5,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KyleKatarnAbility),
                     extraUpgradeIcons: new List<UpgradeType>

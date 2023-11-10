@@ -18,18 +18,19 @@ namespace Ship
                 PilotInfo = new PilotCardInfo25
                 (
                     "Corran Horn",
-                    "Wisecracking Wingman",
+                    "Rogue Nine",
                     Faction.Rebel,
                     5,
-                    5,
-                    18,
+                    4,
+                    9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CorranHornXWingAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Torpedo,
-                        UpgradeType.Astromech
+                        UpgradeType.Missile,
+                        UpgradeType.Astromech,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

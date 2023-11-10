@@ -34,12 +34,7 @@ namespace Ship.SecondEdition.VCX100LightFreighter
                     new ActionInfo(typeof(TargetLockAction)),
                     new ActionInfo(typeof(ReinforceAction))
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Turret,
-                    UpgradeType.Torpedo,
-                    UpgradeType.Gunner
-                )
+                new ShipUpgradesInfo()
             );
 
             ShipAbilities.Add(new Abilities.SecondEdition.TailGunnerAbility());

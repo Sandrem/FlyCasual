@@ -30,6 +30,7 @@ namespace Ship
                         UpgradeType.Talent,
                         UpgradeType.Torpedo,
                         UpgradeType.Astromech,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

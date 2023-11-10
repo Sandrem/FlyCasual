@@ -18,7 +18,7 @@ namespace Ship
                     "Bold Wingman",
                     Faction.Rebel,
                     4,
-                    6,
+                    5,
                     18,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GavinDarklighterAbility),

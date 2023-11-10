@@ -36,10 +36,7 @@ namespace Ship
                         new ActionInfo(typeof(TargetLockAction)),
                         new ActionInfo(typeof(BarrelRollAction))
                     ),
-                    new ShipUpgradesInfo
-                    (
-                        UpgradeType.Configuration
-                    )
+                    new ShipUpgradesInfo()
                 );
 
                 DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.ServomotorSFoilsAttack));

@@ -18,8 +18,8 @@ namespace Ship
                     "Red Leader",
                     Faction.Rebel,
                     4,
-                    5,
-                    11,
+                    4,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GarvenDreisArcAbility),
                     extraUpgradeIcons: new List<UpgradeType>
@@ -27,8 +27,6 @@ namespace Ship
                         UpgradeType.Talent,
                         UpgradeType.Cannon,
                         UpgradeType.Missile,
-                        UpgradeType.Crew,
-                        UpgradeType.Crew,
                         UpgradeType.Gunner,
                         UpgradeType.Astromech,
                         UpgradeType.Modification

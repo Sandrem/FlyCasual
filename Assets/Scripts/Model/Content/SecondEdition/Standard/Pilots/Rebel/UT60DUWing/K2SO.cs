@@ -29,7 +29,8 @@ namespace Ship
                         UpgradeType.Sensor,
                         UpgradeType.Crew,
                         UpgradeType.Crew,
-                        UpgradeType.Modification
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

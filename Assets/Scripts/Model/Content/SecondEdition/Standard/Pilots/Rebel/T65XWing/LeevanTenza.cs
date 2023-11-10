@@ -26,8 +26,9 @@ namespace Ship
                     {
                         UpgradeType.Talent,
                         UpgradeType.Missile,
+                        UpgradeType.Astromech,
                         UpgradeType.Illicit,
-                        UpgradeType.Astromech
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

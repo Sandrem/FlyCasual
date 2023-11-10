@@ -3,6 +3,7 @@ using Content;
 using Ship;
 using System.Collections.Generic;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -18,10 +19,17 @@ namespace Ship
                     "Escaped Analyst Droid",
                     Faction.Rebel,
                     1,
-                    4,
-                    4,
+                    3,
+                    5,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AP5PilotAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Crew,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
                     tags: new List<Tags>
                     {
                         Tags.Spectre,

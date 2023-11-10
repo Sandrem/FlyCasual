@@ -22,18 +22,22 @@ namespace Ship
                     "Phoenix Leader",
                     Faction.Rebel,
                     6,
-                    6,
-                    20,
+                    5,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HeraSyndullaABWingAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Cannon,
+                        UpgradeType.Cannon,
                         UpgradeType.Torpedo,
                         UpgradeType.Missile,
                         UpgradeType.Device,
                         UpgradeType.Modification,
-                        UpgradeType.Title
+                        UpgradeType.Title,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

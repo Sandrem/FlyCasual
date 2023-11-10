@@ -23,7 +23,11 @@ namespace Ship
                     force: 1,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.ForcePower
+                        UpgradeType.ForcePower,
+                        UpgradeType.Crew,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
                     },
                     tags: new List<Tags>
                     {

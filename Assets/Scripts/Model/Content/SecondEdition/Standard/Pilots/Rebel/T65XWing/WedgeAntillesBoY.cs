@@ -22,7 +22,7 @@ namespace Ship
                     Faction.Rebel,
                     5,
                     5,
-                    18,
+                    0,
                     isLimited: true,
                     abilityType: typeof(WedgeAntillesBoYAbility),
                     extraUpgradeIcons: new List<UpgradeType>
@@ -30,7 +30,8 @@ namespace Ship
                         UpgradeType.Talent,
                         UpgradeType.Talent,
                         UpgradeType.Torpedo,
-                        UpgradeType.Astromech
+                        UpgradeType.Astromech,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

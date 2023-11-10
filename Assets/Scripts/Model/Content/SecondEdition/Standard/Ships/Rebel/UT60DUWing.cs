@@ -33,10 +33,7 @@ namespace Ship.SecondEdition.UT60DUWing
                     new ActionInfo(typeof(TargetLockAction)),
                     new ActionInfo(typeof(CoordinateAction), ActionColor.Red)
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Configuration
-                )
+                new ShipUpgradesInfo()
             );
 
             DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.PivotWingOpen));

@@ -5,6 +5,7 @@ using Ship;
 using System.Collections.Generic;
 using Movement;
 using Ship.CardInfo;
+using Upgrade;
 
 namespace Ship
 {

@@ -18,16 +18,16 @@ namespace Ship
                     "Promising Pilot",
                     Faction.Rebel,
                     4,
-                    4,
-                    10,
+                    3,
+                    5,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.WedgeAntillesAWingAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
                         UpgradeType.Talent,
-                        UpgradeType.Missile,
-                        UpgradeType.Modification
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

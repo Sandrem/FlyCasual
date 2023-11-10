@@ -18,8 +18,8 @@ namespace Ship
                     "Green Four",
                     Faction.Rebel,
                     4,
-                    5,
-                    12,
+                    4,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SharaBeyAbility),
                     extraUpgradeIcons: new List<UpgradeType>
@@ -27,8 +27,6 @@ namespace Ship
                         UpgradeType.Talent,
                         UpgradeType.Torpedo,
                         UpgradeType.Missile,
-                        UpgradeType.Crew,
-                        UpgradeType.Crew,
                         UpgradeType.Gunner,
                         UpgradeType.Astromech,
                         UpgradeType.Modification

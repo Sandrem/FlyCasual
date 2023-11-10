@@ -21,16 +21,20 @@ namespace Ship.SecondEdition.ASF01BWing
                 "Dagger Leader",
                 Faction.Rebel,
                 3,
-                5,
-                18,
+                4,
+                10,
                 isLimited: true,
                 abilityType: typeof(NetremPollardAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.Talent,
+                    UpgradeType.Sensor,
+                    UpgradeType.Cannon,
+                    UpgradeType.Cannon,
                     UpgradeType.Missile,
                     UpgradeType.Device,
-                    UpgradeType.Modification
+                    UpgradeType.Modification,
+                    UpgradeType.Configuration
                 },
                 tags: new List<Tags>
                 {

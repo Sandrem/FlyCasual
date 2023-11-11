@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using Movement;
+﻿using Actions;
 using ActionsList;
-using Actions;
 using Arcs;
-using Upgrade;
+using Movement;
 using Ship.CardInfo;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Ship
@@ -35,12 +34,7 @@ namespace Ship
                         new ActionInfo(typeof(BarrelRollAction)),
                         new ActionInfo(typeof(BoostAction))
                     ),
-                    new ShipUpgradesInfo
-                    (
-                        UpgradeType.Tech,
-                        UpgradeType.Missile,
-                        UpgradeType.Configuration
-                    )
+                    new ShipUpgradesInfo()
                 );
 
                 ShipAbilities.Add(new Abilities.SecondEdition.AutoThrustersAbility());

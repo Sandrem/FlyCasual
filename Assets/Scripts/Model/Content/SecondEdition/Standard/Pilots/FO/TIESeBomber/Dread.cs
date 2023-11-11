@@ -21,15 +21,19 @@ namespace Ship
                     "Devotee of Devastation",
                     Faction.FirstOrder,
                     3,
-                    4,
-                    12,
+                    3,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DreadPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
+                        UpgradeType.Tech,
                         UpgradeType.Torpedo,
+                        UpgradeType.Missile,
                         UpgradeType.Gunner,
-                        UpgradeType.Device
+                        UpgradeType.Device,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

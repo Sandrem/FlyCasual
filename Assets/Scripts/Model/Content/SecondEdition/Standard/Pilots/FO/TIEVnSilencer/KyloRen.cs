@@ -23,19 +23,23 @@ namespace Ship
                     Faction.FirstOrder,
                     5,
                     7,
-                    16,
+                    22,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KyloRenPilotAbility),
                     force: 2,
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.ForcePower,
-                        UpgradeType.Torpedo
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {
-                        Tags.Tie,
-                        Tags.DarkSide
+                        Tags.DarkSide,
+                        Tags.Tie
                     }
                 );
             }

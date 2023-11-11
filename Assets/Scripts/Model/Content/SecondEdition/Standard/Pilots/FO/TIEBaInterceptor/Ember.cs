@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ActionsList;
+﻿using ActionsList;
 using BoardTools;
 using Content;
 using Ship;
-using SubPhases;
+using System.Collections.Generic;
+using System.Linq;
 using Tokens;
 using UnityEngine;
 using Upgrade;
@@ -31,7 +29,10 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Missile
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
+                        UpgradeType.Missile,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

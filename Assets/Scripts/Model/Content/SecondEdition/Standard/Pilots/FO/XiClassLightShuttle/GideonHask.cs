@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using BoardTools;
-using Upgrade;
+﻿using BoardTools;
 using Ship;
 using System;
+using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -26,9 +26,9 @@ namespace Ship
                     {
                         UpgradeType.Talent,
                         UpgradeType.Talent,
+                        UpgradeType.Tech,
+                        UpgradeType.Tech,
                         UpgradeType.Crew,
-                        UpgradeType.Tech,
-                        UpgradeType.Tech,
                         UpgradeType.Crew,
                         UpgradeType.Modification
                     }

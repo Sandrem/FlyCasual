@@ -19,7 +19,7 @@ namespace Ship
                     Faction.FirstOrder,
                     4,
                     3,
-                    8,
+                    6,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ScorchAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Actions;
 using ActionsList;
-using Actions;
-using Upgrade;
-using Ship;
-using Movement;
-using UnityEngine;
-using Ship.CardInfo;
 using Arcs;
+using Movement;
+using Ship.CardInfo;
+using System.Collections.Generic;
+using UnityEngine;
+using Upgrade;
 
 namespace Ship
 {

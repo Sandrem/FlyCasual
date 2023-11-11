@@ -19,15 +19,19 @@ namespace Ship
                     "Jad Bean",
                     Faction.FirstOrder,
                     4,
-                    4,
-                    10,
+                    3,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ScorchBomberPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Tech,
+                        UpgradeType.Missile,
                         UpgradeType.Gunner,
                         UpgradeType.Device,
+                        UpgradeType.Device,
+                        UpgradeType.Modification,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

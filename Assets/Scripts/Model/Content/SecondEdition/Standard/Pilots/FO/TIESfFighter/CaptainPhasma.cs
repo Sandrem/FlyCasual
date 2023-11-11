@@ -18,13 +18,16 @@ namespace Ship
                     Faction.FirstOrder,
                     4,
                     4,
-                    14,
+                    6,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaptainPhasmaPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Tech,
                         UpgradeType.Missile,
+                        UpgradeType.Gunner,
                         UpgradeType.Modification,
                         UpgradeType.Modification
                     },

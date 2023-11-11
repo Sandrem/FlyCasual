@@ -17,15 +17,14 @@ namespace Ship
                     "Omega Leader",
                     Faction.FirstOrder,
                     6,
-                    4,
-                    15,
+                    3,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MidnightAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
                         UpgradeType.Talent,
-                        UpgradeType.Missile,
                         UpgradeType.Tech,
                         UpgradeType.Modification,
                         UpgradeType.Modification

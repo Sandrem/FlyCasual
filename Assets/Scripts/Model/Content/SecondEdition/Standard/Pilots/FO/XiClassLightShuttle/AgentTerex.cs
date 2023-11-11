@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Abilities.Parameters;
+using System.Collections.Generic;
 using Upgrade;
-using Abilities.Parameters;
 
 namespace Ship
 {
@@ -22,12 +22,12 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Illicit,
-                        UpgradeType.Illicit,
-                        UpgradeType.Illicit,
                         UpgradeType.Tech,
                         UpgradeType.Tech,
                         UpgradeType.Crew,
+                        UpgradeType.Illicit,
+                        UpgradeType.Illicit,
+                        UpgradeType.Illicit,
                         UpgradeType.Modification
                     },
                     abilityType: typeof(Abilities.SecondEdition.AgentTerexPilotAbility)

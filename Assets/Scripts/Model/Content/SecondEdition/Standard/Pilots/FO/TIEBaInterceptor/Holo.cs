@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using BoardTools;
+﻿using BoardTools;
 using Content;
 using Ship;
 using SubPhases;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Tokens;
 using UnityEngine;
 using Upgrade;
@@ -29,7 +29,10 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.HoloAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
                         UpgradeType.Missile,
+                        UpgradeType.Modification,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

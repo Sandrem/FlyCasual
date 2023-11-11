@@ -20,9 +20,13 @@ namespace Ship
                     7,
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
+                        UpgradeType.Tech,
                         UpgradeType.Torpedo,
+                        UpgradeType.Missile,
                         UpgradeType.Gunner,
-                        UpgradeType.Device
+                        UpgradeType.Device,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

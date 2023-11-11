@@ -18,13 +18,16 @@ namespace Ship
                     Faction.FirstOrder,
                     4,
                     5,
-                    6,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RecoilAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Torpedo
+                        UpgradeType.Tech,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

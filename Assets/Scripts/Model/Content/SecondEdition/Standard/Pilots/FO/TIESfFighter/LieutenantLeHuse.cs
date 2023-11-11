@@ -1,5 +1,4 @@
-﻿using Arcs;
-using BoardTools;
+﻿using BoardTools;
 using Content;
 using Ship;
 using SubPhases;
@@ -23,15 +22,18 @@ namespace Ship
                     "Unflinching Executioner",
                     Faction.FirstOrder,
                     5,
-                    5,
-                    18,
+                    4,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LieutenantLeHuseAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Tech,
                         UpgradeType.Missile,
                         UpgradeType.Missile,
+                        UpgradeType.Gunner,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

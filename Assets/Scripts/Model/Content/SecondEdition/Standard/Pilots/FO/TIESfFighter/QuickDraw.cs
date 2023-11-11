@@ -17,8 +17,8 @@ namespace Ship
                     "Defiant Duelist",
                     Faction.FirstOrder,
                     6,
-                    6,
-                    25,
+                    5,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.QuickDrawPilotAbility),
                     charges: 1,
@@ -27,6 +27,9 @@ namespace Ship
                     {
                         UpgradeType.Talent,
                         UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Tech,
+                        UpgradeType.Gunner,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

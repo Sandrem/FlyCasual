@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using Content;
+﻿using Content;
+using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -15,8 +16,14 @@ namespace Ship
                     "",
                     Faction.FirstOrder,
                     3,
-                    5,
+                    4,
                     3,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
+                        UpgradeType.Modification
+                    },
                     tags: new List<Tags>
                     {
                         Tags.Tie

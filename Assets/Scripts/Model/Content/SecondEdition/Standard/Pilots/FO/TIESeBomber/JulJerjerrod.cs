@@ -23,15 +23,19 @@ namespace Ship
                     Faction.FirstOrder,
                     4,
                     4,
-                    14,
+                    13,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JulJerjerrodPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Tech,
                         UpgradeType.Torpedo,
+                        UpgradeType.Missile,
                         UpgradeType.Gunner,
                         UpgradeType.Device,
+                        UpgradeType.Device,
+                        UpgradeType.Modification,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

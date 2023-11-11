@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Actions;
+﻿using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
 using Ship.CardInfo;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
-using Upgrade;
 
 namespace Ship.SecondEdition.TIEWiWhisperModifiedInterceptor
 {
@@ -39,13 +38,7 @@ namespace Ship.SecondEdition.TIEWiWhisperModifiedInterceptor
                     new ActionInfo(typeof(BarrelRollAction)),
                     new ActionInfo(typeof(BoostAction))
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Talent,
-                    UpgradeType.Tech,
-                    UpgradeType.Tech,
-                    UpgradeType.Configuration     
-                ),
+                new ShipUpgradesInfo(),
                 linkedActions: new List<LinkedActionInfo>
                 {
                     new LinkedActionInfo(typeof(FocusAction), typeof(RotateArcAction), ActionColor.White),

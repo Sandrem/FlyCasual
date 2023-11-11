@@ -16,15 +16,18 @@ namespace Ship
                     "Ill-Fated Test Pilot",
                     Faction.FirstOrder,
                     5,
-                    6,
-                    20,
+                    5,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TestPilotBlackoutAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
                         UpgradeType.Tech,
-                        UpgradeType.Torpedo
+                        UpgradeType.Tech,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

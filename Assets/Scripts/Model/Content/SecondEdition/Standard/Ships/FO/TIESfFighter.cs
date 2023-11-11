@@ -40,12 +40,7 @@ namespace Ship
                         new ActionInfo(typeof(BarrelRollAction)),
                         new ActionInfo(typeof(EvadeAction))
                     ),
-                    new ShipUpgradesInfo
-                    (
-                        UpgradeType.Sensor,
-                        UpgradeType.Tech,
-                        UpgradeType.Gunner
-                    ),
+                    new ShipUpgradesInfo(),
                     linkedActions: new List<LinkedActionInfo>
                     {
                         new LinkedActionInfo(typeof(FocusAction), typeof(RotateArcAction), ActionColor.White),

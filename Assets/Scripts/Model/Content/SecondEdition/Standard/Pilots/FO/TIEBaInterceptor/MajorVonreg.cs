@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Content;
+﻿using Content;
 using Ship;
 using SubPhases;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Tokens;
 using Upgrade;
 
@@ -21,14 +21,17 @@ namespace Ship
                     "Red Baron",
                     Faction.FirstOrder,
                     6,
-                    6,
-                    18,
+                    5,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MajorVonregAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
                         UpgradeType.Missile,
+                        UpgradeType.Modification,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

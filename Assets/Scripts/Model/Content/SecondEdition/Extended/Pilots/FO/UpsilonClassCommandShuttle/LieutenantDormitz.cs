@@ -3,7 +3,6 @@ using Content;
 using Ship;
 using SubPhases;
 using System.Collections.Generic;
-using System.Linq;
 using Upgrade;
 
 namespace Ship

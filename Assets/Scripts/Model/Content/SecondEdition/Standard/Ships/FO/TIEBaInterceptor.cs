@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using Actions;
+﻿using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
 using Ship;
 using Ship.CardInfo;
 using SubPhases;
+using System;
+using System.Collections.Generic;
 using Tokens;
 using UnityEngine;
-using Upgrade;
 
 namespace Ship.SecondEdition.TIEBaInterceptor
 {
@@ -37,12 +36,7 @@ namespace Ship.SecondEdition.TIEBaInterceptor
                     new ActionInfo(typeof(BarrelRollAction)),
                     new ActionInfo(typeof(BoostAction))
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Talent,
-                    UpgradeType.Tech,
-                    UpgradeType.Modification                    
-                )
+                new ShipUpgradesInfo()
             );
 
             ShipAbilities.Add(new Abilities.SecondEdition.FineTunedThrusters());

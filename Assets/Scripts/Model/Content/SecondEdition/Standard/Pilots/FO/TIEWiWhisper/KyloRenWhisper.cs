@@ -19,8 +19,8 @@ namespace Ship
                     "Supreme Leader of the First Order",
                     Faction.FirstOrder,
                     5,
-                    6,
-                    18,
+                    5,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KyloRenWhisperPilotAbility),
                     force: 3,
@@ -28,14 +28,18 @@ namespace Ship
                     {
                         UpgradeType.ForcePower,
                         UpgradeType.ForcePower,
+                        UpgradeType.Talent,
                         UpgradeType.Missile,
-                        UpgradeType.Modification
+                        UpgradeType.Tech,
+                        UpgradeType.Tech,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {
-                        Tags.Tie,
                         Tags.DarkSide,
-                        Tags.LightSide
+                        Tags.LightSide,
+                        Tags.Tie
                     }
                 );
 

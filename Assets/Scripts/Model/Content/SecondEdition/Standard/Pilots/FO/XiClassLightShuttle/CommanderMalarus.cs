@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using BoardTools;
+﻿using BoardTools;
 using Ship;
+using System;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -25,11 +25,11 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Tech,
+                        UpgradeType.Tech,
+                        UpgradeType.Crew,
                         UpgradeType.Crew,
                         UpgradeType.Modification,
-                        UpgradeType.Tech,
-                        UpgradeType.Tech,
-                        UpgradeType.Crew,
                         UpgradeType.Modification
                     }
                 );

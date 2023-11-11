@@ -22,7 +22,11 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Tech,
-                        UpgradeType.Device
+                        UpgradeType.Tech,
+                        UpgradeType.Missile,
+                        UpgradeType.Device,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

@@ -35,13 +35,7 @@ namespace Ship.SecondEdition.TIESeBomber
                     new ActionInfo(typeof(BoostAction), ActionColor.Red),
                     new ActionInfo(typeof(ReloadAction))
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Tech,
-                    UpgradeType.Missile,
-                    UpgradeType.Device,
-                    UpgradeType.Modification
-                ),
+                new ShipUpgradesInfo(),
                 linkedActions: new List<LinkedActionInfo>
                 {
                     new LinkedActionInfo(typeof(BarrelRollAction), typeof(TargetLockAction)),

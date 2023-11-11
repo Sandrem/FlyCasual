@@ -27,7 +27,11 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.NightfallPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
-                        UpgradeType.Missile
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Tech,
+                        UpgradeType.Tech,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

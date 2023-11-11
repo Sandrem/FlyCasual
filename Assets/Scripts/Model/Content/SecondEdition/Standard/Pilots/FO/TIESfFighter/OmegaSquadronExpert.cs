@@ -17,10 +17,13 @@ namespace Ship
                     Faction.FirstOrder,
                     3,
                     4,
-                    10,
+                    7,
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
+                        UpgradeType.Sensor,
+                        UpgradeType.Tech,
                         UpgradeType.Missile,
+                        UpgradeType.Gunner,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

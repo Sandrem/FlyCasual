@@ -24,7 +24,7 @@ namespace Ship
                     Faction.FirstOrder,
                     5,
                     3,
-                    8,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LieutenantGalekAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

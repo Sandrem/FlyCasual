@@ -19,13 +19,16 @@ namespace Ship
                     Faction.FirstOrder,
                     2,
                     5,
-                    7,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RushAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Talent
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
+                        UpgradeType.Missile,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

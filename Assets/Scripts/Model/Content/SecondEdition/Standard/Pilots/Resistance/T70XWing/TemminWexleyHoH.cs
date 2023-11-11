@@ -19,14 +19,18 @@ namespace Ship
                     "Snap",
                     Faction.Resistance,
                     4,
-                    5,
-                    11,
+                    4,
+                    9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TemminWexleyHoHAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Modification
+                        UpgradeType.Tech,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

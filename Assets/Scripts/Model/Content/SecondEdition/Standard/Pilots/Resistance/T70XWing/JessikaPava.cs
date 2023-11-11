@@ -20,12 +20,19 @@ namespace Ship
                     "The Great Destroyer",
                     Faction.Resistance,
                     3,
-                    5,
-                    11,
+                    4,
+                    7,
                     isLimited: true,
                     charges: 1,
                     regensCharges: 1,
                     abilityType: typeof(Abilities.SecondEdition.JessikaPavaAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Tech,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
+                    },
                     tags: new List<Tags>
                     {
                         Tags.XWing

@@ -4,6 +4,7 @@ using SubPhases;
 using System;
 using System.Collections.Generic;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -19,10 +20,17 @@ namespace Ship
                     "Loving Father",
                     Faction.Resistance,
                     1,
-                    5,
-                    13,
+                    4,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JaycrisTubbsAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Tech,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
+                    },
                     tags: new List<Tags>
                     {
                         Tags.XWing

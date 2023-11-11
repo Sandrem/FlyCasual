@@ -1,7 +1,6 @@
 ﻿using Abilities.Parameters;
 using ActionsList;
 using Content;
-using System;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -19,13 +18,17 @@ namespace Ship
                     "Tenacious Survivor",
                     Faction.Resistance,
                     4,
-                    5,
-                    13,
+                    4,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaiThrenalliAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

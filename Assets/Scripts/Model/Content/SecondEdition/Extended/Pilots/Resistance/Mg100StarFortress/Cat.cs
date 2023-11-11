@@ -1,7 +1,6 @@
 ﻿using Bombs;
 using Content;
 using Ship;
-using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -20,7 +19,7 @@ namespace Ship
                     Faction.Resistance,
                     1,
                     5,
-                    7,
+                    17,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CatAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

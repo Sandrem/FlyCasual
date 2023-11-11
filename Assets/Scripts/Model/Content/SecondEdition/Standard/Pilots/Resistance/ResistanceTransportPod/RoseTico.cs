@@ -18,12 +18,15 @@ namespace Ship.SecondEdition.ResistanceTransportPod
                 Faction.Resistance,
                 3,
                 3,
-                8,
+                9,
                 isLimited: true,
                 abilityType: typeof(RoseTicoResistanceTransportPodAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.Talent,
+                    UpgradeType.Tech,
+                    UpgradeType.Crew,
+                    UpgradeType.Modification,
                     UpgradeType.Modification
                 }
             );

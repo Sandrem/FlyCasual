@@ -20,7 +20,13 @@ namespace Ship
                     4,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Illicit
+                        UpgradeType.Tech,
+                        UpgradeType.Turret,
+                        UpgradeType.Astromech,
+                        UpgradeType.Device,
+                        UpgradeType.Modification,
+                        UpgradeType.Illicit,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

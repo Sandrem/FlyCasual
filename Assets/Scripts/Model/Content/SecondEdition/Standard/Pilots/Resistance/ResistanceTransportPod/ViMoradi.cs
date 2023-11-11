@@ -2,10 +2,11 @@
 using ActionsList;
 using BoardTools;
 using Conditions;
-using Ship;
 using Content;
-using Tokens;
+using Ship;
 using System.Collections.Generic;
+using Tokens;
+using Upgrade;
 
 namespace Ship.SecondEdition.ResistanceTransportPod
 {
@@ -23,6 +24,12 @@ namespace Ship.SecondEdition.ResistanceTransportPod
                 6,
                 isLimited: true,
                 abilityType: typeof(ViMoradiAbility),
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Tech,
+                    UpgradeType.Crew,
+                    UpgradeType.Modification
+                },
                 legality: new List<Legality>
                 {
                     Legality.StandardBanned,

@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo25
                 (
                     "R1-J5",
-                    "",
+                    "Bucket",
                     Faction.Resistance,
                     1,
                     3,
@@ -27,8 +27,8 @@ namespace Ship
                     {
                         UpgradeType.Missile,
                         UpgradeType.Crew,
-                        UpgradeType.Illicit,
-                        UpgradeType.Modification
+                        UpgradeType.Modification,
+                        UpgradeType.Title
                     },
                     tags: new List<Tags>
                     {

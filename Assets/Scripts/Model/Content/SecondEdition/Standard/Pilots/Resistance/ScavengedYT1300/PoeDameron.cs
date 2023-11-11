@@ -1,12 +1,11 @@
 ﻿using Actions;
 using ActionsList;
-using BoardTools;
 using Content;
 using Ship;
+using SubPhases;
 using System;
 using System.Collections.Generic;
 using Upgrade;
-using SubPhases;
 
 namespace Ship
 {
@@ -36,6 +35,7 @@ namespace Ship
                         UpgradeType.Crew,
                         UpgradeType.Gunner,
                         UpgradeType.Illicit,
+                        UpgradeType.Modification,
                         UpgradeType.Title,
                     },
                     tags: new List<Tags>

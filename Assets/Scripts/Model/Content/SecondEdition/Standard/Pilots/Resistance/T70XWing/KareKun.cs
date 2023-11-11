@@ -17,14 +17,18 @@ namespace Ship
                     "Woman of Action",
                     Faction.Resistance,
                     4,
-                    5,
-                    10,
+                    4,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KareKunAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Cannon
+                        UpgradeType.Tech,
+                        UpgradeType.Cannon,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

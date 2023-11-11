@@ -21,14 +21,19 @@ namespace Ship
                     "Artistic Ace",
                     Faction.Resistance,
                     3,
-                    4,
-                    13,
+                    3,
+                    9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ShasaZaroAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent,
-                        UpgradeType.Modification
+                        UpgradeType.Tech,
+                        UpgradeType.Turret,
+                        UpgradeType.Astromech,
+                        UpgradeType.Device,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

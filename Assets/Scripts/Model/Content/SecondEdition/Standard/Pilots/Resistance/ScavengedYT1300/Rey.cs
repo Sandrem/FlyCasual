@@ -18,7 +18,7 @@ namespace Ship
                     "Resourceful Scavenger",
                     Faction.Resistance,
                     5,
-                    8,
+                    7,
                     25,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ReyPilotAbility),
@@ -26,14 +26,14 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.ForcePower,
-                        UpgradeType.Crew,
-                        UpgradeType.Crew,
-                        UpgradeType.Illicit,
-                        UpgradeType.Title,
                         UpgradeType.Talent,
                         UpgradeType.Missile,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
                         UpgradeType.Gunner,
-                        UpgradeType.Modification
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
+                        UpgradeType.Title                        
                     },
                     tags: new List<Tags>
                     {

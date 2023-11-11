@@ -21,13 +21,17 @@ namespace Ship
                     Faction.Resistance,
                     5,
                     5,
-                    10,
+                    16,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.NienNunbAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Missile
+                        UpgradeType.Tech,
+                        UpgradeType.Missile,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

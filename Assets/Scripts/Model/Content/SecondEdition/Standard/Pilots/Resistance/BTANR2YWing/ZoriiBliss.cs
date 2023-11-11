@@ -20,8 +20,8 @@ namespace Ship
                     "Corsair of Kijimi",
                     Faction.Resistance,
                     5,
-                    5,
-                    19,
+                    4,
+                    11,
                     isLimited: true,
                     charges: 1,
                     regensCharges: 1,
@@ -29,7 +29,13 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Illicit
+                        UpgradeType.Tech,
+                        UpgradeType.Turret,
+                        UpgradeType.Astromech,
+                        UpgradeType.Device,
+                        UpgradeType.Modification,
+                        UpgradeType.Illicit,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

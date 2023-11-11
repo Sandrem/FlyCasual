@@ -25,6 +25,8 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.GreerSonnelAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
                         UpgradeType.Missile,
                         UpgradeType.Modification
                     },

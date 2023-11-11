@@ -1,5 +1,4 @@
-﻿using ActionsList;
-using Arcs;
+﻿using Arcs;
 using BoardTools;
 using Content;
 using Ship;
@@ -20,14 +19,20 @@ namespace Ship
                     "Jade Leader",
                     Faction.Resistance,
                     4,
-                    5,
-                    13,
+                    4,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.VenisaDozaAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Modification
+                        UpgradeType.Tech,
+                        UpgradeType.Missile,
+                        UpgradeType.Missile,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

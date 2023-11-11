@@ -19,14 +19,18 @@ namespace Ship
                     "Black Two",
                     Faction.Resistance,
                     4,
-                    6,
-                    17,
+                    5,
+                    13,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SnapWexleyAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Tech
+                        UpgradeType.Tech,
+                        UpgradeType.Tech,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

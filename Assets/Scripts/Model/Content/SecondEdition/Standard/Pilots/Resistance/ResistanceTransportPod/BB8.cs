@@ -24,7 +24,11 @@ namespace Ship.SecondEdition.ResistanceTransportPod
                 abilityType: typeof(BB8TransportPodAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
-                    UpgradeType.Tech
+                    
+                    UpgradeType.Tech,
+                    UpgradeType.Tech,
+                    UpgradeType.Crew,
+                    UpgradeType.Modification
                 },
                 tags: new List<Tags>
                 {

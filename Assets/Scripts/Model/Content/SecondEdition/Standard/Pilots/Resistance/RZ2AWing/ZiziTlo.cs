@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Content;
+﻿using Content;
 using Ship;
 using SubPhases;
+using System;
+using System.Collections.Generic;
 using Tokens;
 using Upgrade;
 
@@ -21,7 +21,7 @@ namespace Ship
                     Faction.Resistance,
                     5,
                     5,
-                    15,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ZiziTloAbility),
                     charges: 1,
@@ -29,6 +29,8 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
                         UpgradeType.Missile,
                         UpgradeType.Modification
                     },

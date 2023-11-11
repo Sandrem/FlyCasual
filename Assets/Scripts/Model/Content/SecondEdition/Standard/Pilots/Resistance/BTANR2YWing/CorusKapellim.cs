@@ -21,13 +21,20 @@ namespace Ship
                     "\"Gentleman Flyer\"",
                     Faction.Resistance,
                     1,
-                    4,
-                    15,
+                    3,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CorusKapellimAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Illicit
+                        UpgradeType.Tech,
+                        UpgradeType.Turret,
+                        UpgradeType.Astromech,
+                        UpgradeType.Device,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification,
+                        UpgradeType.Illicit,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

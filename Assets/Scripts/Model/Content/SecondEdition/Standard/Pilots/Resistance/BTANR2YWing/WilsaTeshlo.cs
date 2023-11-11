@@ -26,8 +26,15 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.WilsaTeshloAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
+                        UpgradeType.Tech,
+                        UpgradeType.Missile,
+                        UpgradeType.Turret,
+                        UpgradeType.Astromech,
                         UpgradeType.Device,
-                        UpgradeType.Modification
+                        UpgradeType.Device,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

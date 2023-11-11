@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using Movement;
+﻿using Actions;
 using ActionsList;
-using Upgrade;
-using Actions;
 using Arcs;
-using UnityEngine;
-using System;
+using Movement;
 using Ship.CardInfo;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using Upgrade;
 
 namespace Ship.SecondEdition.BTANR2YWing
 {
@@ -33,15 +33,7 @@ namespace Ship.SecondEdition.BTANR2YWing
                     new ActionInfo(typeof(BarrelRollAction), ActionColor.Red),
                     new ActionInfo(typeof(BoostAction), ActionColor.Red)
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Tech,
-                    UpgradeType.Turret,
-                    UpgradeType.Astromech,
-                    UpgradeType.Device,
-                    UpgradeType.Modification,
-                    UpgradeType.Configuration
-                )
+                new ShipUpgradesInfo()
             );
 
             ModelInfo = new ShipModelInfo

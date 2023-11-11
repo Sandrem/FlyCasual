@@ -1,5 +1,4 @@
 ﻿using ActionsList;
-using BoardTools;
 using Content;
 using Movement;
 using Ship;
@@ -23,7 +22,7 @@ namespace Ship
                     "Old General",
                     Faction.Resistance,
                     5,
-                    8,
+                    7,
                     20,
                     isLimited: true,
                     charges: 3,
@@ -38,8 +37,8 @@ namespace Ship
                         UpgradeType.Gunner,
                         UpgradeType.Illicit,
                         UpgradeType.Illicit,
-                        UpgradeType.Title,
-                        UpgradeType.Modification
+                        UpgradeType.Modification,
+                        UpgradeType.Title
                     },
                     tags: new List<Tags>
                     {

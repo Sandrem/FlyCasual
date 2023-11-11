@@ -19,22 +19,22 @@ namespace Ship
                     "Loyal Companion",
                     Faction.Resistance,
                     4,
-                    7,
+                    6,
                     18,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ChewbaccaPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Crew,
-                        UpgradeType.Crew,
-                        UpgradeType.Illicit,
-                        UpgradeType.Illicit,
-                        UpgradeType.Title,
                         UpgradeType.Talent,
                         UpgradeType.Missile,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
                         UpgradeType.Gunner,
-                        UpgradeType.Modification
+                        UpgradeType.Illicit,
+                        UpgradeType.Illicit,                        
+                        UpgradeType.Modification,
+                        UpgradeType.Title
                     },
                     tags: new List<Tags>
                     {

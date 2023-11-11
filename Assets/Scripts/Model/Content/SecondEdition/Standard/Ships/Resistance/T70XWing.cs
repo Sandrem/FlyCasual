@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using Movement;
+﻿using Actions;
 using ActionsList;
-using Upgrade;
-using Actions;
-using UnityEngine;
 using Arcs;
-using System;
+using Movement;
 using Ship.CardInfo;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Ship
 {
@@ -36,13 +35,7 @@ namespace Ship
                         new ActionInfo(typeof(TargetLockAction)),
                         new ActionInfo(typeof(BoostAction))
                     ),
-                    new ShipUpgradesInfo
-                    (
-                        UpgradeType.Tech,
-                        UpgradeType.Astromech,
-                        UpgradeType.Modification,
-                        UpgradeType.Configuration
-                    )
+                    new ShipUpgradesInfo()
                 );
 
                 DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.IntegratedSFoilsOpen));

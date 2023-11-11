@@ -4,6 +4,7 @@ using Ship;
 using SubPhases;
 using System.Collections.Generic;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -20,9 +21,16 @@ namespace Ship
                     Faction.Resistance,
                     2,
                     5,
-                    10,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LieutenantBastianAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Tech,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
+                    },
                     tags: new List<Tags>
                     {
                         Tags.XWing

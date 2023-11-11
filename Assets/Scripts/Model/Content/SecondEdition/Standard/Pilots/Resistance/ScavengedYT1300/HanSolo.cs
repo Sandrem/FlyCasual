@@ -26,13 +26,14 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.HanSoloResistancePilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Crew,
-                        UpgradeType.Crew,
-                        UpgradeType.Illicit,
-                        UpgradeType.Illicit,
                         UpgradeType.Talent,
                         UpgradeType.Missile,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
                         UpgradeType.Gunner,
+                        UpgradeType.Illicit,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

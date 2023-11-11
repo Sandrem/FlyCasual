@@ -1,6 +1,4 @@
 ﻿using Content;
-using Ship;
-using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -19,7 +17,7 @@ namespace Ship
                     Faction.Resistance,
                     1,
                     6,
-                    11,
+                    12,
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Sensor,

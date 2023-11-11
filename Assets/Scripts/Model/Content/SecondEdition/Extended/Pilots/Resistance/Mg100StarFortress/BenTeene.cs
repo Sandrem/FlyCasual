@@ -23,7 +23,7 @@ namespace Ship
                     Faction.Resistance,
                     3,
                     5,
-                    9,
+                    19,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.BenTeeneAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

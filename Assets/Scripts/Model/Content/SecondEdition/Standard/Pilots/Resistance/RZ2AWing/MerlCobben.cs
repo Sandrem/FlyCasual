@@ -2,7 +2,6 @@
 using BoardTools;
 using Content;
 using Ship;
-using System;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -26,6 +25,8 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.MerlCobbenAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
                         UpgradeType.Missile,
                         UpgradeType.Modification
                     },

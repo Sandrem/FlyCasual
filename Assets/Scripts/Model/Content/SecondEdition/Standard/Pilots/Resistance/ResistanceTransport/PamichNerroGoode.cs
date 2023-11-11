@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Abilities.SecondEdition;
+﻿using Abilities.SecondEdition;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship.SecondEdition.ResistanceTransport

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Abilities.SecondEdition;
+using ActionsList;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Abilities.SecondEdition;
-using Upgrade;
-using ActionsList;
 using Tokens;
+using Upgrade;
 
 namespace Ship.SecondEdition.ResistanceTransport
 {

@@ -28,7 +28,7 @@ namespace Ship
                         UpgradeType.Illicit,
                         UpgradeType.Modification,
                         UpgradeType.Modification,
-                        UpgradeType.Configuration
+                        UpgradeType.Title
                     }
                 );
             }

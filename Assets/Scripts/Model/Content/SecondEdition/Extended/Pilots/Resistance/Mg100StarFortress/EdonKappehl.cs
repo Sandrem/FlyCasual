@@ -4,8 +4,6 @@ using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Upgrade;
 
 namespace Ship
@@ -23,7 +21,7 @@ namespace Ship
                     Faction.Resistance,
                     3,
                     6,
-                    14,
+                    22,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.EdonKappehlAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

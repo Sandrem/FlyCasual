@@ -20,14 +20,20 @@ namespace Ship
                     "Hero of Humbarine",
                     Faction.Resistance,
                     3,
-                    4,
-                    14,
+                    3,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LegaFossangAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent,
-                        UpgradeType.Missile
+                        UpgradeType.Tech,
+                        UpgradeType.Turret,
+                        UpgradeType.Missile,
+                        UpgradeType.Astromech,
+                        UpgradeType.Device,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

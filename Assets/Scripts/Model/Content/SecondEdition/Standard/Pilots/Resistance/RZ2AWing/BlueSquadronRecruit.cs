@@ -1,4 +1,7 @@
-﻿namespace Ship
+﻿using System.Collections.Generic;
+using Upgrade;
+
+namespace Ship
 {
     namespace SecondEdition.RZ2AWing
     {
@@ -14,6 +17,11 @@
                     1,
                     4,
                     4,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Tech
+                    },
                     skinName: "Blue"
                 );
             }

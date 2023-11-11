@@ -1,5 +1,4 @@
-﻿using ActionsList;
-using Content;
+﻿using Content;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -24,9 +23,11 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Missile,
-                        UpgradeType.Missile,
-                        UpgradeType.Modification
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

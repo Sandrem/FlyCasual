@@ -1,5 +1,6 @@
 ﻿using Content;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -15,10 +16,17 @@ namespace Ship
                     "Hopeful Hero",
                     Faction.Resistance,
                     2,
-                    5,
-                    10,
+                    4,
+                    9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.NimiChereenAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Tech,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
+                    },
                     tags: new List<Tags>
                     {
                         Tags.XWing

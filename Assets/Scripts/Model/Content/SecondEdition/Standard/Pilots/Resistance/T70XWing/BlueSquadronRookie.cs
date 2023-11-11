@@ -1,5 +1,6 @@
 ﻿using Content;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -17,6 +18,13 @@ namespace Ship
                     1,
                     5,
                     4,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Tech,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
+                    },
                     tags: new List<Tags>
                     {
                         Tags.XWing

@@ -28,6 +28,8 @@ namespace Ship
                     {
                         UpgradeType.Talent,
                         UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
                         UpgradeType.Torpedo,
                         UpgradeType.Modification
                     },

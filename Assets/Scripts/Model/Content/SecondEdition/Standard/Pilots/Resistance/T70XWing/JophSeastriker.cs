@@ -17,12 +17,16 @@ namespace Ship
                     Faction.Resistance,
                     3,
                     5,
-                    9,
+                    13,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JophSeastrikerAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

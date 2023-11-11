@@ -24,11 +24,13 @@ namespace Ship
                     Faction.Resistance,
                     2,
                     4,
-                    8,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RonithBlarioAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
                         UpgradeType.Missile,
                         UpgradeType.Modification
                     },

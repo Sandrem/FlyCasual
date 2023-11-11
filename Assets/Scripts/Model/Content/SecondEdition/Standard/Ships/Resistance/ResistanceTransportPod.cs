@@ -33,12 +33,7 @@ namespace Ship.SecondEdition.ResistanceTransportPod
                     new ActionInfo(typeof(BarrelRollAction), ActionColor.Red),
                     new ActionInfo(typeof(JamAction), ActionColor.Red)
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Tech,
-                    UpgradeType.Crew,
-                    UpgradeType.Modification
-                )
+                new ShipUpgradesInfo()
             );
 
             ModelInfo = new ShipModelInfo

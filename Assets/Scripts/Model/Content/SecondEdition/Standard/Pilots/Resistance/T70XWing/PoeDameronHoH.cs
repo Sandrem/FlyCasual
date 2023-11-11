@@ -30,7 +30,11 @@ namespace Ship
                     {
                         UpgradeType.Talent,
                         UpgradeType.Talent,
-                        UpgradeType.Tech
+                        UpgradeType.Tech,
+                        UpgradeType.Tech,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

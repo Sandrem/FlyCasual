@@ -3,7 +3,6 @@ using Arcs;
 using BoardTools;
 using Content;
 using Ship;
-using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -22,7 +21,7 @@ namespace Ship
                     Faction.Resistance,
                     2,
                     6,
-                    14,
+                    18,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.VennieAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

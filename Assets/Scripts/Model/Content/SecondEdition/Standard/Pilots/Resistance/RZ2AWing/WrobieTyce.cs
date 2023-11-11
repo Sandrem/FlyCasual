@@ -1,5 +1,4 @@
 ﻿using Content;
-using Ship;
 using System;
 using System.Collections.Generic;
 using Tokens;
@@ -25,6 +24,8 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.WrobieTyceAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
                         UpgradeType.Missile,
                         UpgradeType.Modification
                     },

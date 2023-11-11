@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using Movement;
-using ActionsList;
-using Upgrade;
+﻿using Abilities.SecondEdition;
 using Actions;
-using Ship;
-using Abilities.SecondEdition;
+using ActionsList;
 using Arcs;
-using UnityEngine;
-using System;
+using Movement;
+using Ship;
 using Ship.CardInfo;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Ship
 {
@@ -39,11 +38,7 @@ namespace Ship
                         new ActionInfo(typeof(BoostAction)),
                         new ActionInfo(typeof(BarrelRollAction))
                     ),
-                    new ShipUpgradesInfo
-                    (
-                        UpgradeType.Talent,
-                        UpgradeType.Tech
-                    )
+                    new ShipUpgradesInfo()
                 );
 
                 ShipAbilities.Add(new VectoredThrustersRZ2());

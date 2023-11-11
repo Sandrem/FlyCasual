@@ -3,7 +3,6 @@ using Bombs;
 using Content;
 using GameCommands;
 using GameModes;
-using Ship;
 using SubPhases;
 using System;
 using System.Collections;
@@ -27,7 +26,7 @@ namespace Ship
                     Faction.Resistance,
                     4,
                     6,
-                    14,
+                    22,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.FinchDallowAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

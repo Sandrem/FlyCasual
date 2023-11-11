@@ -1,5 +1,5 @@
-﻿using Upgrade;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -19,7 +19,9 @@ namespace Ship
                     8,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Torpedo
+                        UpgradeType.Sensor,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Astromech
                     }
                 );
             }

@@ -18,8 +18,8 @@ namespace Ship
                     "Bucket of Bolts",
                     Faction.Republic,
                     2,
-                    4,
-                    14,
+                    3,
+                    9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.R2D2PilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>
@@ -27,7 +27,6 @@ namespace Ship
                         UpgradeType.Sensor,
                         UpgradeType.Turret,
                         UpgradeType.Torpedo,
-                        UpgradeType.Gunner,
                         UpgradeType.Crew,
                         UpgradeType.Device,
                         UpgradeType.Device,

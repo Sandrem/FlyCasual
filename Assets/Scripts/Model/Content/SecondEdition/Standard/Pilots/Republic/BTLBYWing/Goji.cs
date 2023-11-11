@@ -22,7 +22,7 @@ namespace Ship
                     Faction.Republic,
                     2,
                     4,
-                    12,
+                    16,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GojiAbility),
                     extraUpgradeIcons: new List<UpgradeType>

@@ -20,14 +20,20 @@ namespace Ship
                     "Valkyrie 2929",
                     Faction.Republic,
                     4,
-                    5,
-                    12,
+                    6,
+                    25,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HawkAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Missile
+                        UpgradeType.Missile,
+                        UpgradeType.Missile,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Gunner,
+                        UpgradeType.Gunner,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

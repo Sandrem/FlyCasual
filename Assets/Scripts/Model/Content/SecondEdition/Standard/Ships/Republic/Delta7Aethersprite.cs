@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using Actions;
+﻿using Actions;
 using ActionsList;
 using Arcs;
 using BoardTools;
 using Movement;
 using Ship;
 using Ship.CardInfo;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
-using Upgrade;
 
 namespace Ship.SecondEdition.Delta7Aethersprite
 {
@@ -36,13 +35,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                     new ActionInfo(typeof(BarrelRollAction)),
                     new ActionInfo(typeof(BoostAction))
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.ForcePower,
-                    UpgradeType.Modification,
-                    UpgradeType.Configuration,
-                    UpgradeType.Astromech
-                )
+                new ShipUpgradesInfo()
             );
 
             ShipAbilities.Add(new Abilities.SecondEdition.FineTunedControlsAbility());

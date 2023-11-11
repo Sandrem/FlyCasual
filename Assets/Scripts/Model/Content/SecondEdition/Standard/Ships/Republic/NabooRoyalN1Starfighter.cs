@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using Movement;
+﻿using Actions;
 using ActionsList;
-using Upgrade;
-using Actions;
 using Arcs;
-using UnityEngine;
+using Movement;
 using Ship.CardInfo;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Ship.SecondEdition.NabooRoyalN1Starfighter
 {
@@ -33,11 +32,7 @@ namespace Ship.SecondEdition.NabooRoyalN1Starfighter
                     new ActionInfo(typeof(BarrelRollAction)),
                     new ActionInfo(typeof(BoostAction))
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Sensor,
-                    UpgradeType.Astromech
-                ),
+                new ShipUpgradesInfo(),
                 abilityText: "<b>Full Throttle:</b> After you fully execute a speed 3-5 maneuver, you may perform an evade action."
             );
 

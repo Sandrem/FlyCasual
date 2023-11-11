@@ -1,5 +1,6 @@
 ﻿using Content;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship.SecondEdition.Delta7BAethersprite
 {
@@ -18,6 +19,12 @@ namespace Ship.SecondEdition.Delta7BAethersprite
                 isLimited: true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.AhsokaTanoAbility),
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.ForcePower,
+                    UpgradeType.Astromech,
+                    UpgradeType.Modification
+                },
                 tags: new List<Tags>
                 {
                     Tags.Jedi,

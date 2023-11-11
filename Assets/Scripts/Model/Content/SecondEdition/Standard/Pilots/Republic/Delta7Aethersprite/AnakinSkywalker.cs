@@ -1,11 +1,11 @@
+using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System.Collections.Generic;
-using Upgrade;
 using Tokens;
-using BoardTools;
 using UnityEngine;
-using Content;
+using Upgrade;
 
 namespace Ship.SecondEdition.Delta7Aethersprite
 {
@@ -27,7 +27,11 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.ForcePower,
-                    UpgradeType.Talent
+                    UpgradeType.ForcePower,
+                    UpgradeType.Talent,
+                    UpgradeType.Astromech,
+                    UpgradeType.Configuration,
+                    UpgradeType.Modification
                 },
                 tags: new List<Tags>
                 {

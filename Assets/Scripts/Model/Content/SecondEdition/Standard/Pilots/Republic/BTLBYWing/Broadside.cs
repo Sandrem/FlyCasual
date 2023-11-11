@@ -17,15 +17,13 @@ namespace Ship
                     "Shadow Three",
                     Faction.Republic,
                     3,
-                    4,
-                    13,
+                    3,
+                    10,
                     isLimited: true,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
                         UpgradeType.Turret,
-                        UpgradeType.Torpedo,
-                        UpgradeType.Gunner,
                         UpgradeType.Astromech,
                         UpgradeType.Device,
                         UpgradeType.Modification

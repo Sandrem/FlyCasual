@@ -1,12 +1,10 @@
 ﻿using Conditions;
 using Content;
-using MainPhases;
 using Movement;
 using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Tokens;
 using Upgrade;
 
@@ -31,7 +29,13 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Missile
+                        UpgradeType.Missile,
+                        UpgradeType.Missile,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Gunner,
+                        UpgradeType.Gunner,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

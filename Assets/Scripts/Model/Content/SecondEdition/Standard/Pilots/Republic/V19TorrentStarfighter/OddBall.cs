@@ -28,7 +28,8 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
                 {
                     UpgradeType.Talent,
                     UpgradeType.Torpedo,
-                    UpgradeType.Missile
+                    UpgradeType.Missile,
+                    UpgradeType.Modification
                 },
                 tags: new List<Tags>
                 {

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Content;
+﻿using Content;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -16,8 +16,8 @@ namespace Ship
                     "CC-2237",
                     Faction.Republic,
                     5,
-                    4,
-                    12,
+                    3,
+                    9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.OddBallAbility),
                     extraUpgradeIcons: new List<UpgradeType>
@@ -25,12 +25,12 @@ namespace Ship
                         UpgradeType.Talent,
                         UpgradeType.Torpedo,
                         UpgradeType.Astromech,
-                        UpgradeType.Modification
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {
-                        Tags.Clone,
-                        Tags.Tie
+                        Tags.Clone
                     }
                 );
 

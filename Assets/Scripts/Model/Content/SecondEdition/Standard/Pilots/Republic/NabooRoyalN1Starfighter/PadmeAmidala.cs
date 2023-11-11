@@ -1,11 +1,11 @@
 ﻿using Abilities.SecondEdition;
-using System.Collections.Generic;
-using Upgrade;
-using Ship;
 using Conditions;
-using Tokens;
-using Mods.ModsList;
 using Mods;
+using Mods.ModsList;
+using Ship;
+using System.Collections.Generic;
+using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -21,14 +21,17 @@ namespace Ship
                     "Aggressive Negotiator",
                     Faction.Republic,
                     4,
-                    5,
-                    22,
+                    4,
+                    18,
                     isLimited: true,
                     abilityText: "While an enemy ship in your [Front Arc] defends or performs an attack, that ship can modify only 1 [Focus] result (other results can still be modified).",
                     abilityType: typeof(PadmeAmidalaAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent, UpgradeType.Torpedo
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Astromech
                     }
                 );
 
@@ -46,7 +49,7 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-  public class PadmeAmidalaAbility : GenericAbility
+    public class PadmeAmidalaAbility : GenericAbility
   {
     public override void ActivateAbility()
     {

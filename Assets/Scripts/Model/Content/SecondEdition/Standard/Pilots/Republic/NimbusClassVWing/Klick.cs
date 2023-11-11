@@ -30,12 +30,12 @@ namespace Ship
                     {
                         UpgradeType.Talent,
                         UpgradeType.Astromech,
-                        UpgradeType.Modification
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {
-                        Tags.Clone,
-                        Tags.Tie
+                        Tags.Clone
                     }
                 );
 

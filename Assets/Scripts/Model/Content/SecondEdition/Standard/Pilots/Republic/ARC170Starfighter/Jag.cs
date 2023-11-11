@@ -18,8 +18,8 @@ namespace Ship
                     "CT-55/11-9009",
                     Faction.Republic,
                     3,
-                    5,
-                    14,
+                    4,
+                    9,
                     isLimited: true,
                     extraUpgradeIcons: new List<UpgradeType>
                     {

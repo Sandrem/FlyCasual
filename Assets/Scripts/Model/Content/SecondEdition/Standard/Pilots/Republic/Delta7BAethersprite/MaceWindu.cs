@@ -14,14 +14,17 @@ namespace Ship.SecondEdition.Delta7BAethersprite
                 "Harsh Traditionalist",
                 Faction.Republic,
                 4,
-                6,
-                8,
+                5,
+                7,
                 isLimited: true,
                 force: 3,
                 abilityType: typeof(Abilities.SecondEdition.MaceWinduAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
-                    UpgradeType.ForcePower
+                    UpgradeType.ForcePower,
+                    UpgradeType.ForcePower,
+                    UpgradeType.Astromech,
+                    UpgradeType.Modification
                 },
                 tags: new List<Tags>
                 {

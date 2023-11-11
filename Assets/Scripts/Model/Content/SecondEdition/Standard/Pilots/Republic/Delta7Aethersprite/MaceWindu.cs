@@ -25,7 +25,11 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 abilityType: typeof(Abilities.SecondEdition.MaceWinduAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
-                    UpgradeType.ForcePower
+                    UpgradeType.ForcePower,
+                    UpgradeType.ForcePower,
+                    UpgradeType.Astromech,
+                    UpgradeType.Configuration,
+                    UpgradeType.Modification
                 },
                 tags: new List<Tags>
                 {

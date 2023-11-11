@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using Abilities.SecondEdition;
+﻿using Abilities.SecondEdition;
 using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
 using Ship.CardInfo;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
-using Upgrade;
 
 namespace Ship.SecondEdition.LaatIGunship
 {
@@ -35,15 +34,7 @@ namespace Ship.SecondEdition.LaatIGunship
                     new ActionInfo(typeof(RotateArcAction)),
                     new ActionInfo(typeof(ReloadAction))
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Missile,
-                    UpgradeType.Crew,
-                    UpgradeType.Crew,
-                    UpgradeType.Gunner,
-                    UpgradeType.Gunner,
-                    UpgradeType.Modification
-                )
+                new ShipUpgradesInfo()
             );
 
             ShipInfo.Charges = 2;

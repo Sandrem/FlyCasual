@@ -15,13 +15,16 @@ namespace Ship.SecondEdition.Delta7BAethersprite
                 Faction.Republic,
                 5,
                 7,
-                17,
+                19,
                 isLimited: true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.PloKoonAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
-                    UpgradeType.ForcePower
+                    UpgradeType.ForcePower,
+                    UpgradeType.Talent,
+                    UpgradeType.Astromech,
+                    UpgradeType.Modification
                 },
                 tags: new List<Tags>
                 {

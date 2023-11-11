@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Actions;
+﻿using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
 using Ship.CardInfo;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
-using Upgrade;
 
 namespace Ship.SecondEdition.V19TorrentStarfighter
 {
@@ -33,10 +32,7 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
                     new ActionInfo(typeof(TargetLockAction)),
                     new ActionInfo(typeof(BarrelRollAction))
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Modification
-                ),
+                new ShipUpgradesInfo(),
                 linkedActions: new List<LinkedActionInfo>
                 {
                     new LinkedActionInfo(typeof(BarrelRollAction), typeof(EvadeAction))

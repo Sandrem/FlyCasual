@@ -1,5 +1,6 @@
 ﻿using Content;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship.SecondEdition.Delta7BAethersprite
 {
@@ -16,6 +17,12 @@ namespace Ship.SecondEdition.Delta7BAethersprite
                 6,
                 3,
                 force: 1,
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.ForcePower,
+                    UpgradeType.Astromech,
+                    UpgradeType.Modification
+                },
                 tags: new List<Tags>
                 {
                     Tags.Jedi,

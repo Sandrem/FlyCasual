@@ -1,7 +1,5 @@
 ﻿using Content;
 using Ship;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
@@ -20,8 +18,8 @@ namespace Ship
                     "Wolfpack Veteran",
                     Faction.Republic,
                     3,
-                    6,
-                    18,
+                    5,
+                    15,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SinkerAbility),
                     extraUpgradeIcons: new List<UpgradeType>
@@ -29,9 +27,9 @@ namespace Ship
                         UpgradeType.Talent,
                         UpgradeType.Torpedo,
                         UpgradeType.Astromech,
-                        UpgradeType.Gunner,
-                        UpgradeType.Gunner,
                         UpgradeType.Crew,
+                        UpgradeType.Gunner,
+                        UpgradeType.Gunner,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

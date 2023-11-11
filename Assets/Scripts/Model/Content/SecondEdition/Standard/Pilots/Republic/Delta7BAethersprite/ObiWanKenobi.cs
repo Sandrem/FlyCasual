@@ -22,7 +22,10 @@ namespace Ship.SecondEdition.Delta7BAethersprite
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.ForcePower,
-                    UpgradeType.Talent
+                    UpgradeType.ForcePower,
+                    UpgradeType.Talent,
+                    UpgradeType.Astromech,
+                    UpgradeType.Modification
                 },
                 tags: new List<Tags>
                 {

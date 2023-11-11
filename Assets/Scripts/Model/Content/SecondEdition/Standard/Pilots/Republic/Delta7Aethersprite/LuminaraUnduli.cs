@@ -3,6 +3,7 @@ using Ship;
 using System;
 using System.Collections.Generic;
 using Tokens;
+using Upgrade;
 
 namespace Ship.SecondEdition.Delta7Aethersprite
 {
@@ -21,6 +22,13 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 isLimited: true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.LuminaraUnduliAbility),
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.ForcePower,
+                    UpgradeType.Astromech,
+                    UpgradeType.Configuration,
+                    UpgradeType.Modification
+                },
                 tags: new List<Tags>
                 {
                     Tags.Jedi,

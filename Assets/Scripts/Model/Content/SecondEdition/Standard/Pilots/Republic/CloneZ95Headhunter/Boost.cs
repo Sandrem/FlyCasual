@@ -18,8 +18,8 @@ namespace Ship
                     "CT-4860",
                     Faction.Republic,
                     3,
+                    2,
                     3,
-                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.BoostAbility),
                     extraUpgradeIcons: new List<UpgradeType>

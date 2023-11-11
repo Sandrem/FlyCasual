@@ -19,7 +19,8 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.Talent,
-                    UpgradeType.Missile
+                    UpgradeType.Missile,
+                    UpgradeType.Modification
                 },
                 tags: new List<Tags>
                 {

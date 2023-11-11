@@ -1,5 +1,4 @@
 ﻿using Abilities.SecondEdition;
-using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -24,7 +23,9 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Sensor,
                         UpgradeType.Torpedo,
+                        UpgradeType.Astromech,
                         UpgradeType.Modification
                     }
                 );

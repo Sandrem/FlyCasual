@@ -4,9 +4,7 @@ using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Tokens;
-using UnityEngine;
 using Upgrade;
 
 namespace Ship.SecondEdition.Eta2Actis
@@ -29,8 +27,8 @@ namespace Ship.SecondEdition.Eta2Actis
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.ForcePower,
-                    UpgradeType.Talent,
                     UpgradeType.ForcePower,
+                    UpgradeType.Talent,
                     UpgradeType.Cannon,
                     UpgradeType.Astromech,
                     UpgradeType.Modification

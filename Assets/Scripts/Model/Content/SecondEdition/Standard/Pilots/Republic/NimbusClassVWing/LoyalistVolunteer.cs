@@ -1,5 +1,5 @@
-﻿using Content;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -17,9 +17,10 @@ namespace Ship
                     2,
                     3,
                     4,
-                    tags: new List<Tags>
+                    extraUpgradeIcons: new List<UpgradeType>
                     {
-                        Tags.Tie
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     }
                 );
 

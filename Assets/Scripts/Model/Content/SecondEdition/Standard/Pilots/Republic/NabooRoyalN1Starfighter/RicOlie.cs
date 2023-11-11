@@ -1,5 +1,4 @@
 ﻿using Abilities.SecondEdition;
-using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -17,14 +16,18 @@ namespace Ship
                     "Bravo Leader",
                     Faction.Republic,
                     5,
-                    5,
-                    15,
+                    4,
+                    12,
                     isLimited: true,
                     abilityText: "When you defend or perform a primary attack, if the maneuver you revealed is greater than the enemy ship’s maneuver, roll 1 additional die.",
                     abilityType: typeof(RicOlieAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent, UpgradeType.Torpedo
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Astromech
                     }
                 );
 

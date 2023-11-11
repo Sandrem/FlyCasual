@@ -29,7 +29,7 @@ namespace Ship
                     }
                 );
 
-                ImageUrl = "https://infinitearenas.com/xw2/images/pilots/reapersquadronscout.png";
+                ImageUrl = "https://infinitearenas.com/xw2/images/pilots/7thskycorpspilot.png";
             }
         }
     }

@@ -19,16 +19,16 @@ namespace Ship.SecondEdition.Eta2Actis
                 "Compassionate Mentor",
                 Faction.Republic,
                 4,
-                5,
-                18,
+                4,
+                10,
                 isLimited: true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.ShaakTiAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.ForcePower,
-                    UpgradeType.Talent,
                     UpgradeType.ForcePower,
+                    UpgradeType.Talent,
                     UpgradeType.Cannon,
                     UpgradeType.Astromech,
                     UpgradeType.Modification

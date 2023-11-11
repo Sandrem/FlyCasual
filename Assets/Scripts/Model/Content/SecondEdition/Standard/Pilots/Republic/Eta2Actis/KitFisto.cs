@@ -1,7 +1,5 @@
 using BoardTools;
 using Content;
-using Ship;
-using SubPhases;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +19,7 @@ namespace Ship.SecondEdition.Eta2Actis
                 Faction.Republic,
                 4,
                 4,
-                8,
+                11,
                 isLimited: true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.KitFistoActisAbility),
@@ -30,6 +28,7 @@ namespace Ship.SecondEdition.Eta2Actis
                     UpgradeType.ForcePower,
                     UpgradeType.ForcePower,
                     UpgradeType.Talent,
+                    UpgradeType.Cannon,
                     UpgradeType.Astromech,
                     UpgradeType.Modification
                 },

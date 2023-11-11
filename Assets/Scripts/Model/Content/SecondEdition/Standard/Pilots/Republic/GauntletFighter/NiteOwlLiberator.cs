@@ -1,5 +1,4 @@
 ﻿using Content;
-using System;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -18,7 +17,7 @@ namespace Ship
                     Faction.Republic,
                     2,
                     7,
-                    16,
+                    12,
                     isLimited: true,
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
@@ -26,6 +25,7 @@ namespace Ship
                         UpgradeType.Crew,
                         UpgradeType.Gunner,
                         UpgradeType.Device,
+                        UpgradeType.Illicit,
                         UpgradeType.Modification,
                         UpgradeType.Configuration
                     },

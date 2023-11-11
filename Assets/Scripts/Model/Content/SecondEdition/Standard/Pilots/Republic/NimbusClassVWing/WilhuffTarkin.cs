@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using BoardTools;
-using Content;
+﻿using BoardTools;
 using Ship;
 using SubPhases;
+using System;
+using System.Collections.Generic;
 using Tokens;
 using UnityEngine;
 using Upgrade;
@@ -31,11 +30,8 @@ namespace Ship
                         UpgradeType.Talent,
                         UpgradeType.Missile,
                         UpgradeType.Astromech,
-                        UpgradeType.Modification
-                    },
-                    tags: new List<Tags>
-                    {
-                        Tags.Tie
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     }
                 );
 

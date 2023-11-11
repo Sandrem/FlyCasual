@@ -24,8 +24,8 @@ namespace Ship.SecondEdition.Eta2Actis
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.ForcePower,
-                    UpgradeType.Talent,
                     UpgradeType.ForcePower,
+                    UpgradeType.Talent,
                     UpgradeType.Cannon,
                     UpgradeType.Astromech,
                     UpgradeType.Modification

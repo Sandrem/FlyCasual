@@ -19,16 +19,14 @@ namespace Ship
                     "Shadow Two",
                     Faction.Republic,
                     4,
-                    5,
-                    18,
+                    3,
+                    9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MatchstickAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
                         UpgradeType.Turret,
-                        UpgradeType.Torpedo,
-                        UpgradeType.Gunner,
                         UpgradeType.Astromech,
                         UpgradeType.Device,
                         UpgradeType.Modification

@@ -20,11 +20,11 @@ namespace Ship
                     3,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Modification
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {
-                        Tags.Tie,
                         Tags.Clone
                     }
                 );

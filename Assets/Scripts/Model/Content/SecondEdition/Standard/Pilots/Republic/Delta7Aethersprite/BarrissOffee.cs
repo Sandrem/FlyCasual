@@ -23,7 +23,10 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 abilityType: typeof(Abilities.SecondEdition.BarrissOffeeAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
-                    
+                    UpgradeType.ForcePower,
+                    UpgradeType.Astromech,
+                    UpgradeType.Configuration,
+                    UpgradeType.Modification
                 },
                 tags: new List<Tags>
                 {

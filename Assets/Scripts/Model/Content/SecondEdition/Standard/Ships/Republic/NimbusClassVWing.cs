@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Actions;
+﻿using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
 using Ship.CardInfo;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
-using Upgrade;
 
 namespace Ship.SecondEdition.NimbusClassVWing
 {
@@ -33,10 +32,7 @@ namespace Ship.SecondEdition.NimbusClassVWing
                     new ActionInfo(typeof(BarrelRollAction), ActionColor.Red),
                     new ActionInfo(typeof(BoostAction))
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Configuration
-                ),
+                new ShipUpgradesInfo(),
                 linkedActions: new List<LinkedActionInfo>
                 {
                     new LinkedActionInfo(typeof(BoostAction), typeof(TargetLockAction))

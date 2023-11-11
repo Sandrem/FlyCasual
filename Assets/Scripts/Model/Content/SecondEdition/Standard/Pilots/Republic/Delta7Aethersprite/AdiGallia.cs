@@ -1,12 +1,8 @@
-using Ship;
+using Content;
 using SubPhases;
+using System;
 using System.Collections.Generic;
 using Upgrade;
-using Tokens;
-using BoardTools;
-using UnityEngine;
-using Content;
-using System;
 
 namespace Ship.SecondEdition.Delta7Aethersprite
 {
@@ -27,7 +23,11 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 abilityType: typeof(Abilities.SecondEdition.AdiGalliaAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
-                    UpgradeType.Talent
+                    UpgradeType.ForcePower,
+                    UpgradeType.Talent,
+                    UpgradeType.Astromech,
+                    UpgradeType.Configuration,
+                    UpgradeType.Modification
                 },
                 tags: new List<Tags>
                 {

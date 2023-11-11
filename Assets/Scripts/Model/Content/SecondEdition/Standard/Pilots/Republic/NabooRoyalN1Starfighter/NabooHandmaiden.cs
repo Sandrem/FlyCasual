@@ -1,13 +1,13 @@
 ﻿using Abilities.SecondEdition;
+using ActionsList;
 using BoardTools;
+using Conditions;
 using Ship;
 using SubPhases;
+using System.Collections.Generic;
+using System.Linq;
 using Tokens;
 using Upgrade;
-using Conditions;
-using System.Linq;
-using ActionsList;
-using System.Collections.Generic;
 
 namespace Ship
 {
@@ -30,6 +30,8 @@ namespace Ship
                     abilityType: typeof(NabooHandmaidenAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
+                        UpgradeType.Sensor,
+                        UpgradeType.Astromech,
                         UpgradeType.Modification
                     }
                 );

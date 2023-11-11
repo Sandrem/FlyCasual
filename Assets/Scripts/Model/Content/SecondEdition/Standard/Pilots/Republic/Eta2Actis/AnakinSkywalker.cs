@@ -20,24 +20,25 @@ namespace Ship.SecondEdition.Eta2Actis
                 "Hero of Coruscant",
                 Faction.Republic,
                 6,
-                6,
-                20,
+                5,
+                15,
                 isLimited: true,
                 force: 3,
                 abilityType: typeof(Abilities.SecondEdition.AnakinSkywalkerActisAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
-                    UpgradeType.Talent,
                     UpgradeType.ForcePower,
+                    UpgradeType.ForcePower,
+                    UpgradeType.Talent,
                     UpgradeType.Cannon,
                     UpgradeType.Astromech,
                     UpgradeType.Modification
                 },
                 tags: new List<Tags>
                 {
+                    Tags.DarkSide,
                     Tags.Jedi,
-                    Tags.LightSide,
-                    Tags.DarkSide
+                    Tags.LightSide
                 },
                 skinName: "Yellow"
             );

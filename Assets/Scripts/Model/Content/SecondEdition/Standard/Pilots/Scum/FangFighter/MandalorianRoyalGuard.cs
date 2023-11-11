@@ -16,17 +16,19 @@ namespace Ship
                 PilotInfo = new PilotCardInfo25
                 (
                     "Mandalorian Royal Guard",
-                    "Unlikely Ally",
+                    "Selfless Protector",
                     Faction.Scum,
                     4,
-                    5,
-                    10,
+                    4,
+                    7,
                     limited: 2,
                     abilityType: typeof(Abilities.SecondEdition.MandalorianRoyalGuardAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Missile
+                        UpgradeType.Missile,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>()
                     {

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Movement;
 using ActionsList;
 using Actions;
@@ -41,12 +40,7 @@ namespace Ship
                         new ActionInfo(typeof(BoostAction)),
                         new ActionInfo(typeof(ReinforceAction), ActionColor.Red)
                     ),
-                    new ShipUpgradesInfo
-                    (
-                        UpgradeType.Cannon,
-                        UpgradeType.Device,
-                        UpgradeType.Missile
-                    )
+                    new ShipUpgradesInfo()
                 );
 
                 ModelInfo = new ShipModelInfo

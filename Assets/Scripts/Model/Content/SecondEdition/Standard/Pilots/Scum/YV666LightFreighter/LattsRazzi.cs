@@ -23,22 +23,25 @@ namespace Ship
                     Faction.Scum,
                     3,
                     6,
-                    16,
+                    22,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LattsRazziPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Cannon,
+                        UpgradeType.Missile,
                         UpgradeType.Crew,
                         UpgradeType.Crew,
                         UpgradeType.Gunner,
                         UpgradeType.Illicit,
+                        UpgradeType.Modification,
                         UpgradeType.Title
                     },
                     tags: new List<Tags>
                     {
-                        Tags.Freighter,
-                        Tags.BountyHunter
+                        Tags.BountyHunter,
+                        Tags.Freighter
                     },
                     seImageNumber: 212
                 );

@@ -22,7 +22,7 @@ namespace Ship
                     Faction.Scum,
                     3,
                     4,
-                    10,
+                    6,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KananJarrusHwk290Ability),
                     force: 1,
@@ -32,14 +32,14 @@ namespace Ship
                         UpgradeType.Crew,
                         UpgradeType.Device,
                         UpgradeType.Illicit,
-                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {
-                        Tags.Freighter,
                         Tags.Jedi,
-                        Tags.LightSide
+                        Tags.LightSide,
+                        Tags.Freighter                        
                     },
                     skinName: "Black"
                 );

@@ -25,10 +25,13 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Cannon,
+                        UpgradeType.Missile,
                         UpgradeType.Crew,
                         UpgradeType.Crew,
                         UpgradeType.Gunner,
-                        UpgradeType.Illicit
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

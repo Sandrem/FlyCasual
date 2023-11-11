@@ -22,13 +22,14 @@ namespace Ship
                     Faction.Scum,
                     3,
                     4,
-                    7,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TorPhunAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
                         UpgradeType.Missile,
+                        UpgradeType.Modification,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

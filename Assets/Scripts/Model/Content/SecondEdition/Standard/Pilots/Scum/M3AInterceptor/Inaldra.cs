@@ -1,6 +1,8 @@
 ﻿using ActionsList.SecondEdition;
 using Ship;
 using System;
+using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -17,9 +19,13 @@ namespace Ship
                     Faction.Scum,
                     2,
                     3,
-                    6,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.InaldraAbilitySE),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Modification
+                    },
                     seImageNumber: 187
                 );
             }

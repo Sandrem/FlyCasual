@@ -21,7 +21,7 @@ namespace Ship.SecondEdition.Hwk290LightFreighter
                 "Collaborationist Governor",
                 Faction.Scum,
                 3,
-                3,
+                4,
                 8,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.GamutKeyPilotAbility),

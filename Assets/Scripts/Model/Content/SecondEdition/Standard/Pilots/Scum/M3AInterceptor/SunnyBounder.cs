@@ -1,6 +1,8 @@
 ﻿using Ship;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Upgrade;
 
 namespace Ship
 {
@@ -17,9 +19,13 @@ namespace Ship
                     Faction.Scum,
                     1,
                     3,
-                    5,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SunnyBounderAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Modification
+                    },
                     seImageNumber: 188
                 );
             }

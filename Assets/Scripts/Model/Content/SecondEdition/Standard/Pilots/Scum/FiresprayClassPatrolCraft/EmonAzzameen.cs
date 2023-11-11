@@ -25,7 +25,10 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Cannon,
+                        UpgradeType.Missile,
                         UpgradeType.Crew,
+                        UpgradeType.Device,
                         UpgradeType.Illicit,
                         UpgradeType.Modification,
                         UpgradeType.Title

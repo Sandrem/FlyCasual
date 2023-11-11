@@ -20,8 +20,8 @@ namespace Ship
                     "Fearsome Hunter",
                     Faction.Scum,
                     4,
+                    2,
                     3,
-                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.BosskPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>
@@ -29,8 +29,8 @@ namespace Ship
                         UpgradeType.Talent,
                         UpgradeType.Talent,
                         UpgradeType.Missile,
-                        UpgradeType.Modification,
-                        UpgradeType.Illicit
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

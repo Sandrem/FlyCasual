@@ -1,5 +1,6 @@
 ﻿using Content;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -15,8 +16,14 @@ namespace Ship
                     "",
                     Faction.Scum,
                     1,
+                    5,
                     6,
-                    6,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Missile,
+                        UpgradeType.Gunner,
+                        UpgradeType.Illicit
+                    },
                     tags: new List<Tags>
                     {
                         Tags.Freighter,

@@ -19,8 +19,8 @@ namespace Ship
                     "Noisy Nuisance",
                     Faction.Scum,
                     3,
-                    4,
-                    10,
+                    3,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaptainSeevorAbility),
                     charges: 1,
@@ -28,7 +28,6 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Cannon,
                         UpgradeType.Missile,
                         UpgradeType.Modification
                     },

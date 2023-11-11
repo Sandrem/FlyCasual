@@ -19,15 +19,17 @@ namespace Ship
                     "Skull Squadron Ace",
                     Faction.Scum,
                     4,
-                    5,
-                    11,
+                    4,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JoyRekkoffAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
                         UpgradeType.Missile,
-                        UpgradeType.Torpedo
+                        UpgradeType.Torpedo,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

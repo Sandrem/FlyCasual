@@ -18,8 +18,8 @@ namespace Ship
                     "Laughing Bandit",
                     Faction.Scum,
                     1,
-                    5,
-                    19,
+                    4,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.NomLumbRogueAbility),
                     extraUpgradeIcons: new List<UpgradeType>

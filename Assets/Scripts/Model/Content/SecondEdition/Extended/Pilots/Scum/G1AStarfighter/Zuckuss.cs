@@ -23,7 +23,7 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.ZuckussAbility),
                     tags: new List<Tags>
                     {
-                        Tags.BountyHunter,
+                        Tags.BountyHunter
                     },
                     extraUpgradeIcons: new List<UpgradeType>()
                     {

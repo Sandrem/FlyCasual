@@ -17,14 +17,17 @@ namespace Ship
                     "Smooth-talking Gambler",
                     Faction.Scum,
                     4,
-                    6,
-                    17,
+                    5,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LandoCalrissianScumPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Missile,
                         UpgradeType.Crew,
+                        UpgradeType.Gunner,
+                        UpgradeType.Illicit,
                         UpgradeType.Illicit,
                         UpgradeType.Modification,
                         UpgradeType.Title

@@ -17,7 +17,7 @@ namespace Ship
                     Faction.Scum,
                     3,
                     5,
-                    7,
+                    6,
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Tech

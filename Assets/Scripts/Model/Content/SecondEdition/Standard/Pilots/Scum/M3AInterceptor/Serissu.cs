@@ -25,6 +25,8 @@ namespace Ship
                     {
                         UpgradeType.Talent,
                         UpgradeType.Talent,
+                        UpgradeType.Cannon,
+                        UpgradeType.Modification,
                         UpgradeType.Modification
                     },
                     seImageNumber: 183

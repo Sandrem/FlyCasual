@@ -20,12 +20,14 @@ namespace Ship
                     Faction.Scum,
                     3,
                     3,
-                    7,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.QuinnJastAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent
+                        UpgradeType.Talent,
+                        UpgradeType.Cannon,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

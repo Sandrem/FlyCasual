@@ -18,7 +18,7 @@ namespace Ship
                     "Pirate Lord",
                     Faction.Scum,
                     4,
-                    5,
+                    4,
                     10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DreaRenthalAbility),

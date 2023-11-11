@@ -30,11 +30,14 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.DoctorAphraPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
+                        UpgradeType.Cannon,
+                        UpgradeType.Missile,
                         UpgradeType.Crew,
                         UpgradeType.Crew,
                         UpgradeType.Gunner,
                         UpgradeType.Illicit,
                         UpgradeType.Illicit,
+                        UpgradeType.Modification,
                         UpgradeType.Modification,
                         UpgradeType.Title
                     },

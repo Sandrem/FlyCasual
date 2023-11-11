@@ -18,13 +18,12 @@ namespace Ship.SecondEdition.BTLA4YWing
                 "Opportunity Knocks",
                 Faction.Scum,
                 5,
-                4,
-                14,
+                3,
+                8,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.LeemaKaiAbility),
                 extraUpgradeIcons: new List<UpgradeType>()
                 {
-                    UpgradeType.Talent,
                     UpgradeType.Tech,
                     UpgradeType.Turret,
                     UpgradeType.Torpedo,

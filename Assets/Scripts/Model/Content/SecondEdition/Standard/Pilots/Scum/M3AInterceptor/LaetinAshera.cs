@@ -17,12 +17,13 @@ namespace Ship
                     Faction.Scum,
                     3,
                     3,
-                    6,
+                    9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LaetinAshera),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent
+                        UpgradeType.Talent,
+                        UpgradeType.Modification
                     },
                     seImageNumber: 185
                 );

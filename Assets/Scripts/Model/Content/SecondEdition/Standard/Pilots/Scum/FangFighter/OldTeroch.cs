@@ -21,15 +21,17 @@ namespace Ship
                     "Mandalorian Mentor",
                     Faction.Scum,
                     5,
-                    6,
-                    16,
+                    5,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.OldTerochAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
                         UpgradeType.Talent,
-                        UpgradeType.Torpedo
+                        UpgradeType.Torpedo,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

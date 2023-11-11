@@ -15,8 +15,8 @@ namespace Ship
                     "",
                     Faction.Scum,
                     3,
-                    5,
                     4,
+                    5,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Cannon,

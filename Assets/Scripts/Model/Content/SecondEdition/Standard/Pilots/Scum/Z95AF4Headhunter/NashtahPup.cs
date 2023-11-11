@@ -16,7 +16,7 @@ namespace Ship
                     "Contingency Plan",
                     Faction.Scum,
                     0,
-                    1,
+                    2,
                     0,
                     isLimited: true,
                     seImageNumber: 171,

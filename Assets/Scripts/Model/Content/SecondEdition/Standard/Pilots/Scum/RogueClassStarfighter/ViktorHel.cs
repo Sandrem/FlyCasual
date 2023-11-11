@@ -16,8 +16,8 @@ namespace Ship
                     "Storied Bounty Hunter",
                     Faction.Scum,
                     4,
-                    5,
-                    16,
+                    4,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ViktorHelAbility),
                     extraUpgradeIcons: new List<UpgradeType>

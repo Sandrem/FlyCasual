@@ -36,10 +36,7 @@ namespace Ship
                         new ActionInfo(typeof(EvadeAction)),
                         new ActionInfo(typeof(BarrelRollAction))
                     ),
-                    new ShipUpgradesInfo
-                    (
-                        UpgradeType.Modification
-                    )
+                    new ShipUpgradesInfo()
                 );
 
                 ShipAbilities.Add(new Abilities.SecondEdition.HardPointAbility());

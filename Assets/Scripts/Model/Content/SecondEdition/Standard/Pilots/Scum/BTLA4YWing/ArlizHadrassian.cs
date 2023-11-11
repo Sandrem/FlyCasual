@@ -14,13 +14,12 @@ namespace Ship.SecondEdition.BTLA4YWing
                 "Crimson Blade",
                 Faction.Scum,
                 4,
-                4,
-                13,
+                3,
+                10,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.ArlizHadrassianAbility),
                 extraUpgradeIcons: new List<UpgradeType>()
                 {
-                    UpgradeType.Talent,
                     UpgradeType.Tech,
                     UpgradeType.Turret,
                     UpgradeType.Torpedo,

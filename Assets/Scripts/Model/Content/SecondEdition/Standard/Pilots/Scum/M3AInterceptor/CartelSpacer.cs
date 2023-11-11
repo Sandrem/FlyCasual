@@ -1,4 +1,7 @@
-﻿namespace Ship
+﻿using System.Collections.Generic;
+using Upgrade;
+
+namespace Ship
 {
     namespace SecondEdition.M3AInterceptor
     {
@@ -14,6 +17,10 @@
                     1,
                     3,
                     4,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    { 
+                        UpgradeType.Modification
+                    },
                     seImageNumber: 190
                 );
             }

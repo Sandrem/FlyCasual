@@ -35,12 +35,7 @@ namespace Ship
                         new ActionInfo(typeof(TargetLockAction)),
                         new ActionInfo(typeof(ReinforceAction))
                     ),
-                    new ShipUpgradesInfo
-                    (
-                        UpgradeType.Cannon,
-                        UpgradeType.Missile,
-                        UpgradeType.Modification
-                    )
+                    new ShipUpgradesInfo()
                 );
 
                 ModelInfo = new ShipModelInfo

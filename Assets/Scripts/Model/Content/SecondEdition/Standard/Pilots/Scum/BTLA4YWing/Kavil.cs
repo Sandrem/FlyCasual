@@ -16,8 +16,8 @@ namespace Ship
                     "Callous Corsair",
                     Faction.Scum,
                     5,
-                    5,
-                    18,
+                    4,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KavilAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

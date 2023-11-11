@@ -24,7 +24,9 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.GenesisRedAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent
+                        UpgradeType.Talent,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification
                     },
                     seImageNumber: 184
                 );

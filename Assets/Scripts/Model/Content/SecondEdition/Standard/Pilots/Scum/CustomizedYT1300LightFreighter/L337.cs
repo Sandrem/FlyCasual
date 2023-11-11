@@ -18,22 +18,25 @@ namespace Ship
                     "Droid Revolutionary",
                     Faction.Scum,
                     2,
-                    6,
-                    15,
+                    5,
+                    9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.L337Ability),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
+                        UpgradeType.Missile,
                         UpgradeType.Crew,
                         UpgradeType.Crew,
+                        UpgradeType.Gunner,
+                        UpgradeType.Illicit,
                         UpgradeType.Modification,
                         UpgradeType.Title
                     },
                     tags: new List<Tags>
                     {
+                        Tags.Droid,
                         Tags.Freighter,
-                        Tags.YT1300,
-                        Tags.Droid
+                        Tags.YT1300
                     },
                     seImageNumber: 224
                 );

@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -16,6 +17,10 @@ namespace Ship
                     3,
                     3,
                     3,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Modification
+                    },
                     seImageNumber: 189
                 );
             }

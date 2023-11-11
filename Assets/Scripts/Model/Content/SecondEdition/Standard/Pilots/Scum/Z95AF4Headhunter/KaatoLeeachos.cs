@@ -16,7 +16,7 @@ namespace Ship
             {
                 PilotInfo = new PilotCardInfo25
                 (
-                    "Ka'ato Leeachos",
+                    "Kaa'to Leeachos",
                     "Imposing Marauder",
                     Faction.Scum,
                     3,
@@ -28,8 +28,8 @@ namespace Ship
                     {
                         UpgradeType.Talent,
                         UpgradeType.Missile,
-                        UpgradeType.Modification,
-                        UpgradeType.Illicit
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

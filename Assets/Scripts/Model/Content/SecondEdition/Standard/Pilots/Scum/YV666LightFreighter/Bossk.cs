@@ -20,23 +20,26 @@ namespace Ship
                     "Fearsome Hunter",
                     Faction.Scum,
                     4,
-                    7,
-                    22,
+                    6,
+                    16,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.BosskPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Cannon,
+                        UpgradeType.Missile,
                         UpgradeType.Crew,
                         UpgradeType.Crew,
                         UpgradeType.Gunner,
                         UpgradeType.Illicit,
+                        UpgradeType.Modification,
                         UpgradeType.Title
                     },
                     tags: new List<Tags>
                     {
-                        Tags.Freighter,
-                        Tags.BountyHunter
+                        Tags.BountyHunter,
+                        Tags.Freighter
                     },
                     seImageNumber: 210
                 );

@@ -33,7 +33,7 @@ namespace Ship
                         UpgradeType.Gunner,
                         UpgradeType.Device,
                         UpgradeType.Device,
-                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
                         UpgradeType.Title
                     },
                     seImageNumber: 204,

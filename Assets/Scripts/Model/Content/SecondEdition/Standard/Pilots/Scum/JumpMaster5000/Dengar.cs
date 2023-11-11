@@ -19,8 +19,8 @@ namespace Ship
                     "Vengeful Corellian",
                     Faction.Scum,
                     6,
-                    7,
-                    22,
+                    6,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DengarPilotAbility),
                     charges: 1,
@@ -28,8 +28,11 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Cannon,
+                        UpgradeType.Torpedo,
                         UpgradeType.Crew,
                         UpgradeType.Gunner,
+                        UpgradeType.Illicit,
                         UpgradeType.Modification,
                         UpgradeType.Title
                     },
@@ -46,7 +49,7 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    public class DengarPilotAbility : Abilities.FirstEdition.DengarPilotAbility
+    public class DengarPilotAbility : FirstEdition.DengarPilotAbility
     {
         protected override bool CanCounterattackUsingShotInfo(ShotInfo counterAttackInfo)
         {

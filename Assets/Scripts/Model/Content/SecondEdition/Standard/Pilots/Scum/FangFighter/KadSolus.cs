@@ -20,14 +20,16 @@ namespace Ship
                     "Skilled Commando",
                     Faction.Scum,
                     4,
-                    5,
-                    12,
+                    4,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KadSolusAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Missile
+                        UpgradeType.Missile,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

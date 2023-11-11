@@ -16,15 +16,17 @@ namespace Ship
                     "Skull Leader",
                     Faction.Scum,
                     6,
-                    7,
-                    18,
+                    6,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.FennRauScumAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
                         UpgradeType.Talent,
-                        UpgradeType.Torpedo
+                        UpgradeType.Torpedo,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

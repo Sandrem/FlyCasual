@@ -20,6 +20,9 @@ namespace Ship
                     10,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
+                        UpgradeType.Cannon,
+                        UpgradeType.Missile,
+                        UpgradeType.Device,
                         UpgradeType.Illicit
                     },
                     tags: new List<Tags>

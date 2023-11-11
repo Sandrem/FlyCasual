@@ -4,6 +4,7 @@ using Ship;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Upgrade;
 
 namespace Ship
 {
@@ -20,7 +21,11 @@ namespace Ship
                     Faction.Scum,
                     0,
                     3,
-                    6,
+                    9,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    { 
+                        UpgradeType.Modification
+                    },
                     tags: new List<Tags>
                     {
                         Tags.Droid

@@ -27,7 +27,7 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.GuriAbility),
                     tags: new List<Tags>
                     {
-                        Tags.BountyHunter
+                        Tags.Droid
                     },
                     extraUpgradeIcons: new List<UpgradeType>()
                     {

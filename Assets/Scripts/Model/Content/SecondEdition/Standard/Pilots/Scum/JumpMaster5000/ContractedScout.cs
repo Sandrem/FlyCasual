@@ -1,4 +1,7 @@
-﻿namespace Ship
+﻿using System.Collections.Generic;
+using Upgrade;
+
+namespace Ship
 {
     namespace SecondEdition.JumpMaster5000
     {
@@ -14,6 +17,12 @@
                     2,
                     5,
                     4,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Cannon,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Illicit
+                    },
                     seImageNumber: 217
                 );
             }

@@ -18,8 +18,8 @@ namespace Ship
                     "Mercenary Miner",
                     Faction.Scum,
                     2,
-                    4,
-                    10,
+                    5,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TorkilMuxAbility),
                     extraUpgradeIcons: new List<UpgradeType>

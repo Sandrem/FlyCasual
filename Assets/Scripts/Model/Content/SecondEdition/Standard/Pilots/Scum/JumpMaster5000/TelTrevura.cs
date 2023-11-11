@@ -27,8 +27,11 @@ namespace Ship
                     {
                         UpgradeType.Talent,
                         UpgradeType.Cannon,
+                        UpgradeType.Cannon,
+                        UpgradeType.Torpedo,
                         UpgradeType.Crew,
                         UpgradeType.Gunner,
+                        UpgradeType.Illicit,
                         UpgradeType.Modification
                     },
                     seImageNumber: 216

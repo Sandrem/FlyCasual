@@ -35,12 +35,7 @@ namespace Ship
                         new ActionInfo(typeof(TargetLockAction)),
                         new ActionInfo(typeof(BarrelRollAction), ActionColor.Red)
                     ),
-                    new ShipUpgradesInfo
-                    (
-                        UpgradeType.Cannon,
-                        UpgradeType.Torpedo,
-                        UpgradeType.Illicit
-                    ),
+                    new ShipUpgradesInfo(),
                     linkedActions: new List<LinkedActionInfo>
                     {
                         new LinkedActionInfo(typeof(FocusAction), typeof(RotateArcAction)),

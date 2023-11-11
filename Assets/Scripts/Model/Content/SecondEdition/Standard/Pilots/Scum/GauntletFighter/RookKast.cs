@@ -20,7 +20,7 @@ namespace Ship
                     Faction.Scum,
                     3,
                     7,
-                    18,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RookKastAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

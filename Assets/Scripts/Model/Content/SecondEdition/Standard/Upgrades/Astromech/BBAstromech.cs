@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
                 "BB Astromech",
                 UpgradeType.Astromech,
                 charges: 2,
-                cost: 6,
+                cost: 4,
                 restriction: new FactionRestriction(Faction.Resistance),
                 abilityType: typeof(Abilities.SecondEdition.BBAstromechAbility)
             );

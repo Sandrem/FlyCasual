@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "R7-A7",
                 UpgradeType.Astromech,
-                cost: 3,
+                cost: 5,
                 isLimited: true,
                 charges: 3,
                 restriction: new FactionRestriction(Faction.Republic),

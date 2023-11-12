@@ -16,13 +16,14 @@ namespace Ship
                     "Opportunistic Ace",
                     Faction.Separatists,
                     4,
-                    5,
-                    15,
+                    4,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ChertekAbility),
                     abilityText: "While you perform a primary attack, if the defender is tractored, you may reroll up to 2 attack dice.",
                     extraUpgradeIcons: new List<UpgradeType>
                     {
+                        UpgradeType.Talent,
                         UpgradeType.Talent
                     }
                 );

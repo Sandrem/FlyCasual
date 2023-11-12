@@ -28,9 +28,8 @@ namespace Ship
                         UpgradeType.Talent,
                         UpgradeType.Cannon,
                         UpgradeType.Cannon,
-                        UpgradeType.Missile,
                         UpgradeType.Illicit,
-                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
                         UpgradeType.Modification,
                         UpgradeType.Title
                     },

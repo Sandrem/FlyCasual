@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Content;
+using Ship;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Content;
-using Ship;
 using Tokens;
 using Upgrade;
 
@@ -26,7 +26,9 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
                 {
                     UpgradeType.Sensor,
                     UpgradeType.Missile,
-                    UpgradeType.Missile
+                    UpgradeType.Missile,
+                    UpgradeType.Modification,
+                    UpgradeType.Configuration
                 },
                 tags: new List<Tags>
                 {

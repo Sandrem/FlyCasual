@@ -19,7 +19,7 @@ namespace Ship
                     Faction.Separatists,
                     3,
                     4,
-                    4,
+                    6,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Cannon,

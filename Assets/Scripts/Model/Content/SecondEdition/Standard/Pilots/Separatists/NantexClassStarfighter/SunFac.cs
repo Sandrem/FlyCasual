@@ -15,13 +15,14 @@ namespace Ship
                     "Archduke’s Enforcer",
                     Faction.Separatists,
                     6,
-                    6,
-                    18,
+                    5,
+                    15,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SunFacAbility),
                     abilityText: "while you perform a primary attack, if the defender is tractored, roll 1 additional attack die.",
                     extraUpgradeIcons: new List<UpgradeType>
                     {
+                        UpgradeType.Talent,
                         UpgradeType.Talent,
                         UpgradeType.Talent,
                         UpgradeType.Modification

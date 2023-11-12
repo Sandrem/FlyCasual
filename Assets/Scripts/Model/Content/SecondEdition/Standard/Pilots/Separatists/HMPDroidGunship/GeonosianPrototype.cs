@@ -19,8 +19,8 @@ namespace Ship
                     "Devastation Protocols",
                     Faction.Separatists,
                     2,
-                    5,
-                    18,
+                    4,
+                    12,
                     limited: 2,
                     abilityType: typeof(Abilities.SecondEdition.GeonosianPrototypeAbility),
                     extraUpgradeIcons: new List<UpgradeType>
@@ -29,7 +29,9 @@ namespace Ship
                         UpgradeType.Missile,
                         UpgradeType.Cannon,
                         UpgradeType.Cannon,
-                        UpgradeType.TacticalRelay
+                        UpgradeType.TacticalRelay,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

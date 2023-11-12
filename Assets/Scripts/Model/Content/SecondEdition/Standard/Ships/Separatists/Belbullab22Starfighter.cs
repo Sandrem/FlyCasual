@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using Actions;
+﻿using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
 using Ship.CardInfo;
+using System.Collections.Generic;
 using UnityEngine;
-using Upgrade;
 
 namespace Ship.SecondEdition.Belbullab22Starfighter
 {
@@ -32,10 +31,7 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
                     new ActionInfo(typeof(BarrelRollAction)),
                     new ActionInfo(typeof(BoostAction))
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Modification
-                ),
+                new ShipUpgradesInfo(),
                 linkedActions: new List<LinkedActionInfo>
                 {
                     new LinkedActionInfo(typeof(BarrelRollAction), typeof(FocusAction)),

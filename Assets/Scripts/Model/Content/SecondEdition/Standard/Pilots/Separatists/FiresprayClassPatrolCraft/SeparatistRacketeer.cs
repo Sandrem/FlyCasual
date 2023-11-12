@@ -1,4 +1,7 @@
-﻿namespace Ship
+﻿using System.Collections.Generic;
+using Upgrade;
+
+namespace Ship
 {
     namespace SecondEdition.FiresprayClassPatrolCraft
     {
@@ -14,6 +17,12 @@
                     2,
                     7,
                     10,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Cannon,
+                        UpgradeType.Missile,
+                        UpgradeType.Device
+                    },
                     skinName: "Jango Fett"
                 );
 

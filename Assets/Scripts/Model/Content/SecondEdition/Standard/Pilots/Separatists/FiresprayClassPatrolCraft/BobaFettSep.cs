@@ -25,7 +25,10 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.BobaFettSeparatistAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
+                        UpgradeType.Cannon,
+                        UpgradeType.Missile,
                         UpgradeType.Crew,
+                        UpgradeType.Device,
                         UpgradeType.Illicit,
                         UpgradeType.Modification,
                         UpgradeType.Title

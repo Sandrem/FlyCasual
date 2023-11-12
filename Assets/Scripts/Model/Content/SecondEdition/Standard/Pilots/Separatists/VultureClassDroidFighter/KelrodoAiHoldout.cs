@@ -1,7 +1,6 @@
 ﻿using Actions;
 using ActionsList;
 using BoardTools;
-using Content;
 using Movement;
 using Ship;
 using SubPhases;
@@ -29,7 +28,9 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
                 affectedByStandardized: false,
                 extraUpgradeIcons: new List<UpgradeType>
                 {
-                    UpgradeType.Missile
+                    UpgradeType.Talent,
+                    UpgradeType.Missile,
+                    UpgradeType.Modification
                 }
             );
 

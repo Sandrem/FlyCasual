@@ -19,6 +19,7 @@ namespace Ship
                     6,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
+                        UpgradeType.Talent,
                         UpgradeType.Talent
                     }
                 );

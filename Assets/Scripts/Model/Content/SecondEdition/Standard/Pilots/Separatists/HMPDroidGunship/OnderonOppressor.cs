@@ -21,14 +21,17 @@ namespace Ship
                     Faction.Separatists,
                     3,
                     4,
-                    7,
+                    15,
                     limited: 2,
                     abilityType: typeof(Abilities.SecondEdition.OnderonOppressorAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Missile,
+                        UpgradeType.Missile,
                         UpgradeType.Crew,
-                        UpgradeType.Device
+                        UpgradeType.Device,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

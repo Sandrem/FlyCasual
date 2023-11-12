@@ -1,8 +1,7 @@
-﻿using System;
+﻿using BoardTools;
+using Content;
 using System.Collections.Generic;
 using System.Linq;
-using BoardTools;
-using Content;
 using Upgrade;
 
 namespace Ship.SecondEdition.HyenaClassDroidBomber
@@ -24,7 +23,9 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.Device,
-                    UpgradeType.Device
+                    UpgradeType.Device,
+                    UpgradeType.Modification,
+                    UpgradeType.Configuration
                 },
                 tags: new List<Tags>
                 {

@@ -17,15 +17,16 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
                 Faction.Separatists,
                 3,
                 4,
-                7,
+                9,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.WatTamborAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.Talent,
                     UpgradeType.TacticalRelay,
+                    UpgradeType.Modification,
                     UpgradeType.Modification
-                },
+                },                
                 skinName: "Wat Tambor"
             );
 

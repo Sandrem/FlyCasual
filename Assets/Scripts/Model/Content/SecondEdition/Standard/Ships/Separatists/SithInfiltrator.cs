@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Actions;
+﻿using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
 using Ship.CardInfo;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
-using Upgrade;
 
 namespace Ship.SecondEdition.SithInfiltrator
 {
@@ -33,13 +31,7 @@ namespace Ship.SecondEdition.SithInfiltrator
                     new ActionInfo(typeof(TargetLockAction)),
                     new ActionInfo(typeof(BarrelRollAction), ActionColor.Red)
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Torpedo,
-                    UpgradeType.Cannon,
-                    UpgradeType.Device,
-                    UpgradeType.Modification
-                )
+                new ShipUpgradesInfo()
             );
 
             ModelInfo = new ShipModelInfo

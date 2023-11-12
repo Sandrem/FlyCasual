@@ -1,6 +1,5 @@
 ﻿using ActionsList;
 using Arcs;
-using Content;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -19,12 +18,13 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
                 Faction.Separatists,
                 2,
                 5,
-                15,
+                17,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.CaptainSearAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.TacticalRelay,
+                    UpgradeType.Modification,
                     UpgradeType.Modification
                 }
             );

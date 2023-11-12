@@ -18,7 +18,9 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
                 3,
                 extraUpgradeIcons: new List<UpgradeType>
                 {
-                    UpgradeType.Missile
+                    UpgradeType.Missile,
+                    UpgradeType.Modification,
+                    UpgradeType.Configuration
                 },
                 tags: new List<Tags>
                 {

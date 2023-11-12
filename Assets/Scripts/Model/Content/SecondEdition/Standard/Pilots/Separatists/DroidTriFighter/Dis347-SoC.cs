@@ -19,7 +19,7 @@ namespace Ship.SecondEdition.DroidTriFighter
                 "Siege of Coruscant",
                 Faction.Separatists,
                 3,
-                4,
+                3,
                 0,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.Dis347Ability),

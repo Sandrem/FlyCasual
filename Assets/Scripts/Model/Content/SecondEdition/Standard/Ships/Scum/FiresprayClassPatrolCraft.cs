@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using Movement;
+﻿using Actions;
 using ActionsList;
-using Actions;
-using Upgrade;
 using Arcs;
-using System;
+using Movement;
 using Ship.CardInfo;
+using System;
+using System.Collections.Generic;
 
 namespace Ship
 {

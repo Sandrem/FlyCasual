@@ -22,7 +22,7 @@ namespace Ship
                     "Clawdite Changeling",
                     Faction.Separatists,
                     5,
-                    9,
+                    8,
                     22,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ZamWesellPilotAbility),
@@ -30,7 +30,10 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Cannon,
+                        UpgradeType.Missile,
                         UpgradeType.Crew,
+                        UpgradeType.Device,
                         UpgradeType.Illicit,
                         UpgradeType.Modification,
                         UpgradeType.Title

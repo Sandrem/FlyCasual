@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using Upgrade;
-using System.Linq;
-using System;
-using Ship;
+﻿using Actions;
 using ActionsList;
-using Actions;
 using Content;
+using Ship;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Upgrade;
 
 namespace Ship.SecondEdition.HyenaClassDroidBomber
 {
@@ -26,7 +26,9 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.Sensor,
-                    UpgradeType.TacticalRelay
+                    UpgradeType.TacticalRelay,
+                    UpgradeType.Modification,
+                    UpgradeType.Configuration
                 },
                 tags: new List<Tags>
                 {

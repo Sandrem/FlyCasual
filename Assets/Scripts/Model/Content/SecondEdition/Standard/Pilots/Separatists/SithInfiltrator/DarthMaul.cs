@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Content;
+﻿using Content;
 using Ship;
+using System;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship.SecondEdition.SithInfiltrator
@@ -16,8 +16,8 @@ namespace Ship.SecondEdition.SithInfiltrator
                 "Sith Assassin",
                 Faction.Separatists,
                 5,
-                8,
-                20,
+                7,
+                19,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.DarthMaulPilotAbility),
                 force: 3,
@@ -25,10 +25,14 @@ namespace Ship.SecondEdition.SithInfiltrator
                 {
                     UpgradeType.ForcePower,
                     UpgradeType.ForcePower,
+                    UpgradeType.Torpedo,
+                    UpgradeType.Cannon,
                     UpgradeType.Crew,
                     UpgradeType.Crew,
                     UpgradeType.TacticalRelay,
-                    UpgradeType.Title
+                    UpgradeType.Device,
+                    UpgradeType.Title,
+                    UpgradeType.Modification
                 },
                 tags: new List<Tags>
                 {

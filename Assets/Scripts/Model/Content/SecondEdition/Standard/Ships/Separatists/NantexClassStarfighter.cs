@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using Actions;
+﻿using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
 using Ship;
 using Ship.CardInfo;
 using SubPhases;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
-using Upgrade;
 
 namespace Ship.SecondEdition.NantexClassStarfighter
 {
@@ -38,10 +37,7 @@ namespace Ship.SecondEdition.NantexClassStarfighter
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(EvadeAction))
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Talent
-                ),
+                new ShipUpgradesInfo(),
                 abilityText: "<b>Pinpoint Tractor Array:</b> You cannot rotate your turret indicator in your rear sector. After you execute a maneuver, you main gain 1 tractor token to perform a rotate turret indicator action."
             );
 

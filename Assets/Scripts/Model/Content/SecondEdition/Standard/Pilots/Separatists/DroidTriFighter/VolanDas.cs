@@ -27,8 +27,8 @@ namespace Ship.SecondEdition.DroidTriFighter
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.Talent,
-                    UpgradeType.Sensor,
                     UpgradeType.Missile,
+                    UpgradeType.Illicit,
                     UpgradeType.Modification
                 },
                 affectedByStandardized: false,

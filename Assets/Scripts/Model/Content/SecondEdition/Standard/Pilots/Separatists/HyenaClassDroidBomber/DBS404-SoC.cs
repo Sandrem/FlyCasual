@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Upgrade;
+﻿using Content;
 using System;
-using Content;
+using System.Collections.Generic;
+using Upgrade;
 using UpgradesList.SecondEdition;
 
 namespace Ship.SecondEdition.HyenaClassDroidBomber

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using Ship;
-using Upgrade;
-using BoardTools;
-using SubPhases;
-using Tokens;
-using System.Linq;
+﻿using BoardTools;
 using Content;
+using Ship;
+using SubPhases;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Tokens;
+using Upgrade;
 
 namespace Ship.SecondEdition.SithInfiltrator
 {
@@ -28,10 +28,14 @@ namespace Ship.SecondEdition.SithInfiltrator
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.ForcePower,
+                    UpgradeType.Torpedo,
+                    UpgradeType.Cannon,
                     UpgradeType.Crew,
                     UpgradeType.Crew,
                     UpgradeType.TacticalRelay,
-                    UpgradeType.Title
+                    UpgradeType.Device,
+                    UpgradeType.Title,
+                    UpgradeType.Modification
                 },
                 tags: new List<Tags>
                 {

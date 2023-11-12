@@ -1,5 +1,4 @@
 ﻿using Content;
-using System;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -17,8 +16,8 @@ namespace Ship
                     "Leader of Death Watch",
                     Faction.Separatists,
                     3,
-                    7,
-                    18,
+                    6,
+                    14,
                     isLimited: true,
                     charges: 2,
                     regensCharges: 1,
@@ -27,9 +26,9 @@ namespace Ship
                     {
                         UpgradeType.Talent,
                         UpgradeType.Crew,
-                        UpgradeType.Missile,
                         UpgradeType.Gunner,
                         UpgradeType.Device,
+                        UpgradeType.Illicit,
                         UpgradeType.Modification,
                         UpgradeType.Configuration
                     },

@@ -21,7 +21,9 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
                 abilityType: typeof(Abilities.SecondEdition.Dfs081Ability),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
-                    UpgradeType.Missile
+                    UpgradeType.Missile,
+                    UpgradeType.Modification,
+                    UpgradeType.Configuration
                 },
                 tags: new List<Tags>
                 {

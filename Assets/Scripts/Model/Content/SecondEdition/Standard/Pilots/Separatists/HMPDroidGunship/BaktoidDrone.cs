@@ -16,12 +16,14 @@ namespace Ship
                     "",
                     Faction.Separatists,
                     1,
-                    5,
-                    10,
+                    4,
+                    8,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Missile,
-                        UpgradeType.Device
+                        UpgradeType.Device,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

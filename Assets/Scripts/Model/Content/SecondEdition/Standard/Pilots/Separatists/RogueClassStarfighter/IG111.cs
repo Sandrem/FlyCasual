@@ -20,8 +20,8 @@ namespace Ship
                     "One Eye",
                     Faction.Separatists,
                     1,
-                    5,
-                    21,
+                    4,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.IG111Ability),
                     extraUpgradeIcons: new List<UpgradeType>

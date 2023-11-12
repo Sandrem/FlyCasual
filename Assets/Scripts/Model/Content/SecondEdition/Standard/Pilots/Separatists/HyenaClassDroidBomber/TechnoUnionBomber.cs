@@ -19,7 +19,9 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.Torpedo,
-                    UpgradeType.Device
+                    UpgradeType.Device,
+                    UpgradeType.Modification,
+                    UpgradeType.Configuration
                 },
                 tags: new List<Tags>
                 {

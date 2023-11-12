@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Content;
 using Ship;
-using Upgrade;
-using BoardTools;
 using SubPhases;
-using Tokens;
-using System.Linq;
-using Content;
+using System;
+using System.Collections.Generic;
+using Upgrade;
 using UpgradesList.SecondEdition;
 
 namespace Ship.SecondEdition.SithInfiltrator

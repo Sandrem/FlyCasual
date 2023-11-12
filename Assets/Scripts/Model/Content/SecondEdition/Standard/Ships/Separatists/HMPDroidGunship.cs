@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Actions;
+﻿using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
 using Ship;
 using Ship.CardInfo;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Tokens;
 using UnityEngine;
-using Upgrade;
 
 namespace Ship.SecondEdition.HMPDroidGunship
 {
@@ -36,11 +35,7 @@ namespace Ship.SecondEdition.HMPDroidGunship
                     new ActionInfo(typeof(BarrelRollAction), ActionColor.Red),
                     new ActionInfo(typeof(ReloadAction))
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Modification,
-                    UpgradeType.Configuration
-                ),
+                new ShipUpgradesInfo(),
                 linkedActions: new List<LinkedActionInfo>
                 {
                     new LinkedActionInfo(typeof(ReloadAction), typeof(CalculateAction), ActionColor.Red)

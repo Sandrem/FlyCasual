@@ -18,6 +18,7 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.Talent,
+                    UpgradeType.Modification,
                     UpgradeType.Modification
                 }
             );

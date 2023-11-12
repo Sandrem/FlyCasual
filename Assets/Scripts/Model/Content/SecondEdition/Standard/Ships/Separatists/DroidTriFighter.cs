@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using Actions;
+﻿using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
 using Ship.CardInfo;
+using System.Collections.Generic;
 using UnityEngine;
-using Upgrade;
 
 namespace Ship.SecondEdition.DroidTriFighter
 {
@@ -33,11 +32,7 @@ namespace Ship.SecondEdition.DroidTriFighter
                     new ActionInfo(typeof(BarrelRollAction)),
                     new ActionInfo(typeof(BoostAction))
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Modification,
-                    UpgradeType.Configuration
-                ),
+                new ShipUpgradesInfo(),
                 linkedActions: new List<LinkedActionInfo>
                 {
                     new LinkedActionInfo(typeof(BarrelRollAction), typeof(EvadeAction), ActionColor.Red),

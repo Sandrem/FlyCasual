@@ -18,17 +18,19 @@ namespace Ship
                     "Ambush Protocols",
                     Faction.Separatists,
                     3,
-                    5,
-                    20,
+                    3,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DGS286Ability),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Torpedo,
-                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Missile,
                         UpgradeType.TacticalRelay,
                         UpgradeType.Crew,
-                        UpgradeType.Device
+                        UpgradeType.Device,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

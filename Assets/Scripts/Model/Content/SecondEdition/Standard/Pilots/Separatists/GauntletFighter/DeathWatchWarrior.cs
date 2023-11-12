@@ -1,5 +1,4 @@
 ﻿using Content;
-using System;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -26,6 +25,7 @@ namespace Ship
                         UpgradeType.Crew,
                         UpgradeType.Gunner,
                         UpgradeType.Device,
+                        UpgradeType.Illicit,
                         UpgradeType.Modification,
                         UpgradeType.Configuration
                     },

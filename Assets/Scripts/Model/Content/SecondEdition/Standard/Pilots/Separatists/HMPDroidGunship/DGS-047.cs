@@ -20,8 +20,8 @@ namespace Ship
                     "Adaptive Intelligence",
                     Faction.Separatists,
                     1,
-                    5,
-                    14,
+                    3,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DGS047Ability),
                     extraUpgradeIcons: new List<UpgradeType>
@@ -30,7 +30,9 @@ namespace Ship
                         UpgradeType.Missile,
                         UpgradeType.TacticalRelay,
                         UpgradeType.Crew,
-                        UpgradeType.Device
+                        UpgradeType.Device,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Actions;
+﻿using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
 using Ship;
 using Ship.CardInfo;
 using SubPhases;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Tokens;
 using UnityEngine;
-using Upgrade;
 
 namespace Ship.SecondEdition.VultureClassDroidFighter
 {
@@ -36,11 +35,7 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
                     new ActionInfo(typeof(TargetLockAction)),
                     new ActionInfo(typeof(BarrelRollAction))
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Modification,
-                    UpgradeType.Configuration
-                ),
+                new ShipUpgradesInfo(),
                 linkedActions: new List<LinkedActionInfo>
                 {
                     new LinkedActionInfo(typeof(BarrelRollAction), typeof(CalculateAction))

@@ -14,12 +14,14 @@ namespace Ship.SecondEdition.DroidTriFighter
                 "",
                 Faction.Separatists,
                 3,
-                4,
+                3,
                 3,
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.Talent,
-                    UpgradeType.Missile
+                    UpgradeType.Missile,
+                    UpgradeType.Modification,
+                    UpgradeType.Configuration
                 },
                 tags: new List<Tags>
                 {

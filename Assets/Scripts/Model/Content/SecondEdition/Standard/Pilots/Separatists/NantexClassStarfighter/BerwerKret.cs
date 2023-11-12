@@ -27,6 +27,7 @@ namespace Ship
                     abilityText: "After you perform an attack that hits, each friendly ship with Calculate on its action bar and a lock on the defender may perform a red Calculate action.",
                     extraUpgradeIcons: new List<UpgradeType>
                     {
+                        UpgradeType.Talent,
                         UpgradeType.Talent
                     }
                 );

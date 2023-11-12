@@ -12,18 +12,22 @@ namespace Ship.SecondEdition.SithInfiltrator
         {
             PilotInfo = new PilotCardInfo25
             (
-                "O-66",
+                "0-66",
                 "Sinister Automaton",
                 Faction.Separatists,
                 3,
-                6,
-                16,
+                5,
+                12,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.O66PilotAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.Talent,
-                    UpgradeType.Crew
+                    UpgradeType.Torpedo,
+                    UpgradeType.Cannon,
+                    UpgradeType.Crew,
+                    UpgradeType.Device,
+                    UpgradeType.Modification
                 },
                 tags: new List<Tags>
                 {

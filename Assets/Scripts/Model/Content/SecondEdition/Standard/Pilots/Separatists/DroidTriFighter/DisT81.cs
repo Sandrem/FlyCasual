@@ -19,8 +19,8 @@ namespace Ship.SecondEdition.DroidTriFighter
                 "Clever Circuits",
                 Faction.Separatists,
                 4,
-                4,
-                12,
+                3,
+                3,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.DisT81Ability),
                 extraUpgradeIcons: new List<UpgradeType>
@@ -28,7 +28,9 @@ namespace Ship.SecondEdition.DroidTriFighter
                     UpgradeType.Talent,
                     UpgradeType.Sensor,
                     UpgradeType.Cannon,
-                    UpgradeType.Modification
+                    UpgradeType.Modification,
+                    UpgradeType.Modification,
+                    UpgradeType.Configuration
                 },
                 tags: new List<Tags>
                 {

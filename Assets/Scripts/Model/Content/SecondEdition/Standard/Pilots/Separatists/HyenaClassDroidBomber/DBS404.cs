@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Upgrade;
+﻿using Content;
 using System;
-using Content;
+using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship.SecondEdition.HyenaClassDroidBomber
 {
@@ -23,7 +23,9 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
                 {
                     UpgradeType.Torpedo,
                     UpgradeType.Missile,
-                    UpgradeType.Device
+                    UpgradeType.Device,
+                    UpgradeType.Modification,
+                    UpgradeType.Configuration
                 },
                 tags: new List<Tags>
                 {

@@ -1,13 +1,12 @@
 ﻿using BoardTools;
 using Content;
+using Ship;
+using SubPhases;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using Upgrade;
 using Tokens;
-using SubPhases;
-using Ship;
-using System;
+using Upgrade;
 
 namespace Ship
 {
@@ -23,20 +22,24 @@ namespace Ship
                     "Bane of the Jedi",
                     Faction.Separatists,
                     4,
-                    8,
-                    18,
+                    7,
+                    10,
                     isLimited: true,
                     force: 1,
                     abilityType: typeof(Abilities.SecondEdition.AurraSingAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Crew,
+                        UpgradeType.Talent,
+                        UpgradeType.Cannon,
+                        UpgradeType.Cannon,
+                        UpgradeType.Device,
                         UpgradeType.Illicit,
                         UpgradeType.Modification,
                         UpgradeType.Title
                     },
                     tags: new List<Tags>
                     {
+                        Tags.DarkSide,
                         Tags.BountyHunter
                     },
                     skinName: "Jango Fett"

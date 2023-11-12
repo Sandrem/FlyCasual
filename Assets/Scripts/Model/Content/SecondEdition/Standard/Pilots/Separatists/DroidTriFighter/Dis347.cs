@@ -18,8 +18,8 @@ namespace Ship.SecondEdition.DroidTriFighter
                 "Target Acquired",
                 Faction.Separatists,
                 3,
+                3,
                 4,
-                14,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.Dis347Ability),
                 extraUpgradeIcons: new List<UpgradeType>
@@ -27,7 +27,9 @@ namespace Ship.SecondEdition.DroidTriFighter
                     UpgradeType.Talent,
                     UpgradeType.Sensor,
                     UpgradeType.Missile,
-                    UpgradeType.Modification
+                    UpgradeType.Modification,
+                    UpgradeType.Modification,
+                    UpgradeType.Configuration
                 },
                 tags: new List<Tags>
                 {

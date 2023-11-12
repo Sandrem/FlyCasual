@@ -1,7 +1,5 @@
 ﻿using Content;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Upgrade;
 
 namespace Ship.SecondEdition.Belbullab22Starfighter
@@ -20,7 +18,8 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
                 5,
                 extraUpgradeIcons: new List<UpgradeType>
                 {
-                    UpgradeType.TacticalRelay
+                    UpgradeType.TacticalRelay,
+                    UpgradeType.Modification
                 },
                 tags: new List<Tags>
                 {

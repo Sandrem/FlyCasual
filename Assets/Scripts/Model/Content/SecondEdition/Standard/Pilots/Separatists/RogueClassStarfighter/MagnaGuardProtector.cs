@@ -1,13 +1,13 @@
-﻿using Content;
+﻿using Abilities.SecondEdition;
+using BoardTools;
+using Conditions;
+using Content;
+using Ship;
+using SubPhases;
 using System.Collections.Generic;
 using System.Linq;
-using Upgrade;
-using Ship;
 using Tokens;
-using Abilities.SecondEdition;
-using Conditions;
-using SubPhases;
-using BoardTools;
+using Upgrade;
 
 namespace Ship
 {
@@ -23,8 +23,8 @@ namespace Ship
                     "Implacable Escort",
                     Faction.Separatists,
                     4,
-                    5,
-                    18,
+                    4,
+                    10,
                     limited: 2,
                     abilityType: typeof(Abilities.SecondEdition.MagnaGuardProtectorAbility),
                     extraUpgradeIcons: new List<UpgradeType>
@@ -32,7 +32,7 @@ namespace Ship
                         UpgradeType.Cannon,
                         UpgradeType.Cannon,
                         UpgradeType.Missile,
-                        UpgradeType.Modification,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>()
                     {

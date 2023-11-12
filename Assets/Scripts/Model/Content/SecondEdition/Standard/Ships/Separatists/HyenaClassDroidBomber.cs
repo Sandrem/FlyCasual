@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Actions;
+﻿using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
-using Upgrade;
-using UnityEngine;
 using Ship.CardInfo;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Ship.SecondEdition.HyenaClassDroidBomber
 {
@@ -33,11 +32,7 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
                     new ActionInfo(typeof(BarrelRollAction)),
                     new ActionInfo(typeof(ReloadAction), ActionColor.Red)
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Modification,
-                    UpgradeType.Configuration
-                ),
+                new ShipUpgradesInfo(),
                 abilityText: "<b>Networked Calculations:</b> While you defend or perform an attack, you may spend 1 calculate token from a friendly ship at range 0-1 to change 1 eye result to evade or hit result.",
                 linkedActions: new List<LinkedActionInfo>
                 {

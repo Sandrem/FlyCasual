@@ -21,7 +21,9 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
                 abilityType: typeof(Abilities.SecondEdition.PreciseHunterAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
-                    UpgradeType.Cannon
+                    UpgradeType.Cannon,
+                    UpgradeType.Modification,
+                    UpgradeType.Configuration
                 },
                 tags: new List<Tags>
                 {

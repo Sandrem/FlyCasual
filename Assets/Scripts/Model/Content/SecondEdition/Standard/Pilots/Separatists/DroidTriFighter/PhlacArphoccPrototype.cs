@@ -18,8 +18,8 @@ namespace Ship.SecondEdition.DroidTriFighter
                 "Predictive Analysis Protocol",
                 Faction.Separatists,
                 5,
-                5,
-                14,
+                3,
+                6,
                 limited: 2,
                 abilityType: typeof(Abilities.SecondEdition.PhlacArphoccPrototypeAbility),
                 extraUpgradeIcons: new List<UpgradeType>
@@ -27,7 +27,9 @@ namespace Ship.SecondEdition.DroidTriFighter
                     UpgradeType.Talent,
                     UpgradeType.Sensor,
                     UpgradeType.Missile,
-                    UpgradeType.Modification
+                    UpgradeType.Modification,
+                    UpgradeType.Modification,
+                    UpgradeType.Configuration
                 },
                 tags: new List<Tags>
                 {

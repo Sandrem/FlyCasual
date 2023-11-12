@@ -18,13 +18,16 @@ namespace Ship
                     Faction.Separatists,
                     6,
                     8,
-                    27,
+                    22,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JangoFettAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Cannon,
+                        UpgradeType.Missile,
                         UpgradeType.Crew,
+                        UpgradeType.Device,
                         UpgradeType.Illicit,
                         UpgradeType.Illicit,
                         UpgradeType.Modification,

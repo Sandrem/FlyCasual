@@ -1,5 +1,4 @@
 ﻿using BoardTools;
-using Content;
 using Ship;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +17,7 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
                 Faction.Separatists,
                 4,
                 5,
-                12,
+                11,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.GeneralGrievousAbility),
                 extraUpgradeIcons: new List<UpgradeType>
@@ -26,6 +25,7 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
                     UpgradeType.Talent,
                     UpgradeType.Missile,
                     UpgradeType.Title,
+                    UpgradeType.Modification,
                     UpgradeType.Modification
                 }
             );

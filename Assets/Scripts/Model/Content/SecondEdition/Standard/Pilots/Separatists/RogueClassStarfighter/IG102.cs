@@ -18,8 +18,8 @@ namespace Ship
                     "Dueling Droid",
                     Faction.Separatists,
                     4,
-                    5,
-                    19,
+                    4,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.IG102Ability),
                     extraUpgradeIcons: new List<UpgradeType>

@@ -1,6 +1,4 @@
-﻿using ActionsList;
-using BoardTools;
-using Ship;
+﻿using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
@@ -28,6 +26,7 @@ namespace Ship
                     abilityText: "During the System Phase, you may gain 1 disarm token and choose a friendly ship at range 1-2. If you do, it gains 1 tractor token, then repairs 1 of its faceup Ship trait damage cards.",
                     extraUpgradeIcons: new List<UpgradeType>
                     {
+                        UpgradeType.Talent,
                         UpgradeType.Modification
                     }
                 );

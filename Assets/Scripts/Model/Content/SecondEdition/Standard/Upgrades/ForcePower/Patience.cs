@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
                 "Patience",
                 UpgradeType.ForcePower,
                 cost: 2,
-                restriction: new TagRestriction(Tags.DarkSide),
+                restriction: new TagRestriction(Tags.LightSide),
                 abilityType: typeof(Abilities.SecondEdition.PatienceAbility)
             );
 

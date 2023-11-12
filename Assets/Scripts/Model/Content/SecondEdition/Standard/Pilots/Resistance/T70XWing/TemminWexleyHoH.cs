@@ -16,11 +16,11 @@ namespace Ship
                 PilotInfo = new PilotCardInfo25
                 (
                     "Temmin Wexley",
-                    "Snap",
+                    "Black Two",
                     Faction.Resistance,
                     4,
-                    4,
-                    9,
+                    5,
+                    13,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TemminWexleyHoHAbility),
                     extraUpgradeIcons: new List<UpgradeType>

@@ -39,7 +39,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Intercept Booster (Detached)",
                 UpgradeType.Configuration,
-                cost: 1,
+                cost: 0,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.DroidTriFighter.DroidTriFighter))
             );
 

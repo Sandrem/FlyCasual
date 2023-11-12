@@ -1,11 +1,11 @@
-﻿using Upgrade;
+﻿using Actions;
 using ActionsList;
-using Actions;
-using System.Collections.Generic;
+using Arcs;
 using Ship;
 using System;
-using Arcs;
+using System.Collections.Generic;
 using System.Linq;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -17,7 +17,11 @@ namespace UpgradesList.SecondEdition
                 "Vectored Сannons (RZ-1)",
                 UpgradeType.Configuration,
                 cost: 0,
-                restriction: new AbilityPresenceRestriction(typeof(Abilities.SecondEdition.VectoredThrustersAbility)),
+                restrictions: new UpgradeCardRestrictions
+                (
+                    new ShipRestriction(typeof(Ship.SecondEdition.RZ1AWing.RZ1AWing)),
+                    new AbilityPresenceRestriction(typeof(Abilities.SecondEdition.VectoredThrustersAbility))
+                ),
                 addArc: new ShipArcInfo(ArcType.SingleTurret, 2),
                 removeArc: ArcType.Front,
                 abilityType: typeof(Abilities.SecondEdition.VectoredCannonsRZ1Ability),

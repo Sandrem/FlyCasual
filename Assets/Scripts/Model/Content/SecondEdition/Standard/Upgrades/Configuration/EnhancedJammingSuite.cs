@@ -15,17 +15,22 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo
             (
                 "Enhanced Jamming Suite",
-                types: new List<UpgradeType> { UpgradeType.Configuration, UpgradeType.Tech },
+                types: new List<UpgradeType>
+                {
+                    UpgradeType.Configuration,
+                    UpgradeType.Tech
+                },
                 cost: 0,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.TIEWiWhisperModifiedInterceptor.TIEWiWhisperModifiedInterceptor)),
                 abilityType: typeof(Abilities.SecondEdition.EnhancedJammingSuiteAbility),
                 addAction: new ActionInfo(typeof(JamAction)),
                 addActionLinks: new List<LinkedActionInfo>()
                 {
-                    new LinkedActionInfo(typeof(FocusAction),       typeof(JamAction), ActionColor.White),
-                    new LinkedActionInfo(typeof(BarrelRollAction),  typeof(JamAction), ActionColor.White),
-                    new LinkedActionInfo(typeof(BoostAction),       typeof(JamAction), ActionColor.White)
-                }
+                    new LinkedActionInfo(typeof(FocusAction), typeof(JamAction), ActionColor.White),
+                    new LinkedActionInfo(typeof(BarrelRollAction), typeof(JamAction), ActionColor.White),
+                    new LinkedActionInfo(typeof(BoostAction), typeof(JamAction), ActionColor.White)
+                },
+                isStandardazed: true
             );
             
             ImageUrl = "https://i.imgur.com/PZiB0nf.png";

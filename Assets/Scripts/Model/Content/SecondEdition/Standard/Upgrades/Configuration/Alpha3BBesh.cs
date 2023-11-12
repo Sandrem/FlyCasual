@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Alpha-3B \"Besh\"",
                 UpgradeType.Configuration,
-                cost: 0,
+                cost: 1,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.NimbusClassVWing.NimbusClassVWing)),
                 abilityType: typeof(Abilities.SecondEdition.Alpha3BBeshAbility),
                 addSlot: new UpgradeSlot(UpgradeType.Device)

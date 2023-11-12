@@ -37,7 +37,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Grappling Struts (Open)",
                 UpgradeType.Configuration,
-                cost: 1,
+                cost: 0,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.VultureClassDroidFighter.VultureClassDroidFighter)),
                 abilityType: typeof(Abilities.SecondEdition.GrapplingStrutsOpenAbility)
             );

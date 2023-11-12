@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
             (
                 "Wartime Loadout",
                 types: new List<UpgradeType> { UpgradeType.Configuration, UpgradeType.Modification },
-                cost: 5,
+                cost: 2,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.BTANR2YWing.BTANR2YWing)),
                 addShields: 2,
                 isStandardazed: true,

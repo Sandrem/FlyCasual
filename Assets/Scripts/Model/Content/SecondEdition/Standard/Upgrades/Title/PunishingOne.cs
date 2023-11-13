@@ -1,7 +1,6 @@
-﻿using Ship;
+﻿using Arcs;
+using Ship;
 using Upgrade;
-using System.Collections.Generic;
-using Arcs;
 
 namespace UpgradesList.SecondEdition
 {
@@ -14,7 +13,10 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Title,
                 cost: 0,
                 isLimited: true,
-                restriction: new ShipRestriction(typeof(Ship.SecondEdition.JumpMaster5000.JumpMaster5000)),
+                restrictions: new UpgradeCardRestrictions(
+                    new FactionRestriction(Faction.Scum), 
+                    new ShipRestriction(typeof(Ship.SecondEdition.JumpMaster5000.JumpMaster5000))
+                ),
                 addSlot: new UpgradeSlot(UpgradeType.Astromech),
                 forbidSlot: UpgradeType.Crew,
                 abilityType: typeof(Abilities.SecondEdition.PunishingOneAbility),

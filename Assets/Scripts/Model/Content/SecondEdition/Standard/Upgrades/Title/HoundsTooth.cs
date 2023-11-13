@@ -1,6 +1,4 @@
 ﻿using Ship;
-using System.Collections.Generic;
-using System.Linq;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -14,7 +12,10 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Title,
                 cost: 0,
                 isLimited: true,
-                restriction: new ShipRestriction(typeof(Ship.SecondEdition.YV666LightFreighter.YV666LightFreighter)),
+                restrictions: new UpgradeCardRestrictions(
+                    new FactionRestriction(Faction.Scum), 
+                    new ShipRestriction(typeof(Ship.SecondEdition.YV666LightFreighter.YV666LightFreighter))
+                ),
                 abilityType: typeof(Abilities.SecondEdition.HoundsToothAbility),
                 seImageNumber: 148
             );

@@ -1,7 +1,4 @@
-﻿using Arcs;
-using Ship;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Ship;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -15,7 +12,10 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Title,
                 cost: 0,
                 isLimited: true,
-                restriction: new ShipRestriction(typeof(Ship.SecondEdition.VT49Decimator.VT49Decimator)),
+                restrictions: new UpgradeCardRestrictions(
+                    new FactionRestriction(Faction.Imperial), 
+                    new ShipRestriction(typeof(Ship.SecondEdition.VT49Decimator.VT49Decimator))
+                ),
                 abilityType: typeof(Abilities.SecondEdition.DauntlessAbility),
                 seImageNumber: 123
             );

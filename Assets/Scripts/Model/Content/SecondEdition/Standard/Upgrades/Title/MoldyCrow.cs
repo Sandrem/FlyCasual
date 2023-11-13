@@ -1,8 +1,7 @@
-﻿using Ship;
-using Upgrade;
-using System.Collections.Generic;
+﻿using Arcs;
+using Ship;
 using Tokens;
-using Arcs;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -15,7 +14,10 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Title,
                 cost: 0, 
                 isLimited: true,
-                restriction: new ShipRestriction(typeof(Ship.SecondEdition.Hwk290LightFreighter.Hwk290LightFreighter)),
+                restrictions: new UpgradeCardRestrictions(
+                    new FactionRestriction(Faction.Scum, Faction.Rebel), 
+                    new ShipRestriction(typeof(Ship.SecondEdition.Hwk290LightFreighter.Hwk290LightFreighter))
+                ),
                 addArc: new ShipArcInfo(ArcType.Front, 3),
                 abilityType: typeof(Abilities.SecondEdition.MoldyCrowAbility),
                 seImageNumber: 104

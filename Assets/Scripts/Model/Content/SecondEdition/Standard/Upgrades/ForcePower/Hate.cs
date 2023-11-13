@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Hate",
                 UpgradeType.ForcePower,
-                cost: 4,
+                cost: 5,
                 restriction: new TagRestriction(Tags.DarkSide),
                 abilityType: typeof(Abilities.SecondEdition.HateAbility)
             );

@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Gamut Key",
                 UpgradeType.Crew,
-                cost: 6,
+                cost: 8,
                 abilityType: typeof(Abilities.SecondEdition.GamutKeyCrewAbility),
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum),

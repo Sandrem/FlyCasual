@@ -18,7 +18,7 @@ namespace UpgradesList.SecondEdition
                     UpgradeType.Crew,
                     UpgradeType.Crew
                 },
-                cost: 6,
+                cost: 4,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Imperial),
                 abilityType: typeof(Abilities.SecondEdition.DeathTroopersAbility),

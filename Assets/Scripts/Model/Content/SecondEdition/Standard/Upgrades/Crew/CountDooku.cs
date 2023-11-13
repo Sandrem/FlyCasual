@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Count Dooku",
                 UpgradeType.Crew,
-                cost: 14,
+                cost: 12,
                 isLimited: true,
                 addForce: 1,
                 restriction: new FactionRestriction(Faction.Separatists),

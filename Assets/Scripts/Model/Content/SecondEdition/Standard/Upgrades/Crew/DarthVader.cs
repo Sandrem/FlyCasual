@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Darth Vader",
                 UpgradeType.Crew,
-                cost: 14,
+                cost: 12,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Imperial),
                 addForce: 1,

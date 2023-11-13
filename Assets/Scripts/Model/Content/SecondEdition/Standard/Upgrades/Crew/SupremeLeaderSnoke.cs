@@ -20,7 +20,7 @@ namespace UpgradesList.SecondEdition
                     UpgradeType.Crew,
                     UpgradeType.Crew
                 },
-                cost: 13,
+                cost: 10,
                 isLimited: true,
                 addForce: 1,                
                 restriction: new FactionRestriction(Faction.FirstOrder),

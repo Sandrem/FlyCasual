@@ -3,7 +3,6 @@ using Arcs;
 using Ship;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Tokens;
 using Upgrade;
 
@@ -25,8 +24,11 @@ namespace UpgradesList.SecondEdition
                     charges: 1,
                     arc: ArcType.Front
                 ),
-               restrictions: new UpgradeCardRestrictions(new ActionBarRestriction(typeof(CalculateAction)), new FactionRestriction(Faction.Separatists)),
-               abilityType: typeof(Abilities.SecondEdition.EnergyShellChargesAbility)
+                restrictions: new UpgradeCardRestrictions(
+                    new FactionRestriction(Faction.Separatists),
+                    new ActionBarRestriction(typeof(CalculateAction))                    
+                ),
+                abilityType: typeof(Abilities.SecondEdition.EnergyShellChargesAbility)
             );
         }
     }

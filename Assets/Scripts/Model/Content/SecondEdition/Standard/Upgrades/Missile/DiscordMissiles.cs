@@ -1,13 +1,9 @@
-﻿using Arcs;
-using BoardTools;
+﻿using BoardTools;
 using Bombs;
 using Movement;
-using Ship;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Tokens;
-using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -20,7 +16,7 @@ namespace UpgradesList.SecondEdition
                 "Discord Missiles",
                 UpgradeType.Missile,
                 subType: UpgradeSubType.Remote,
-                cost: 3,
+                cost: 2,
                 limited: 3,
                 charges: 1,
                 cannotBeRecharged: true,

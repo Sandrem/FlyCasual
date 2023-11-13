@@ -2,7 +2,6 @@
 using Ship;
 using SubPhases;
 using System;
-using System.Collections.Generic;
 using Tokens;
 using Upgrade;
 
@@ -16,7 +15,8 @@ namespace UpgradesList.SecondEdition
                 "Automated Target Priority",
                 UpgradeType.Tech,
                 cost: 1,
-                abilityType: typeof(Abilities.SecondEdition.AutomatedTargetPriorityAbility)
+                abilityType: typeof(Abilities.SecondEdition.AutomatedTargetPriorityAbility),
+                restriction: new StatValueRestriction(StatValueRestriction.Stats.Initiative, StatValueRestriction.Conditions.LowerThanOrEqual, 3)
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/e9/e2/e9e2f789-fc77-4ac5-861d-6c08b97ea244/swz69_target-priority_card.png";

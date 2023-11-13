@@ -1,8 +1,8 @@
 ﻿using ActionsList;
 using Ship;
-using System.Collections.Generic;
 using Tokens;
 using Upgrade;
+
 namespace UpgradesList.SecondEdition
 {
     public class PrimedThrusters : GenericUpgrade
@@ -13,7 +13,9 @@ namespace UpgradesList.SecondEdition
                 "Primed Thrusters",
                 UpgradeType.Tech,
                 cost: 6,
-                abilityType: typeof(Abilities.SecondEdition.PrimedThrustersAbility)                                                                 //seImageNumber: 69
+                abilityType: typeof(Abilities.SecondEdition.PrimedThrustersAbility),
+                restriction: new BaseSizeRestriction(BaseSize.Small)
+                //seImageNumber: 69
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/86/a1/86a1115b-eb55-491b-84e4-67e2b6124999/swz19_a1_primed-thrusters.png";

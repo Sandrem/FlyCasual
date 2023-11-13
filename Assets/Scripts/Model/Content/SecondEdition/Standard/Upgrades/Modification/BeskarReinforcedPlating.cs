@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             (
                 "Beskar Reinforced Plating",
                 UpgradeType.Modification,
-                cost: 6,
+                cost: 3,
                 restriction: new TagRestriction(Tags.Mandalorian),
                 abilityType: typeof(Abilities.SecondEdition.BeskarReinforcedPlatingAbility),
                 charges: 2

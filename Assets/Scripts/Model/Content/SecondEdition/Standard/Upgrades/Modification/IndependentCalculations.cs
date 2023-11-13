@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Independent Calculations",
                 UpgradeType.Modification,
-                cost: 0,
+                cost: 2,
                 restriction: new AbilityPresenceRestriction(typeof(Abilities.SecondEdition.NetworkedCalculationsAbility)),
                 abilityType: typeof(Abilities.SecondEdition.IndependentCalculationsWrapperAbility),
                 isStandardazed: true

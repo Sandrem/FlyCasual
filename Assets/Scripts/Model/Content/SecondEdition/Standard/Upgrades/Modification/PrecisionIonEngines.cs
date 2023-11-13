@@ -1,9 +1,8 @@
-﻿using Upgrade;
+﻿using Content;
+using Movement;
 using Ship;
 using SubPhases;
-using Movement;
-using UnityEngine;
-using Content;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -16,7 +15,10 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Modification,
                 cost: 2,
                 charges: 2,
-                restriction: new TagRestriction(Tags.Tie),
+                restrictions: new UpgradeCardRestrictions(
+                    new TagRestriction(Tags.Tie),
+                    new StatValueRestriction(StatValueRestriction.Stats.Agility, StatValueRestriction.Conditions.HigherThanOrEqual, 3)
+                ),
                 abilityType: typeof(Abilities.SecondEdition.PrecisionIonEnginesAbility)
             );
 

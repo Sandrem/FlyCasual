@@ -1,8 +1,7 @@
-﻿using Upgrade;
+﻿using ActionsList;
 using Ship;
-using System.Collections.Generic;
 using System;
-using ActionsList;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -13,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "AfterBurners",
                 UpgradeType.Modification,
-                cost: 10,
+                cost: 8,
                 abilityType: typeof(Abilities.SecondEdition.AfterBurnersAbility),
                 charges: 2,
                 restriction: new BaseSizeRestriction(BaseSize.Small),

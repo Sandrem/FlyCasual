@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Agile Gunner",
                 UpgradeType.Gunner,
-                cost: 3,
+                cost: 1,
                 abilityType: typeof(Abilities.SecondEdition.AgileGunnerAbility),
                 seImageNumber: 162
             );

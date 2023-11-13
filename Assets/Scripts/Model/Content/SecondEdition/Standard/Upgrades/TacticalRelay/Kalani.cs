@@ -1,15 +1,13 @@
-﻿using Ship;
-using Upgrade;
-using System.Linq;
-using System.Collections.Generic;
+﻿using Actions;
 using ActionsList;
-using Actions;
-using System;
-using BoardTools;
-using SubPhases;
-using Tokens;
 using Arcs;
+using BoardTools;
+using Ship;
+using SubPhases;
+using System;
+using Tokens;
 using UnityEngine;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -20,7 +18,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Kalani",
                 UpgradeType.TacticalRelay,
-                cost: 5,
+                cost: 3,
                 isLimited: true,
                 isSolitary: true,
                 addAction: new ActionInfo(typeof(CalculateAction), ActionColor.White, this),

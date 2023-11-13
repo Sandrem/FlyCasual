@@ -1,13 +1,11 @@
-﻿using Ship;
-using Upgrade;
-using System.Linq;
-using System.Collections.Generic;
-using ActionsList;
-using Actions;
-using System;
+﻿using ActionsList;
 using BoardTools;
+using Ship;
 using SubPhases;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -18,7 +16,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "K2-B4",
                 UpgradeType.TacticalRelay,
-                cost: 6,
+                cost: 4,
                 isLimited: true,
                 isSolitary: true,
                 restriction: new FactionRestriction(Faction.Separatists),

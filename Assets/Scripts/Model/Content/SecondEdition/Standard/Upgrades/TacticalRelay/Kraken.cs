@@ -1,14 +1,12 @@
-﻿using Ship;
-using Upgrade;
-using System.Linq;
-using System.Collections.Generic;
+﻿using Actions;
 using ActionsList;
-using Actions;
-using System;
 using BoardTools;
+using Ship;
 using SubPhases;
+using System;
 using Tokens;
 using UnityEngine;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -19,7 +17,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Kraken",
                 UpgradeType.TacticalRelay,
-                cost: 10,
+                cost: 8,
                 isLimited: true,
                 isSolitary: true,
                 addAction: new ActionInfo(typeof(CalculateAction), ActionColor.White, this),

@@ -1,9 +1,7 @@
-﻿using Upgrade;
-using System.Collections.Generic;
+﻿using Arcs;
 using Ship;
-using System.Linq;
 using System;
-using Arcs;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -14,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Crack Shot",
                 UpgradeType.Talent,
-                cost: 3,
+                cost: 4,
                 abilityType: typeof(Abilities.SecondEdition.CrackShotAbility),
                 charges: 1,
                 seImageNumber: 1

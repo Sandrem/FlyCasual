@@ -1,11 +1,9 @@
-﻿using Upgrade;
-using System.Collections.Generic;
-using System.Linq;
-using ActionsList;
-using Tokens;
+﻿using ActionsList;
+using BoardTools;
 using Ship;
 using System;
-using BoardTools;
+using Tokens;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -16,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Treacherous",
                 UpgradeType.Talent,
-                cost: 2,
+                cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.TreacherousAbility),
                 restriction: new FactionRestriction(Faction.Separatists),
                 charges: 1

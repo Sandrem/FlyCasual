@@ -1,11 +1,9 @@
-﻿using Upgrade;
-using System.Collections.Generic;
-using System.Linq;
-using Ship;
+﻿using Actions;
 using ActionsList;
-using Obstacles;
 using BoardTools;
-using Actions;
+using Obstacles;
+using Ship;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -16,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Debris Gambit",
                 UpgradeType.Talent,
-                cost: 6,
+                cost: 4,
                 abilityType: typeof(Abilities.SecondEdition.DebrisGambit),
                 restriction: new BaseSizeRestriction(BaseSize.Small, BaseSize.Medium),
                 addAction: new ActionInfo(typeof(EvadeAction), ActionColor.Red),

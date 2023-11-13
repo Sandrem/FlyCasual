@@ -1,8 +1,5 @@
-﻿using Upgrade;
-using System.Collections.Generic;
-using Ship;
-using System.Linq;
-using System;
+﻿using System;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -13,7 +10,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Lone Wolf",
                 UpgradeType.Talent,
-                cost: 5,
+                cost: 3,
                 isLimited: true,
                 charges: 1,
                 regensCharges: true,

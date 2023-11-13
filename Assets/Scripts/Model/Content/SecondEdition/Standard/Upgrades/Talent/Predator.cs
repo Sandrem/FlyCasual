@@ -1,8 +1,7 @@
-﻿using Upgrade;
-using System.Collections.Generic;
+﻿using Arcs;
 using Ship;
 using System.Linq;
-using Arcs;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -13,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Predator",
                 UpgradeType.Talent,
-                cost: 2,
+                cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.PredatorAbility),
                 seImageNumber: 12
             );

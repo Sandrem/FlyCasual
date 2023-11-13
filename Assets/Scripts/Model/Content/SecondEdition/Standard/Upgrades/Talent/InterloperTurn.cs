@@ -1,7 +1,8 @@
-﻿using Upgrade;
-using Movement;
-using Abilities.Parameters;
+﻿using Abilities.Parameters;
 using Content;
+using Movement;
+using System.Collections.Generic;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -15,7 +16,15 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Talent,
                 cost: 1,
                 abilityType: typeof(Abilities.SecondEdition.InterloperTurnAbility),
-                restriction: new ShipRestriction(typeof(Ship.SecondEdition.TIEDDefender.TIEDDefender))
+                restrictions: new UpgradeCardRestrictions(
+                    new FactionRestriction(Faction.Imperial),
+                    new ShipRestriction(typeof(Ship.SecondEdition.TIEDDefender.TIEDDefender))
+                ),
+                legalityInfo: new List<Legality>
+                {
+                    Legality.StandardBanned,
+                    Legality.ExtendedLegal
+                }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/12/25/1225b83d-2bdb-45f1-8301-2150bdc5ec26/swz84_upgrade_interloperturn.png";

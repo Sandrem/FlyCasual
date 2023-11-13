@@ -1,9 +1,7 @@
-﻿using Upgrade;
-using System.Collections.Generic;
+﻿using ActionsList;
 using Ship;
-using System.Linq;
-using ActionsList;
 using Tokens;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -14,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Juke",
                 UpgradeType.Talent,
-                cost: 6,
+                cost: 7,
                 abilityType: typeof(Abilities.SecondEdition.JukeAbility),
                 restriction: new BaseSizeRestriction(BaseSize.Small, BaseSize.Medium),
                 seImageNumber: 8

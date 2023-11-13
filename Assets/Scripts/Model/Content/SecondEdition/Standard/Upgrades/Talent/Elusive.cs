@@ -1,6 +1,6 @@
-﻿using Upgrade;
+﻿using Ship;
 using System;
-using Ship;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Elusive",
                 UpgradeType.Talent,
-                cost: 2,
+                cost: 4,
                 abilityType: typeof(Abilities.SecondEdition.Elusive),
                 restriction: new BaseSizeRestriction(BaseSize.Small, BaseSize.Medium),
                 charges: 1,

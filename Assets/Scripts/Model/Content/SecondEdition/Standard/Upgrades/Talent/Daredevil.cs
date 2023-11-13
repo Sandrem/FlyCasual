@@ -1,9 +1,8 @@
-﻿using Upgrade;
-using System.Collections.Generic;
+﻿using Actions;
 using ActionsList;
 using Ship;
-using System.Linq;
-using Actions;
+using System.Collections.Generic;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -14,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Daredevil",
                 UpgradeType.Talent,
-                cost: 2,
+                cost: 5,
                 abilityType: typeof(Abilities.SecondEdition.DareDevilAbility),
                 restrictions: new UpgradeCardRestrictions(
                     new BaseSizeRestriction(BaseSize.Small),

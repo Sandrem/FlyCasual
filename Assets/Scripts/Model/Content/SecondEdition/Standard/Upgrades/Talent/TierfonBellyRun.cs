@@ -1,7 +1,6 @@
 ﻿using ActionsList;
 using Obstacles;
 using Ship;
-using System;
 using System.Linq;
 using Upgrade;
 
@@ -14,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Tierfon Belly Run",
                 UpgradeType.Talent,
-                cost: 0,
+                cost: 1,
                 abilityType: typeof(Abilities.SecondEdition.TierfonBellyRunAbility),
                 restriction: new TagRestriction(Content.Tags.YWing)
             );

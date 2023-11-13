@@ -1,8 +1,7 @@
-﻿using Upgrade;
-using System.Collections.Generic;
+﻿using BoardTools;
 using Ship;
-using BoardTools;
 using SubPhases;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -13,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Selfless",
                 UpgradeType.Talent,
-                cost: 2,
+                cost: 4,
                 abilityType: typeof(Abilities.SecondEdition.SelflessAbility),
                 restriction: new FactionRestriction(Faction.Rebel),
                 seImageNumber: 15

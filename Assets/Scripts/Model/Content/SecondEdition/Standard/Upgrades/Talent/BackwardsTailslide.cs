@@ -15,7 +15,10 @@ namespace UpgradesList.SecondEdition
                 "Backwards Tailslide",
                 UpgradeType.Talent,
                 cost: 2,
-                restriction: new TagRestriction(Content.Tags.XWing),
+                restrictions: new UpgradeCardRestrictions(
+                    new TagRestriction(Content.Tags.XWing),
+                    new UpgradeBarRestriction(UpgradeType.Configuration)
+                ),
                 abilityType: typeof(Abilities.SecondEdition.BackwardsTailslideAbility)
             );
 

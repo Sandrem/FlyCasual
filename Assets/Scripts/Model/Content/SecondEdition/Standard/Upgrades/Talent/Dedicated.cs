@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Dedicated",
                 UpgradeType.Talent,
-                cost: 1,
+                cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.DedicatedAbility),
                 restrictions: new UpgradeCardRestrictions
                 (

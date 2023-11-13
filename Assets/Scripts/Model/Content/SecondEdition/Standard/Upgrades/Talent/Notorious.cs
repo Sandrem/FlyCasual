@@ -1,11 +1,10 @@
-﻿using Ship;
-using Upgrade;
-using System;
-using BoardTools;
-using SubPhases;
-using System.Collections.Generic;
+﻿using BoardTools;
+using Ship;
 using SquadBuilderNS;
-using UnityEngine;
+using SubPhases;
+using System;
+using System.Collections.Generic;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -16,11 +15,12 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Notorious",
                 UpgradeType.Talent,
-                cost: 5,
+                cost: 7,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.NotoriousAbility),
                 charges: 2,
-                regensCharges: true
+                regensCharges: true,
+                restriction: new UpgradeBarRestriction(UpgradeType.Illicit)
             );
 
             ImageUrl = "https://infinitearenas.com/xw2/images/upgrades/notorious.png";

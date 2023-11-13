@@ -1,7 +1,9 @@
-﻿using Upgrade;
-using ActionsList;
-using Tokens;
+﻿using ActionsList;
+using Content;
 using Ship;
+using System.Collections.Generic;
+using Tokens;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -15,7 +17,12 @@ namespace UpgradesList.SecondEdition
                 cost: 1,
                 abilityType: typeof(Abilities.SecondEdition.ComposureAbility),
                 restriction: new ActionBarRestriction(typeof(FocusAction)),
-                seImageNumber: 156
+                seImageNumber: 156,
+                legalityInfo: new List<Legality>
+                {
+                    Legality.StandardBanned,
+                    Legality.ExtendedLegal
+                }
             );
         }        
     }

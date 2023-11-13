@@ -1,9 +1,6 @@
-﻿using Upgrade;
-using System.Collections.Generic;
+﻿using ActionsList;
 using Ship;
-using System.Linq;
-using ActionsList;
-using Actions;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -14,7 +11,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Saturation Salvo",
                 UpgradeType.Talent,
-                cost: 3,
+                cost: 2,
                 abilityType: typeof(Abilities.SecondEdition.SaturationSalvoAbility),
                 restriction: new ActionBarRestriction(typeof(ReloadAction)),
                 seImageNumber: 14

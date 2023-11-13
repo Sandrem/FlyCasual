@@ -1,7 +1,6 @@
-﻿using Upgrade;
+﻿using Ship;
 using System.Collections.Generic;
-using Ship;
-using System.Linq;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -12,7 +11,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Fanatical",
                 UpgradeType.Talent,
-                cost: 1,
+                cost: 2,
                 abilityType: typeof(Abilities.SecondEdition.FanaticalAbility),
                 restriction: new FactionRestriction(Faction.FirstOrder)
             );

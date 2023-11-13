@@ -2,7 +2,6 @@
 using Ship;
 using SubPhases;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Tokens;
 using Upgrade;
@@ -18,7 +17,10 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Title,
                 cost: 0,
                 isLimited: true,
-                restriction: new ShipRestriction(typeof(Ship.SecondEdition.LambdaClassT4AShuttle.LambdaClassT4AShuttle)),
+                restrictions: new UpgradeCardRestrictions(
+                    new FactionRestriction(Faction.Imperial),
+                    new ShipRestriction(typeof(Ship.SecondEdition.LambdaClassT4AShuttle.LambdaClassT4AShuttle))
+                ),
                 abilityType: typeof(Abilities.SecondEdition.ST321Ability),
                 seImageNumber: 124
             );

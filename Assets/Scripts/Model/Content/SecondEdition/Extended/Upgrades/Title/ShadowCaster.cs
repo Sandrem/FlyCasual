@@ -1,7 +1,4 @@
 ﻿using Arcs;
-using Ship;
-using System.Collections.Generic;
-using System.Linq;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -15,7 +12,10 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Title,
                 cost: 0,
                 isLimited: true,
-                restriction: new ShipRestriction(typeof(Ship.SecondEdition.LancerClassPursuitCraft.LancerClassPursuitCraft)),
+                restrictions: new UpgradeCardRestrictions(
+                    new FactionRestriction(Faction.Scum),
+                    new ShipRestriction(typeof(Ship.SecondEdition.LancerClassPursuitCraft.LancerClassPursuitCraft))
+                ),
                 abilityType: typeof(Abilities.SecondEdition.ShadowCasterAbility),
                 seImageNumber: 153
             );

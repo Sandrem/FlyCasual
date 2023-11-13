@@ -1,5 +1,4 @@
-﻿using Ship;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
@@ -15,7 +14,10 @@ namespace UpgradesList.SecondEdition
                 "IG-2000",
                 UpgradeType.Title,
                 cost: 0,
-                restriction: new ShipRestriction(typeof(Ship.SecondEdition.AggressorAssaultFighter.AggressorAssaultFighter)),
+                restrictions: new UpgradeCardRestrictions(
+                    new FactionRestriction(Faction.Scum),
+                    new ShipRestriction(typeof(Ship.SecondEdition.AggressorAssaultFighter.AggressorAssaultFighter))
+                ),
                 abilityType: typeof(Abilities.SecondEdition.Ig2000Ability),
                 seImageNumber: 149
             );

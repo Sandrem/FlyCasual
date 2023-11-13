@@ -1,6 +1,5 @@
-﻿using Ship;
+﻿using System.Collections.Generic;
 using Upgrade;
-using System.Collections.Generic;
 
 namespace UpgradesList.SecondEdition
 {
@@ -19,7 +18,10 @@ namespace UpgradesList.SecondEdition
                     new UpgradeSlot(UpgradeType.Astromech)
                 },
                 forbidSlot: UpgradeType.Crew,
-                restriction: new ShipRestriction(typeof(Ship.SecondEdition.ScurrgH6Bomber.ScurrgH6Bomber)),
+                restrictions: new UpgradeCardRestrictions(
+                    new FactionRestriction(Faction.Scum),
+                    new ShipRestriction(typeof(Ship.SecondEdition.ScurrgH6Bomber.ScurrgH6Bomber))
+                ),
                 seImageNumber: 147
             );
         }        

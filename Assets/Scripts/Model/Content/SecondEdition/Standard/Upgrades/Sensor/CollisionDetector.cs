@@ -1,10 +1,9 @@
-﻿using Ship;
-using Upgrade;
-using ActionsList;
+﻿using Obstacles;
+using Ship;
 using System;
 using System.Collections.Generic;
-using Obstacles;
 using System.Linq;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -15,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Collision Detector",
                 UpgradeType.Sensor,
-                cost: 9,
+                cost: 7,
                 abilityType: typeof(Abilities.SecondEdition.CollisionDetectorAbility),
                 charges: 2,
                 seImageNumber: 24

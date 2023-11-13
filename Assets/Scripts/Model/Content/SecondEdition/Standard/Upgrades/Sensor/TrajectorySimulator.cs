@@ -1,12 +1,12 @@
 ﻿using BoardTools;
+using Bombs;
+using Content;
 using Movement;
+using Remote;
 using System.Collections.Generic;
 using System.Linq;
-using Upgrade;
-using Content;
-using Bombs;
 using UnityEngine;
-using Remote;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Trajectory Simulator",
                 UpgradeType.Sensor,
-                cost: 6,
+                cost: 8,
                 abilityType: typeof(Abilities.SecondEdition.TrajectorySimulatorAbility),
                 seImageNumber: 26,
                 legalityInfo: new List<Legality>

@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "False Transponder Codes",
                 UpgradeType.Illicit,
-                cost: 3,
+                cost: 5,
                 abilityType: typeof(Abilities.SecondEdition.FalseTransponderCodesAbility),
                 charges: 1
             );

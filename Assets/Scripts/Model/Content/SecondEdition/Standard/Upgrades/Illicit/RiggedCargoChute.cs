@@ -18,7 +18,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Rigged Cargo Chute",
                 UpgradeType.Illicit,
-                cost: 4,
+                cost: 3,
                 charges: 1,
                 restriction: new BaseSizeRestriction(BaseSize.Medium, BaseSize.Large), 
                 seImageNumber: 62,

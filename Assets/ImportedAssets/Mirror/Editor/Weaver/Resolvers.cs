@@ -10,51 +10,59 @@ namespace Mirror.Weaver
 {
     public static class Resolvers
     {
-        public static MethodReference ResolveMethod(TypeReference tr, AssemblyDefinition scriptDef, string name)
+        public static MethodReference ResolveMethod(TypeReference tr, AssemblyDefinition assembly, Logger Log, string name, ref bool WeavingFailed)
         {
             if (tr == null)
             {
-                Weaver.Error($"Cannot resolve method {name} without a class");
+                Log.Error($"Cannot resolve method {name} without a class");
+                WeavingFailed = true;
                 return null;
             }
-            MethodReference method = ResolveMethod(tr, scriptDef, m => m.Name == name);
+            MethodReference method = ResolveMethod(tr, assembly, Log, m => m.Name == name, ref WeavingFailed);
             if (method == null)
             {
-                Weaver.Error($"Method not found with name {name} in type {tr.Name}", tr);
+                Log.Error($"Method not found with name {name} in type {tr.Name}", tr);
+                WeavingFailed = true;
             }
             return method;
         }
 
-        public static MethodReference ResolveMethod(TypeReference t, AssemblyDefinition scriptDef, System.Func<MethodDefinition, bool> predicate)
+        public static MethodReference ResolveMethod(TypeReference t, AssemblyDefinition assembly, Logger Log, System.Func<MethodDefinition, bool> predicate, ref bool WeavingFailed)
         {
             foreach (MethodDefinition methodRef in t.Resolve().Methods)
             {
                 if (predicate(methodRef))
                 {
-                    return scriptDef.MainModule.ImportReference(methodRef);
+                    return assembly.MainModule.ImportReference(methodRef);
                 }
             }
 
-            Weaver.Error($"Method not found in type {t.Name}", t);
+            Log.Error($"Method not found in type {t.Name}", t);
+            WeavingFailed = true;
             return null;
         }
 
-        public static MethodReference TryResolveMethodInParents(TypeReference tr, AssemblyDefinition scriptDef, string name)
+        public static MethodReference TryResolveMethodInParents(TypeReference tr, AssemblyDefinition assembly, string name)
         {
             if (tr == null)
             {
                 return null;
             }
-            foreach (MethodDefinition methodRef in tr.Resolve().Methods)
+            foreach (MethodDefinition methodDef in tr.Resolve().Methods)
             {
-                if (methodRef.Name == name)
+                if (methodDef.Name == name)
                 {
-                    return scriptDef.MainModule.ImportReference(methodRef);
+                    MethodReference methodRef = methodDef;
+                    if (tr.IsGenericInstance)
+                    {
+                        methodRef = methodRef.MakeHostInstanceGeneric(tr.Module, (GenericInstanceType)tr);
+                    }
+                    return assembly.MainModule.ImportReference(methodRef);
                 }
             }
 
             // Could not find the method in this class,  try the parent
-            return TryResolveMethodInParents(tr.Resolve().BaseType, scriptDef, name);
+            return TryResolveMethodInParents(tr.Resolve().BaseType.ApplyGenericParameters(tr), assembly, name);
         }
 
         public static MethodDefinition ResolveDefaultPublicCtor(TypeReference variable)
@@ -71,13 +79,13 @@ namespace Mirror.Weaver
             return null;
         }
 
-        public static MethodReference ResolveProperty(TypeReference tr, AssemblyDefinition scriptDef, string name)
+        public static MethodReference ResolveProperty(TypeReference tr, AssemblyDefinition assembly, string name)
         {
             foreach (PropertyDefinition pd in tr.Resolve().Properties)
             {
                 if (pd.Name == name)
                 {
-                    return scriptDef.MainModule.ImportReference(pd.GetMethod);
+                    return assembly.MainModule.ImportReference(pd.GetMethod);
                 }
             }
             return null;

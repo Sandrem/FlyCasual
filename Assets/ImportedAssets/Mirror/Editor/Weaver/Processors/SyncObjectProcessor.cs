@@ -1,154 +1,90 @@
 using System.Collections.Generic;
 using Mono.CecilX;
-using Mono.CecilX.Cil;
 
 namespace Mirror.Weaver
 {
     public static class SyncObjectProcessor
     {
-        /// <summary>
-        /// Finds SyncObjects fields in a type
-        /// <para>Type should be a NetworkBehaviour</para>
-        /// </summary>
-        /// <param name="td"></param>
-        /// <returns></returns>
-        public static List<FieldDefinition> FindSyncObjectsFields(TypeDefinition td)
+        // ulong = 64 bytes
+        const int SyncObjectsLimit = 64;
+
+        // Finds SyncObjects fields in a type
+        // Type should be a NetworkBehaviour
+        public static List<FieldDefinition> FindSyncObjectsFields(Writers writers, Readers readers, Logger Log, TypeDefinition td, ref bool WeavingFailed)
         {
             List<FieldDefinition> syncObjects = new List<FieldDefinition>();
 
             foreach (FieldDefinition fd in td.Fields)
             {
-                if (fd.FieldType.Resolve().ImplementsInterface(WeaverTypes.SyncObjectType))
+                if (fd.FieldType.IsGenericParameter || fd.ContainsGenericParameter)
+                {
+                    // can't call .Resolve on generic ones
+                    continue;
+                }
+
+                if (fd.FieldType.Resolve().IsDerivedFrom<SyncObject>())
                 {
                     if (fd.IsStatic)
                     {
-                        Weaver.Error($"{fd.Name} cannot be static", fd);
+                        Log.Error($"{fd.Name} cannot be static", fd);
+                        WeavingFailed = true;
                         continue;
                     }
 
-                    if (fd.FieldType.Resolve().HasGenericParameters)
+                    // SyncObjects always needs to be readonly to guarantee.
+                    // Weaver calls InitSyncObject on them for dirty bits etc.
+                    // Reassigning at runtime would cause undefined behaviour.
+                    // (C# 'readonly' is called 'initonly' in IL code.)
+                    //
+                    // NOTE: instead of forcing readonly, we could also scan all
+                    //       instructions for SyncObject assignments. this would
+                    //       make unit tests very difficult though.
+                    if (!fd.IsInitOnly)
                     {
-                        Weaver.Error($"Cannot use generic SyncObject {fd.Name} directly in NetworkBehaviour. Create a class and inherit from the generic SyncObject instead", fd);
-                        continue;
+                        // just a warning for now.
+                        // many people might still use non-readonly SyncObjects.
+                        Log.Warning($"{fd.Name} should have a 'readonly' keyword in front of the variable because {typeof(SyncObject)}s always need to be initialized by the Weaver.", fd);
+
+                        // only log, but keep weaving. no need to break projects.
+                        //WeavingFailed = true;
                     }
+
+                    GenerateReadersAndWriters(writers, readers, fd.FieldType, ref WeavingFailed);
 
                     syncObjects.Add(fd);
                 }
+            }
+
+            // SyncObjects dirty mask is 64 bit. can't sync more than 64.
+            if (syncObjects.Count > 64)
+            {
+                Log.Error($"{td.Name} has > {SyncObjectsLimit} SyncObjects (SyncLists etc). Consider refactoring your class into multiple components", td);
+                WeavingFailed = true;
             }
 
 
             return syncObjects;
         }
 
-        /// <summary>
-        /// Generates the serialization and deserialization methods for a specified generic argument
-        /// </summary>
-        /// <param name="td">The type of the class that needs serialization methods</param>
-        /// <param name="itemType">generic argument to serialize</param>
-        /// <param name="mirrorBaseType">the base SyncObject td inherits from</param>
-        /// <param name="serializeMethod">The name of the serialize method</param>
-        /// <param name="deserializeMethod">The name of the deserialize method</param>
-        public static void GenerateSerialization(TypeDefinition td, TypeReference itemType, TypeReference mirrorBaseType, string serializeMethod, string deserializeMethod)
+        // Generates serialization methods for synclists
+        static void GenerateReadersAndWriters(Writers writers, Readers readers, TypeReference tr, ref bool WeavingFailed)
         {
-            Weaver.DLog(td, "SyncObjectProcessor Start item:" + itemType.FullName);
-
-            bool success = GenerateSerialization(serializeMethod, td, itemType, mirrorBaseType);
-            if (Weaver.WeavingFailed)
+            if (tr is GenericInstanceType genericInstance)
             {
-                return;
+                foreach (TypeReference argument in genericInstance.GenericArguments)
+                {
+                    if (!argument.IsGenericParameter)
+                    {
+                        readers.GetReadFunc(argument, ref WeavingFailed);
+                        writers.GetWriteFunc(argument, ref WeavingFailed);
+                    }
+                }
             }
 
-            success |= GenerateDeserialization(deserializeMethod, td, itemType, mirrorBaseType);
-
-            if (success)
-                Weaver.DLog(td, "SyncObjectProcessor Done");
-        }
-
-        // serialization of individual element
-        static bool GenerateSerialization(string methodName, TypeDefinition td, TypeReference itemType, TypeReference mirrorBaseType)
-        {
-            Weaver.DLog(td, "  GenerateSerialization");
-            bool existing = td.HasMethodInBaseType(methodName, mirrorBaseType);
-            if (existing)
-                return true;
-
-
-            // this check needs to happen inside GenerateSerialization because
-            // we need to check if user has made custom function above
-            if (itemType.IsGenericInstance)
+            if (tr != null)
             {
-                Weaver.Error($"Can not create Serialize or Deserialize for generic element in {td.Name}. Override virtual methods with custom Serialize and Deserialize to use {itemType} in SyncList", td);
-                return false;
+                GenerateReadersAndWriters(writers, readers, tr.Resolve().BaseType, ref WeavingFailed);
             }
-
-            MethodDefinition serializeFunc = new MethodDefinition(methodName, MethodAttributes.Public |
-                    MethodAttributes.Virtual |
-                    MethodAttributes.Public |
-                    MethodAttributes.HideBySig,
-                    WeaverTypes.voidType);
-
-            serializeFunc.Parameters.Add(new ParameterDefinition("writer", ParameterAttributes.None, Weaver.CurrentAssembly.MainModule.ImportReference(WeaverTypes.NetworkWriterType)));
-            serializeFunc.Parameters.Add(new ParameterDefinition("item", ParameterAttributes.None, itemType));
-            ILProcessor worker = serializeFunc.Body.GetILProcessor();
-
-            MethodReference writeFunc = Writers.GetWriteFunc(itemType);
-            if (writeFunc != null)
-            {
-                worker.Append(worker.Create(OpCodes.Ldarg_1));
-                worker.Append(worker.Create(OpCodes.Ldarg_2));
-                worker.Append(worker.Create(OpCodes.Call, writeFunc));
-            }
-            else
-            {
-                Weaver.Error($"{td.Name} has sync object generic type {itemType.Name}.  Use a type supported by mirror instead", td);
-                return false;
-            }
-            worker.Append(worker.Create(OpCodes.Ret));
-
-            td.Methods.Add(serializeFunc);
-            return true;
-        }
-
-        static bool GenerateDeserialization(string methodName, TypeDefinition td, TypeReference itemType, TypeReference mirrorBaseType)
-        {
-            Weaver.DLog(td, "  GenerateDeserialization");
-            bool existing = td.HasMethodInBaseType(methodName, mirrorBaseType);
-            if (existing)
-                return true;
-
-            // this check needs to happen inside GenerateDeserialization because
-            // we need to check if user has made custom function above
-            if (itemType.IsGenericInstance)
-            {
-                Weaver.Error($"Can not create Serialize or Deserialize for generic element in {td.Name}. Override virtual methods with custom Serialize and Deserialize to use {itemType.Name} in SyncList", td);
-                return false;
-            }
-
-            MethodDefinition deserializeFunction = new MethodDefinition(methodName, MethodAttributes.Public |
-                    MethodAttributes.Virtual |
-                    MethodAttributes.Public |
-                    MethodAttributes.HideBySig,
-                    itemType);
-
-            deserializeFunction.Parameters.Add(new ParameterDefinition("reader", ParameterAttributes.None, Weaver.CurrentAssembly.MainModule.ImportReference(WeaverTypes.NetworkReaderType)));
-
-            ILProcessor worker = deserializeFunction.Body.GetILProcessor();
-
-            MethodReference readerFunc = Readers.GetReadFunc(itemType);
-            if (readerFunc != null)
-            {
-                worker.Append(worker.Create(OpCodes.Ldarg_1));
-                worker.Append(worker.Create(OpCodes.Call, readerFunc));
-                worker.Append(worker.Create(OpCodes.Ret));
-            }
-            else
-            {
-                Weaver.Error($"{td.Name} has sync object generic type {itemType.Name}.  Use a type supported by mirror instead", td);
-                return false;
-            }
-
-            td.Methods.Add(deserializeFunction);
-            return true;
         }
     }
 }

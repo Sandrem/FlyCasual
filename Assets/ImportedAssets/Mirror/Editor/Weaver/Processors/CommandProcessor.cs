@@ -3,19 +3,18 @@ using Mono.CecilX.Cil;
 
 namespace Mirror.Weaver
 {
-    /// <summary>
-    /// Processes [Command] methods in NetworkBehaviour
-    /// </summary>
+    // Processes [Command] methods in NetworkBehaviour
     public static class CommandProcessor
     {
         /*
             // generates code like:
             public void CmdThrust(float thrusting, int spin)
             {
-                NetworkWriter networkWriter = new NetworkWriter();
-                networkWriter.Write(thrusting);
-                networkWriter.WritePackedUInt32((uint)spin);
-                base.SendCommandInternal(cmdName, networkWriter, cmdName);
+                NetworkWriterPooled writer = NetworkWriterPool.Get();
+                writer.Write(thrusting);
+                writer.WritePackedUInt32((uint)spin);
+                base.SendCommandInternal(cmdName, cmdHash, writer, channel);
+                NetworkWriterPool.Return(writer);
             }
 
             public void CallCmdThrust(float thrusting, int spin)
@@ -31,42 +30,44 @@ namespace Mirror.Weaver
             This way we do not need to modify the code anywhere else,  and this works
             correctly in dependent assemblies
         */
-        public static MethodDefinition ProcessCommandCall(TypeDefinition td, MethodDefinition md, CustomAttribute commandAttr)
+        public static MethodDefinition ProcessCommandCall(WeaverTypes weaverTypes, Writers writers, Logger Log, TypeDefinition td, MethodDefinition md, CustomAttribute commandAttr, ref bool WeavingFailed)
         {
-            MethodDefinition cmd = MethodProcessor.SubstituteMethod(td, md);
+            MethodDefinition cmd = MethodProcessor.SubstituteMethod(Log, td, md, ref WeavingFailed);
 
             ILProcessor worker = md.Body.GetILProcessor();
 
-            NetworkBehaviourProcessor.WriteSetupLocals(worker);
+            NetworkBehaviourProcessor.WriteSetupLocals(worker, weaverTypes);
 
             // NetworkWriter writer = new NetworkWriter();
-            NetworkBehaviourProcessor.WriteCreateWriter(worker);
+            NetworkBehaviourProcessor.WriteGetWriter(worker, weaverTypes);
 
             // write all the arguments that the user passed to the Cmd call
-            if (!NetworkBehaviourProcessor.WriteArguments(worker, md, RemoteCallType.Command))
+            if (!NetworkBehaviourProcessor.WriteArguments(worker, writers, Log, md, RemoteCallType.Command, ref WeavingFailed))
                 return null;
 
-            string cmdName = md.Name;
             int channel = commandAttr.GetField("channel", 0);
-            bool ignoreAuthority = commandAttr.GetField("ignoreAuthority", false);
+            bool requiresAuthority = commandAttr.GetField("requiresAuthority", true);
 
             // invoke internal send and return
             // load 'base.' to call the SendCommand function with
-            worker.Append(worker.Create(OpCodes.Ldarg_0));
-            worker.Append(worker.Create(OpCodes.Ldtoken, td));
-            // invokerClass
-            worker.Append(worker.Create(OpCodes.Call, WeaverTypes.getTypeFromHandleReference));
-            worker.Append(worker.Create(OpCodes.Ldstr, cmdName));
+            worker.Emit(OpCodes.Ldarg_0);
+            // pass full function name to avoid ClassA.Func <-> ClassB.Func collisions
+            worker.Emit(OpCodes.Ldstr, md.FullName);
+            // pass the function hash so we don't have to compute it at runtime
+            // otherwise each GetStableHash call requires O(N) complexity.
+            // noticeable for long function names:
+            // https://github.com/MirrorNetworking/Mirror/issues/3375
+            worker.Emit(OpCodes.Ldc_I4, md.FullName.GetStableHashCode());
             // writer
-            worker.Append(worker.Create(OpCodes.Ldloc_0));
-            worker.Append(worker.Create(OpCodes.Ldc_I4, channel));
-            worker.Append(worker.Create(ignoreAuthority ? OpCodes.Ldc_I4_1 : OpCodes.Ldc_I4_0));
-            worker.Append(worker.Create(OpCodes.Call, WeaverTypes.sendCommandInternal));
+            worker.Emit(OpCodes.Ldloc_0);
+            worker.Emit(OpCodes.Ldc_I4, channel);
+            // requiresAuthority ? 1 : 0
+            worker.Emit(requiresAuthority ? OpCodes.Ldc_I4_1 : OpCodes.Ldc_I4_0);
+            worker.Emit(OpCodes.Call, weaverTypes.sendCommandInternal);
 
-            NetworkBehaviourProcessor.WriteRecycleWriter(worker);
+            NetworkBehaviourProcessor.WriteReturnWriter(worker, weaverTypes);
 
-            worker.Append(worker.Create(OpCodes.Ret));
-
+            worker.Emit(OpCodes.Ret);
             return cmd;
         }
 
@@ -81,31 +82,33 @@ namespace Mirror.Weaver
                 ((ShipControl)obj).CmdThrust(reader.ReadSingle(), (int)reader.ReadPackedUInt32());
             }
         */
-        public static MethodDefinition ProcessCommandInvoke(TypeDefinition td, MethodDefinition method, MethodDefinition cmdCallFunc)
+        public static MethodDefinition ProcessCommandInvoke(WeaverTypes weaverTypes, Readers readers, Logger Log, TypeDefinition td, MethodDefinition method, MethodDefinition cmdCallFunc, ref bool WeavingFailed)
         {
-            MethodDefinition cmd = new MethodDefinition(Weaver.InvokeRpcPrefix + method.Name,
+            string cmdName = Weaver.GenerateMethodName(Weaver.InvokeRpcPrefix, method);
+
+            MethodDefinition cmd = new MethodDefinition(cmdName,
                 MethodAttributes.Family | MethodAttributes.Static | MethodAttributes.HideBySig,
-                WeaverTypes.voidType);
+                weaverTypes.Import(typeof(void)));
 
             ILProcessor worker = cmd.Body.GetILProcessor();
             Instruction label = worker.Create(OpCodes.Nop);
 
-            NetworkBehaviourProcessor.WriteServerActiveCheck(worker, method.Name, label, "Command");
+            NetworkBehaviourProcessor.WriteServerActiveCheck(worker, weaverTypes, method.Name, label, "Command");
 
             // setup for reader
-            worker.Append(worker.Create(OpCodes.Ldarg_0));
-            worker.Append(worker.Create(OpCodes.Castclass, td));
+            worker.Emit(OpCodes.Ldarg_0);
+            worker.Emit(OpCodes.Castclass, td);
 
-            if (!NetworkBehaviourProcessor.ReadArguments(method, worker, RemoteCallType.Command))
+            if (!NetworkBehaviourProcessor.ReadArguments(method, readers, Log, worker, RemoteCallType.Command, ref WeavingFailed))
                 return null;
 
             AddSenderConnection(method, worker);
 
             // invoke actual command function
-            worker.Append(worker.Create(OpCodes.Callvirt, cmdCallFunc));
-            worker.Append(worker.Create(OpCodes.Ret));
+            worker.Emit(OpCodes.Callvirt, cmdCallFunc);
+            worker.Emit(OpCodes.Ret);
 
-            NetworkBehaviourProcessor.AddInvokeParameters(cmd.Parameters);
+            NetworkBehaviourProcessor.AddInvokeParameters(weaverTypes, cmd.Parameters);
 
             td.Methods.Add(cmd);
             return cmd;
@@ -118,8 +121,8 @@ namespace Mirror.Weaver
                 if (NetworkBehaviourProcessor.IsSenderConnection(param, RemoteCallType.Command))
                 {
                     // NetworkConnection is 3nd arg (arg0 is "obj" not "this" because method is static)
-                    // exmaple: static void InvokeCmdCmdSendCommand(NetworkBehaviour obj, NetworkReader reader, NetworkConnection connection)
-                    worker.Append(worker.Create(OpCodes.Ldarg_2));
+                    // example: static void InvokeCmdCmdSendCommand(NetworkBehaviour obj, NetworkReader reader, NetworkConnection connection)
+                    worker.Emit(OpCodes.Ldarg_2);
                 }
             }
         }

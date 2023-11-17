@@ -9,20 +9,15 @@ namespace Mirror
     public class NetworkManagerEditor : Editor
     {
         SerializedProperty spawnListProperty;
-
         ReorderableList spawnList;
-
         protected NetworkManager networkManager;
 
         protected void Init()
         {
             if (spawnList == null)
             {
-
                 networkManager = target as NetworkManager;
-
                 spawnListProperty = serializedObject.FindProperty("spawnPrefabs");
-
                 spawnList = new ReorderableList(serializedObject, spawnListProperty)
                 {
                     drawHeaderCallback = DrawHeader,
@@ -67,7 +62,7 @@ namespace Mirror
             else
             {
                 NetworkIdentity identity = go.GetComponent<NetworkIdentity>();
-                label = new GUIContent(go.name, identity != null ? "AssetId: [" + identity.assetId + "]" : "No Network Identity");
+                label = new GUIContent(go.name, identity != null ? $"AssetId: [{identity.assetId}]" : "No Network Identity");
             }
 
             GameObject newGameObject = (GameObject)EditorGUI.ObjectField(r, label, go, typeof(GameObject), false);
@@ -76,7 +71,7 @@ namespace Mirror
             {
                 if (newGameObject != null && !newGameObject.GetComponent<NetworkIdentity>())
                 {
-                    Debug.LogError("Prefab " + newGameObject + " cannot be added as spawnable as it doesn't have a NetworkIdentity.");
+                    Debug.LogError($"Prefab {newGameObject} cannot be added as spawnable as it doesn't have a NetworkIdentity.");
                     return;
                 }
                 prefab.objectReferenceValue = newGameObject;

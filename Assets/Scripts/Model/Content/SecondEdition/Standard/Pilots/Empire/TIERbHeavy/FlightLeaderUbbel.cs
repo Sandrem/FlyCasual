@@ -67,6 +67,7 @@ namespace Abilities.SecondEdition
             if (Tools.IsSameTeam(ship, HostShip)
                 && Board.IsShipBetweenRange(HostShip, ship, 0, 3)
                 && Tools.IsSameShip(ship, Combat.Defender)
+                && (Combat.Defender != null)
                 && !IsAlreadyRegistered
             )
             {

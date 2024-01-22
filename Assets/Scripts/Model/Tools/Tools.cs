@@ -78,6 +78,7 @@ public static partial class Tools
 
     public static bool IsSameShip(GenericShip ship1, GenericShip ship2)
     {
+        if (ship1 is null || ship2 is null) return false;
         return ship1.ShipId == ship2.ShipId;
     }
 

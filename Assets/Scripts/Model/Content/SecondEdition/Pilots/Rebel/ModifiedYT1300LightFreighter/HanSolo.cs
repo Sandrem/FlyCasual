@@ -19,7 +19,7 @@ namespace Ship
                     Faction.Rebel,
                     6,
                     7,
-                    20,
+                    15,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HanSoloRebelPilotAbility),
                     charges: 1,

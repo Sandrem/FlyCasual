@@ -23,13 +23,9 @@ namespace Ship
                     abilityType: typeof(PopsKrailBoYAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent,
                         UpgradeType.Turret,
                         UpgradeType.Torpedo,
-                        UpgradeType.Astromech,
-                        UpgradeType.Device,
-                        UpgradeType.Missile,
-                        UpgradeType.Modification
+                        UpgradeType.Astromech
                     },
                     tags: new List<Tags>
                     {

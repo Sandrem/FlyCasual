@@ -20,7 +20,7 @@ namespace Ship
                     Faction.Rebel,
                     3,
                     3,
-                    8,
+                    7,
                     force: 1,
                     regensForce: 0,
                     isLimited: true,

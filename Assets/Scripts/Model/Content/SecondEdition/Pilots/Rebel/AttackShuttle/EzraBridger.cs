@@ -22,11 +22,6 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.EzraBridgerPilotAbility),
                     force: 1,
-                    tags: new List<Tags>
-                    {
-                        Tags.Spectre,
-                        Tags.LightSide
-                    },
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.ForcePower,
@@ -36,6 +31,11 @@ namespace Ship
                         UpgradeType.Title
                     },
                     seImageNumber: 36,
+                    tags: new List<Tags>
+                    {
+                        Tags.LightSide,
+                        Tags.Spectre                        
+                    },
                     legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }

@@ -22,11 +22,6 @@ namespace Ship
                     6,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SabineWrenPilotAbility),
-                    tags: new List<Tags>
-                    {
-                        Tags.Mandalorian,
-                        Tags.Spectre
-                    },
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
@@ -36,6 +31,11 @@ namespace Ship
                         UpgradeType.Title
                     },
                     seImageNumber: 36,
+                    tags: new List<Tags>
+                    {
+                        Tags.Mandalorian,
+                        Tags.Spectre
+                    },
                     legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }

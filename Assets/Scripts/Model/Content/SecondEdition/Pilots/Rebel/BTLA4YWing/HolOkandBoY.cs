@@ -29,7 +29,6 @@ namespace Ship
                     abilityType: typeof(HolOkandBoYAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent,
                         UpgradeType.Turret,
                         UpgradeType.Torpedo,
                         UpgradeType.Astromech

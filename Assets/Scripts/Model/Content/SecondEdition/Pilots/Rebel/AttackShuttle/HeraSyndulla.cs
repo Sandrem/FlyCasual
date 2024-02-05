@@ -20,10 +20,6 @@ namespace Ship
                     9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HeraSyndullaAbility),
-                    tags: new List<Tags>
-                    {
-                        Tags.Spectre
-                    },
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
@@ -33,6 +29,10 @@ namespace Ship
                         UpgradeType.Title
                     },
                     seImageNumber: 34,
+                    tags: new List<Tags>
+                    {
+                        Tags.Spectre
+                    },
                     legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }

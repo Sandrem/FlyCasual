@@ -20,7 +20,7 @@ namespace Ship
                     Faction.Rebel,
                     4,
                     4,
-                    9,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.BodicaVenjAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

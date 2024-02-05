@@ -28,7 +28,6 @@ namespace Ship
                     abilityType: typeof(DutchVanderBoYAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent,
                         UpgradeType.Turret,
                         UpgradeType.Torpedo,
                         UpgradeType.Astromech

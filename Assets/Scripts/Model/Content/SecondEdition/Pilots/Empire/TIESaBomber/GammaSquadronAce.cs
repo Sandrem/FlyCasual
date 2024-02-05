@@ -17,11 +17,7 @@ namespace Ship
                     Faction.Imperial,
                     3,
                     4,
-                    10,
-                    tags: new List<Tags>
-                    {
-                        Tags.Tie
-                    },
+                    8,
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Torpedo,
@@ -31,6 +27,10 @@ namespace Ship
                         UpgradeType.Modification
                     },
                     seImageNumber: 111,
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
                     legality: new List<Legality>() { Legality.StandardLegal, Legality.ExtendedLegal }
                 );
 

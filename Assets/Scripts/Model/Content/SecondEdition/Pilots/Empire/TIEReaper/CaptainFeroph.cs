@@ -20,7 +20,7 @@ namespace Ship
                     Faction.Imperial,
                     3,
                     4,
-                    6,
+                    5,
                     isLimited: true,
                     abilityType: typeof(CaptainFerophAbility),
                     extraUpgradeIcons: new List<UpgradeType>

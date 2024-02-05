@@ -18,10 +18,6 @@ namespace Ship
                     2,
                     4,
                     6,
-                    tags: new List<Tags>
-                    {
-                        Tags.Tie
-                    },
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Missile,
@@ -31,6 +27,10 @@ namespace Ship
                         UpgradeType.Modification
                     },
                     seImageNumber: 112,
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
                     legality: new List<Legality>() { Legality.StandardLegal, Legality.ExtendedLegal }
                 );
             }

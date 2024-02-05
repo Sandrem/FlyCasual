@@ -18,13 +18,9 @@ namespace Ship
                     Faction.Imperial,
                     4,
                     3,
-                    12,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MajorRhymerAbility),
-                    tags: new List<Tags>
-                    {
-                        Tags.Tie
-                    },
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
@@ -36,6 +32,10 @@ namespace Ship
                         UpgradeType.Modification
                     },
                     seImageNumber: 109,
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
                     legality: new List<Legality>() { Legality.StandardLegal, Legality.ExtendedLegal }
                 );
             }

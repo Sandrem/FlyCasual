@@ -20,13 +20,9 @@ namespace Ship
                     Faction.Imperial,
                     5,
                     3,
-                    10,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TomaxBrenAbility),
-                    tags: new List<Tags>
-                    {
-                        Tags.Tie
-                    },
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
@@ -39,6 +35,10 @@ namespace Ship
                         UpgradeType.Modification
                     },
                     seImageNumber: 107,
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
                     legality: new List<Legality>() { Legality.StandardLegal, Legality.ExtendedLegal }
                 );
 

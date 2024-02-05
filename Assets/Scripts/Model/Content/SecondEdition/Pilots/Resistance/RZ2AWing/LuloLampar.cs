@@ -18,7 +18,7 @@ namespace Ship
                     Faction.Resistance,
                     5,
                     4,
-                    12,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LuloLamparAbility),
                     extraUpgradeIcons: new List<UpgradeType>

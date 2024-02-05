@@ -21,7 +21,7 @@ namespace Ship
                     Faction.Resistance,
                     3,
                     4,
-                    7,
+                    6,
                     isLimited: true,
                     charges: 1,
                     regensCharges: 1,

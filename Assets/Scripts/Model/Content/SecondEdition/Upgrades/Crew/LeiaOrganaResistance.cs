@@ -34,8 +34,8 @@ namespace UpgradesList.SecondEdition
 
             Avatar = new AvatarInfo(
                 Faction.Resistance,
-                new Vector2(298, 1),
-                new Vector2(125, 125)
+                new Vector2(500, 1),
+                new Vector2(150, 150)
             );
         }        
     }

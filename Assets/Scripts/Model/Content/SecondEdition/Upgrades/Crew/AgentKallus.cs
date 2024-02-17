@@ -24,7 +24,7 @@ namespace UpgradesList.SecondEdition
 
             Avatar = new AvatarInfo(
                 Faction.Imperial,
-                new Vector2(409, 15),
+                new Vector2(290, 10),
                 new Vector2(125, 125)
             );
         }        

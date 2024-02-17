@@ -21,7 +21,8 @@ namespace UpgradesList.SecondEdition
 
             Avatar = new AvatarInfo(
                 Faction.Rebel,
-                new Vector2(391, 9)
+                new Vector2(450, 5),
+                new Vector2(150, 150)
             );
         }        
     }

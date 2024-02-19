@@ -39,7 +39,7 @@ namespace Ship
                     new ShipUpgradesInfo()
                 );
 
-                DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.ServomotorSFoilsAttack));
+                DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.ServomotorSFoilsClosed));
 
                 ModelInfo = new ShipModelInfo(
                     "X-wing",

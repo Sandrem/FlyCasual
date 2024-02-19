@@ -38,7 +38,7 @@ namespace Ship
                     new ShipUpgradesInfo()
                 );
 
-                DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.IntegratedSFoilsOpen));
+                DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.IntegratedSFoilsClosed));
 
                 ShipAbilities.Add(new Abilities.SecondEdition.HardPointAbility());
 

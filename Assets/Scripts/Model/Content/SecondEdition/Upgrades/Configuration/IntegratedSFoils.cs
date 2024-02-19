@@ -12,8 +12,8 @@ namespace UpgradesList.SecondEdition
     {
         public IntegratedSFoilsClosed() : base()
         {
-            IsHidden = true;
             NameCanonical = "integratedsfoils";
+            AnotherSide = typeof(IntegratedSFoilsOpen);
 
             UpgradeInfo = new UpgradeCardInfo(
                 "Integrated S-Foils (Closed)",
@@ -24,9 +24,6 @@ namespace UpgradesList.SecondEdition
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.T70XWing.T70XWing)),
                 abilityType: typeof(Abilities.SecondEdition.IntegratedSFoilsClosedAbility)
             );
-
-            IsSecondSide = true;
-            AnotherSide = typeof(IntegratedSFoilsOpen);
         }
     }
 
@@ -34,7 +31,10 @@ namespace UpgradesList.SecondEdition
     {
         public IntegratedSFoilsOpen() : base()
         {
+            IsHidden = true;
             NameCanonical = "integratedsfoils-sideb";
+            IsSecondSide = true;
+            AnotherSide = typeof(IntegratedSFoilsClosed);
 
             UpgradeInfo = new UpgradeCardInfo(
                 "Integrated S-Foils (Open)",
@@ -43,8 +43,6 @@ namespace UpgradesList.SecondEdition
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.T70XWing.T70XWing)),
                 abilityType: typeof(Abilities.SecondEdition.IntegratedSFoilsOpenAbility)
             );
-
-            AnotherSide = typeof(IntegratedSFoilsClosed);
         }
     }
 }

@@ -12,7 +12,8 @@ namespace UpgradesList.SecondEdition
     {
         public ServomotorSFoilsClosed() : base()
         {
-            IsHidden = true;
+            NameCanonical = "servomotorsfoils";
+            AnotherSide = typeof(ServomotorSFoilsAttack);
 
             UpgradeInfo = new UpgradeCardInfo(
                 "Servomotor S-Foils (Closed)",
@@ -24,9 +25,6 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.ServomotorSFoilsClosedAbility),
                 seImageNumber: 108
             );
-
-            IsSecondSide = true;
-            AnotherSide = typeof(ServomotorSFoilsAttack);
         }
     }
 
@@ -34,6 +32,11 @@ namespace UpgradesList.SecondEdition
     {
         public ServomotorSFoilsAttack() : base()
         {
+            IsHidden = true;
+            NameCanonical = "servomotorsfoils-sideb";
+            IsSecondSide = true;
+            AnotherSide = typeof(ServomotorSFoilsClosed);
+
             UpgradeInfo = new UpgradeCardInfo(
                 "Servomotor S-Foils (Open)",
                 UpgradeType.Configuration,
@@ -41,12 +44,8 @@ namespace UpgradesList.SecondEdition
                 addPotentialAction: new ActionInfo(typeof(BoostAction)),
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.T65XWing.T65XWing)),
                 abilityType: typeof(Abilities.SecondEdition.ServomotorSFoilsAttackAbility),
-                seImageNumber: 108
+                seImageNumber: 197
             );
-
-            NameCanonical = "servomotorsfoils-sideb";
-
-            AnotherSide = typeof(ServomotorSFoilsClosed);
         }
     }
 }

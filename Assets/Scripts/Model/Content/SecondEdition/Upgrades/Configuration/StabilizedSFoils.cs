@@ -17,6 +17,8 @@ namespace UpgradesList.SecondEdition
         {
             IsHidden = true;
             NameCanonical = "stabilizedsfoils-anotherside";
+            IsSecondSide = true;
+            AnotherSide = typeof(StabilizedSFoilsOpen);
 
             UpgradeInfo = new UpgradeCardInfo(
                 "Stabilized S-Foils (Closed)",
@@ -27,10 +29,6 @@ namespace UpgradesList.SecondEdition
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.ASF01BWing.ASF01BWing)),
                 abilityType: typeof(Abilities.SecondEdition.StabilizedSFoilsClosedAbility)
             );
-
-            IsSecondSide = true;
-            AnotherSide = typeof(StabilizedSFoilsOpen);
-
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/52/d5/52d52e74-c744-40b7-ad74-c98bcb04016c/swz66_stabilized-s-foils-closed.png";
         }
     }
@@ -39,6 +37,9 @@ namespace UpgradesList.SecondEdition
     {
         public StabilizedSFoilsOpen() : base()
         {
+            NameCanonical = "stabilizedsfoils";
+            AnotherSide = typeof(StabilizedSFoilsClosed);
+
             UpgradeInfo = new UpgradeCardInfo(
                 "Stabilized S-Foils (Open)",
                 UpgradeType.Configuration,
@@ -47,9 +48,6 @@ namespace UpgradesList.SecondEdition
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.ASF01BWing.ASF01BWing)),
                 abilityType: typeof(Abilities.SecondEdition.StabilizedSFoilsOpenAbility)
             );
-
-            AnotherSide = typeof(StabilizedSFoilsClosed);
-
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/64/9d/649d6f6e-8cba-404f-a00f-9a36a0076e34/swz66_stabilized-s-foils-open.png";
         }
     }

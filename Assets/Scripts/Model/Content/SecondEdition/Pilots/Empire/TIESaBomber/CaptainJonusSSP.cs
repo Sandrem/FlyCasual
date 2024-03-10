@@ -21,7 +21,7 @@ namespace Ship
                     Faction.Imperial,
                     4,
                     4,
-                    10,
+                    0,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaptainJonusSSPAbility),
                     tags: new List<Tags>

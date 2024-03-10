@@ -31,7 +31,6 @@ namespace Ship
                         UpgradeType.Missile,
                         UpgradeType.Device
                     },
-                    seImageNumber: 107,
                     tags: new List<Tags>
                     {
                         Tags.Tie

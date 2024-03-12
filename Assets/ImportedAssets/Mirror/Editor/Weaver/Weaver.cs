@@ -1,124 +1,82 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Diagnostics;
 using Mono.CecilX;
 using Mono.CecilX.Cil;
+using Mono.CecilX.Rocks;
 
 namespace Mirror.Weaver
 {
-    // This data is flushed each time - if we are run multiple times in the same process/domain
-    class WeaverLists
+    // not static, because ILPostProcessor is multithreaded
+    internal class Weaver
     {
-        // setter functions that replace [SyncVar] member variable references. dict<field, replacement>
-        public Dictionary<FieldDefinition, MethodDefinition> replacementSetterProperties = new Dictionary<FieldDefinition, MethodDefinition>();
-        // getter functions that replace [SyncVar] member variable references. dict<field, replacement>
-        public Dictionary<FieldDefinition, MethodDefinition> replacementGetterProperties = new Dictionary<FieldDefinition, MethodDefinition>();
+        public const string InvokeRpcPrefix = "InvokeUserCode_";
 
-        // [SyncEvent] invoke functions that should be replaced. dict<originalEventName, replacement>
-        public Dictionary<string, MethodDefinition> replaceEvents = new Dictionary<string, MethodDefinition>();
+        // generated code class
+        public const string GeneratedCodeNamespace = "Mirror";
+        public const string GeneratedCodeClassName = "GeneratedNetworkCode";
+        TypeDefinition GeneratedCodeClass;
 
-        public List<MethodDefinition> generatedReadFunctions = new List<MethodDefinition>();
-        public List<MethodDefinition> generatedWriteFunctions = new List<MethodDefinition>();
+        // for resolving Mirror.dll in ReaderWriterProcessor, we need to know
+        // Mirror.dll name
+        public const string MirrorAssemblyName = "Mirror";
 
-        public TypeDefinition generateContainerClass;
+        WeaverTypes weaverTypes;
+        SyncVarAccessLists syncVarAccessLists;
+        AssemblyDefinition CurrentAssembly;
+        Writers writers;
+        Readers readers;
 
-        // amount of SyncVars per class. dict<className, amount>
-        public Dictionary<string, int> numSyncVars = new Dictionary<string, int>();
+        // in case of weaver errors, we don't stop immediately.
+        // we log all errors and then eventually return false if
+        // weaving has failed.
+        // this way the user can fix multiple errors at once, instead of having
+        // to fix -> recompile -> fix -> recompile for one error at a time.
+        bool WeavingFailed;
 
-        public HashSet<string> ProcessedMessages = new HashSet<string>();
-    }
+        // logger functions can be set from the outside.
+        // for example, Debug.Log or ILPostProcessor Diagnostics log for
+        // multi threaded logging.
+        public Logger Log;
 
-    internal static class Weaver
-    {
-        public static string InvokeRpcPrefix => "InvokeUserCode_";
-        public static string SyncEventPrefix => "SendEventMessage_";
-
-        public static WeaverLists WeaveLists { get; private set; }
-        public static AssemblyDefinition CurrentAssembly { get; private set; }
-        public static bool WeavingFailed { get; private set; }
-        public static bool GenerateLogErrors { get; set; }
-
-        // private properties
-        static readonly bool DebugLogEnabled = true;
-
-        public static void DLog(TypeDefinition td, string fmt, params object[] args)
+        // remote actions now support overloads,
+        // -> but IL2CPP doesnt like it when two generated methods
+        // -> have the same signature,
+        // -> so, append the signature to the generated method name,
+        // -> to create a unique name
+        // Example:
+        // RpcTeleport(Vector3 position) -> InvokeUserCode_RpcTeleport__Vector3()
+        // RpcTeleport(Vector3 position, Quaternion rotation) -> InvokeUserCode_RpcTeleport__Vector3Quaternion()
+        // fixes https://github.com/vis2k/Mirror/issues/3060
+        public static string GenerateMethodName(string initialPrefix, MethodDefinition md)
         {
-            if (!DebugLogEnabled)
-                return;
+            initialPrefix += md.Name;
 
-            Console.WriteLine("[" + td.Name + "] " + string.Format(fmt, args));
-        }
-
-        // display weaver error
-        // and mark process as failed
-        public static void Error(string message)
-        {
-            Log.Error(message);
-            WeavingFailed = true;
-        }
-
-        public static void Error(string message, MemberReference mr)
-        {
-            Log.Error($"{message} (at {mr})");
-            WeavingFailed = true;
-        }
-
-        public static void Warning(string message, MemberReference mr)
-        {
-            Log.Warning($"{message} (at {mr})");
-        }
-
-        public static int GetSyncVarStart(string className)
-        {
-            return WeaveLists.numSyncVars.ContainsKey(className)
-                   ? WeaveLists.numSyncVars[className]
-                   : 0;
-        }
-
-        public static void SetNumSyncVars(string className, int num)
-        {
-            WeaveLists.numSyncVars[className] = num;
-        }
-
-        internal static void ConfirmGeneratedCodeClass()
-        {
-            if (WeaveLists.generateContainerClass == null)
+            for (int i = 0; i < md.Parameters.Count; ++i)
             {
-                WeaveLists.generateContainerClass = new TypeDefinition("Mirror", "GeneratedNetworkCode",
-                        TypeAttributes.BeforeFieldInit | TypeAttributes.Class | TypeAttributes.AnsiClass | TypeAttributes.Public | TypeAttributes.AutoClass,
-                        WeaverTypes.objectType);
-
-                const MethodAttributes methodAttributes = MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName;
-                MethodDefinition method = new MethodDefinition(".ctor", methodAttributes, WeaverTypes.voidType);
-                method.Body.Instructions.Add(Instruction.Create(OpCodes.Ldarg_0));
-                method.Body.Instructions.Add(Instruction.Create(OpCodes.Call, Resolvers.ResolveMethod(WeaverTypes.objectType, CurrentAssembly, ".ctor")));
-                method.Body.Instructions.Add(Instruction.Create(OpCodes.Ret));
-
-                WeaveLists.generateContainerClass.Methods.Add(method);
+                // with __ so it's more obvious that this is the parameter suffix.
+                // otherwise RpcTest(int) => RpcTestInt(int) which is not obvious.
+                initialPrefix += $"__{md.Parameters[i].ParameterType.Name}";
             }
+
+            return initialPrefix;
         }
 
-        public static bool IsNetworkBehaviour(TypeDefinition td)
+        public Weaver(Logger Log)
         {
-            return td.IsDerivedFrom(WeaverTypes.NetworkBehaviourType);
+            this.Log = Log;
         }
 
-        static void CheckMonoBehaviour(TypeDefinition td)
-        {
-            if (td.IsDerivedFrom(WeaverTypes.MonoBehaviourType))
-            {
-                MonoBehaviourProcessor.Process(td);
-            }
-        }
-
-        static bool WeaveNetworkBehavior(TypeDefinition td)
+        // returns 'true' if modified (=if we did anything)
+        bool WeaveNetworkBehavior(TypeDefinition td)
         {
             if (!td.IsClass)
                 return false;
 
-            if (!IsNetworkBehaviour(td))
+            if (!td.IsDerivedFrom<NetworkBehaviour>())
             {
-                CheckMonoBehaviour(td);
+                if (td.IsDerivedFrom<UnityEngine.MonoBehaviour>())
+                    MonoBehaviourProcessor.Process(Log, td, ref WeavingFailed);
                 return false;
             }
 
@@ -129,7 +87,7 @@ namespace Mirror.Weaver
             TypeDefinition parent = td;
             while (parent != null)
             {
-                if (parent.FullName == WeaverTypes.NetworkBehaviourType.FullName)
+                if (parent.Is<NetworkBehaviour>())
                 {
                     break;
                 }
@@ -150,164 +108,126 @@ namespace Mirror.Weaver
             bool modified = false;
             foreach (TypeDefinition behaviour in behaviourClasses)
             {
-                modified |= new NetworkBehaviourProcessor(behaviour).Process();
+                modified |= new NetworkBehaviourProcessor(CurrentAssembly, weaverTypes, syncVarAccessLists, writers, readers, Log, behaviour).Process(ref WeavingFailed);
             }
             return modified;
         }
 
-        static bool WeaveMessage(TypeDefinition td)
-        {
-            if (!td.IsClass)
-                return false;
-
-            // already processed
-            if (WeaveLists.ProcessedMessages.Contains(td.FullName))
-                return false;
-
-            bool modified = false;
-
-            if (td.ImplementsInterface(WeaverTypes.IMessageBaseType))
-            {
-                // process this and base classes from parent to child order
-                try
-                {
-                    TypeDefinition parent = td.BaseType.Resolve();
-                    // process parent
-                    WeaveMessage(parent);
-                }
-                catch (AssemblyResolutionException)
-                {
-                    // this can happen for plugins.
-                    //Console.WriteLine("AssemblyResolutionException: "+ ex.ToString());
-                }
-
-                // process this
-                MessageClassProcessor.Process(td);
-                WeaveLists.ProcessedMessages.Add(td.FullName);
-                modified = true;
-            }
-
-            // check for embedded types
-            // inner classes should be processed after outter class to avoid StackOverflowException
-            foreach (TypeDefinition embedded in td.NestedTypes)
-            {
-                modified |= WeaveMessage(embedded);
-            }
-
-            return modified;
-        }
-
-        static bool WeaveSyncObject(TypeDefinition td)
+        bool WeaveModule(ModuleDefinition moduleDefinition)
         {
             bool modified = false;
 
-            // ignore generic classes
-            // we can not process generic classes
-            // we give error if a generic syncObject is used in NetworkBehaviour
-            if (td.HasGenericParameters)
-                return false;
+            Stopwatch watch = Stopwatch.StartNew();
+            watch.Start();
 
-            // ignore abstract classes
-            // we dont need to process abstract classes because classes that
-            // inherit from them will be processed instead
-
-            // We cant early return with non classes or Abstract classes
-            // because we still need to check for embeded types
-            if (td.IsClass || !td.IsAbstract)
+            // ModuleDefinition.Types only finds top level types.
+            // GetAllTypes recursively finds all nested types as well.
+            // fixes nested types not being weaved, for example:
+            //     class Parent {              // ModuleDefinition.Types finds this
+            //         class Child {           // .Types.NestedTypes finds this
+            //             class GrandChild {} // only GetAllTypes finds this too
+            //         }
+            //     }
+            // note this is not about inheritance, only about type definitions.
+            // see test: NetworkBehaviourTests.DeeplyNested()
+            foreach (TypeDefinition td in moduleDefinition.GetAllTypes())
             {
-                if (td.IsDerivedFrom(WeaverTypes.SyncListType))
+                if (td.IsClass && td.BaseType.CanBeResolved())
                 {
-                    SyncListProcessor.Process(td, WeaverTypes.SyncListType);
-                    modified = true;
-                }
-                else if (td.IsDerivedFrom(WeaverTypes.SyncSetType))
-                {
-                    SyncListProcessor.Process(td, WeaverTypes.SyncSetType);
-                    modified = true;
-                }
-                else if (td.IsDerivedFrom(WeaverTypes.SyncDictionaryType))
-                {
-                    SyncDictionaryProcessor.Process(td);
-                    modified = true;
+                    modified |= WeaveNetworkBehavior(td);
+                    modified |= ServerClientAttributeProcessor.Process(weaverTypes, Log, td, ref WeavingFailed);
                 }
             }
 
-            // check for embedded types
-            foreach (TypeDefinition embedded in td.NestedTypes)
-            {
-                modified |= WeaveSyncObject(embedded);
-            }
+            watch.Stop();
+            Console.WriteLine($"Weave behaviours and messages took {watch.ElapsedMilliseconds} milliseconds");
 
             return modified;
         }
 
-        static bool WeaveModule(ModuleDefinition moduleDefinition)
+        void CreateGeneratedCodeClass()
         {
+            // create "Mirror.GeneratedNetworkCode" class which holds all
+            // Readers<T> and Writers<T>
+            GeneratedCodeClass = new TypeDefinition(GeneratedCodeNamespace, GeneratedCodeClassName,
+                TypeAttributes.BeforeFieldInit | TypeAttributes.Class | TypeAttributes.AnsiClass | TypeAttributes.Public | TypeAttributes.AutoClass | TypeAttributes.Abstract | TypeAttributes.Sealed,
+                weaverTypes.Import<object>());
+        }
+
+        void ToggleWeaverFuse()
+        {
+            // // find Weaved() function
+            MethodDefinition func = weaverTypes.weaverFuseMethod.Resolve();
+            // // change return 0 to return 1
+
+            ILProcessor worker = func.Body.GetILProcessor();
+            func.Body.Instructions[0] = worker.Create(OpCodes.Ldc_I4_1);
+        }
+
+        // Weave takes an AssemblyDefinition to be compatible with both old and
+        // new weavers:
+        // * old takes a filepath, new takes a in-memory byte[]
+        // * old uses DefaultAssemblyResolver with added dependencies paths,
+        //   new uses ...?
+        //
+        // => assembly: the one we are currently weaving (MyGame.dll)
+        // => resolver: useful in case we need to resolve any of the assembly's
+        //              assembly.MainModule.AssemblyReferences.
+        //              -> we can resolve ANY of them given that the resolver
+        //                 works properly (need custom one for ILPostProcessor)
+        //              -> IMPORTANT: .Resolve() takes an AssemblyNameReference.
+        //                 those from assembly.MainModule.AssemblyReferences are
+        //                 guaranteed to be resolve-able.
+        //                 Parsing from a string for Library/.../Mirror.dll
+        //                 would not be guaranteed to be resolve-able because
+        //                 for ILPostProcessor we can't assume where Mirror.dll
+        //                 is etc.
+        public bool Weave(AssemblyDefinition assembly, IAssemblyResolver resolver, out bool modified)
+        {
+            WeavingFailed = false;
+            modified = false;
             try
             {
-                bool modified = false;
+                CurrentAssembly = assembly;
 
-                // We need to do 2 passes, because SyncListStructs might be referenced from other modules, so we must make sure we generate them first.
-                System.Diagnostics.Stopwatch watch = System.Diagnostics.Stopwatch.StartNew();
-                foreach (TypeDefinition td in moduleDefinition.Types)
+                // fix "No writer found for ..." error
+                // https://github.com/vis2k/Mirror/issues/2579
+                // -> when restarting Unity, weaver would try to weave a DLL
+                //    again
+                // -> resulting in two GeneratedNetworkCode classes (see ILSpy)
+                // -> the second one wouldn't have all the writer types setup
+                if (CurrentAssembly.MainModule.ContainsClass(GeneratedCodeNamespace, GeneratedCodeClassName))
                 {
-                    if (td.IsClass && td.BaseType.CanBeResolved())
-                    {
-                        modified |= WeaveSyncObject(td);
-                    }
-                }
-                watch.Stop();
-                Console.WriteLine("Weave sync objects took " + watch.ElapsedMilliseconds + " milliseconds");
-
-                watch.Start();
-                foreach (TypeDefinition td in moduleDefinition.Types)
-                {
-                    if (td.IsClass && td.BaseType.CanBeResolved())
-                    {
-                        modified |= WeaveNetworkBehavior(td);
-                        modified |= WeaveMessage(td);
-                        modified |= ServerClientAttributeProcessor.Process(td);
-                    }
-                }
-                watch.Stop();
-                Console.WriteLine("Weave behaviours and messages took" + watch.ElapsedMilliseconds + " milliseconds");
-
-                return modified;
-            }
-            catch (Exception ex)
-            {
-                Error(ex.ToString());
-                throw new Exception(ex.Message, ex);
-            }
-        }
-
-        static bool Weave(string assName, AssemblyDefinition unityAssembly, AssemblyDefinition mirrorAssembly, IEnumerable<string> dependencies, string unityEngineDLLPath, string mirrorNetDLLPath, string outputDir)
-        {
-            using (DefaultAssemblyResolver asmResolver = new DefaultAssemblyResolver())
-            using (CurrentAssembly = AssemblyDefinition.ReadAssembly(assName, new ReaderParameters { ReadWrite = true, ReadSymbols = true, AssemblyResolver = asmResolver }))
-            {
-                asmResolver.AddSearchDirectory(Path.GetDirectoryName(assName));
-                asmResolver.AddSearchDirectory(Helpers.UnityEngineDllDirectoryName());
-                asmResolver.AddSearchDirectory(Path.GetDirectoryName(unityEngineDLLPath));
-                asmResolver.AddSearchDirectory(Path.GetDirectoryName(mirrorNetDLLPath));
-                if (dependencies != null)
-                {
-                    foreach (string path in dependencies)
-                    {
-                        asmResolver.AddSearchDirectory(path);
-                    }
+                    //Log.Warning($"Weaver: skipping {CurrentAssembly.Name} because already weaved");
+                    return true;
                 }
 
-                WeaverTypes.SetupTargetTypes(unityAssembly, mirrorAssembly, CurrentAssembly);
-                System.Diagnostics.Stopwatch rwstopwatch = System.Diagnostics.Stopwatch.StartNew();
-                ReaderWriterProcessor.Process(CurrentAssembly);
+                weaverTypes = new WeaverTypes(CurrentAssembly, Log, ref WeavingFailed);
+
+                // weaverTypes are needed for CreateGeneratedCodeClass
+                CreateGeneratedCodeClass();
+
+                // WeaverList depends on WeaverTypes setup because it uses Import
+                syncVarAccessLists = new SyncVarAccessLists();
+
+                // initialize readers & writers with this assembly.
+                // we need to do this in every Process() call.
+                // otherwise we would get
+                // "System.ArgumentException: Member ... is declared in another module and needs to be imported"
+                // errors when still using the previous module's reader/writer funcs.
+                writers = new Writers(CurrentAssembly, weaverTypes, GeneratedCodeClass, Log);
+                readers = new Readers(CurrentAssembly, weaverTypes, GeneratedCodeClass, Log);
+
+                Stopwatch rwstopwatch = Stopwatch.StartNew();
+                // Need to track modified from ReaderWriterProcessor too because it could find custom read/write functions or create functions for NetworkMessages
+                modified = ReaderWriterProcessor.Process(CurrentAssembly, resolver, Log, writers, readers, ref WeavingFailed);
                 rwstopwatch.Stop();
-                Console.WriteLine("Find all reader and writers took " + rwstopwatch.ElapsedMilliseconds + " milliseconds");
+                Console.WriteLine($"Find all reader and writers took {rwstopwatch.ElapsedMilliseconds} milliseconds");
 
                 ModuleDefinition moduleDefinition = CurrentAssembly.MainModule;
-                Console.WriteLine("Script Module: {0}", moduleDefinition.Name);
+                Console.WriteLine($"Script Module: {moduleDefinition.Name}");
 
-                bool modified = WeaveModule(moduleDefinition);
+                modified |= WeaveModule(moduleDefinition);
 
                 if (WeavingFailed)
                 {
@@ -316,103 +236,33 @@ namespace Mirror.Weaver
 
                 if (modified)
                 {
-                    // this must be done for ALL code, not just NetworkBehaviours
-                    try
-                    {
-                        PropertySiteProcessor.Process(moduleDefinition);
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Error("ProcessPropertySites exception: " + e);
-                        return false;
-                    }
+                    SyncVarAttributeAccessReplacer.Process(Log, moduleDefinition, syncVarAccessLists);
 
-                    if (WeavingFailed)
-                    {
-                        return false;
-                    }
+                    // add class that holds read/write functions
+                    moduleDefinition.Types.Add(GeneratedCodeClass);
 
-                    // write to outputDir if specified, otherwise perform in-place write
-                    WriterParameters writeParams = new WriterParameters { WriteSymbols = true };
-                    if (!string.IsNullOrEmpty(outputDir))
-                    {
-                        CurrentAssembly.Write(Helpers.DestinationFileFor(outputDir, assName), writeParams);
-                    }
-                    else
-                    {
-                        CurrentAssembly.Write(writeParams);
-                    }
+                    ReaderWriterProcessor.InitializeReaderAndWriters(CurrentAssembly, weaverTypes, writers, readers, GeneratedCodeClass);
+
+                    // DO NOT WRITE here.
+                    // CompilationFinishedHook writes to the file.
+                    // ILPostProcessor writes to in-memory assembly.
+                    // it depends on the caller.
+                    //CurrentAssembly.Write(new WriterParameters{ WriteSymbols = true });
                 }
-            }
 
-            return true;
-        }
-
-        static bool WeaveAssemblies(IEnumerable<string> assemblies, IEnumerable<string> dependencies, string outputDir, string unityEngineDLLPath, string mirrorNetDLLPath)
-        {
-            WeavingFailed = false;
-            WeaveLists = new WeaverLists();
-
-            using (AssemblyDefinition unityAssembly = AssemblyDefinition.ReadAssembly(unityEngineDLLPath))
-            using (AssemblyDefinition mirrorAssembly = AssemblyDefinition.ReadAssembly(mirrorNetDLLPath))
-            {
-                WeaverTypes.SetupUnityTypes(unityAssembly, mirrorAssembly);
-
-                try
+                // if weaving succeeded, switch on the Weaver Fuse in Mirror.dll
+                if (CurrentAssembly.Name.Name == MirrorAssemblyName)
                 {
-                    foreach (string asm in assemblies)
-                    {
-                        if (!Weave(asm, unityAssembly, mirrorAssembly, dependencies, unityEngineDLLPath, mirrorNetDLLPath, outputDir))
-                        {
-                            return false;
-                        }
-                    }
+                    ToggleWeaverFuse();
                 }
-                catch (Exception e)
-                {
-                    Log.Error("Exception :" + e);
-                    return false;
-                }
+
+                return true;
             }
-            return true;
-        }
-
-
-        public static bool Process(string unityEngine, string netDLL, string outputDirectory, string[] assemblies, string[] extraAssemblyPaths, Action<string> printWarning, Action<string> printError)
-        {
-            Validate(unityEngine, netDLL, outputDirectory, assemblies, extraAssemblyPaths);
-            Log.WarningMethod = printWarning;
-            Log.ErrorMethod = printError;
-            return WeaveAssemblies(assemblies, extraAssemblyPaths, outputDirectory, unityEngine, netDLL);
-        }
-
-        static void Validate(string unityEngine, string netDLL, string outputDirectory, string[] assemblies, string[] extraAssemblyPaths)
-        {
-            CheckDllPath(unityEngine);
-            CheckDllPath(netDLL);
-            CheckOutputDirectory(outputDirectory);
-            CheckAssemblies(assemblies);
-        }
-        static void CheckDllPath(string path)
-        {
-            if (!File.Exists(path))
-                throw new Exception("dll could not be located at " + path + "!");
-        }
-        static void CheckAssemblies(IEnumerable<string> assemblyPaths)
-        {
-            foreach (string assemblyPath in assemblyPaths)
-                CheckAssemblyPath(assemblyPath);
-        }
-        static void CheckAssemblyPath(string assemblyPath)
-        {
-            if (!File.Exists(assemblyPath))
-                throw new Exception("Assembly " + assemblyPath + " does not exist!");
-        }
-        static void CheckOutputDirectory(string outputDir)
-        {
-            if (!string.IsNullOrEmpty(outputDir) && !Directory.Exists(outputDir))
+            catch (Exception e)
             {
-                Directory.CreateDirectory(outputDir);
+                Log.Error($"Exception :{e}");
+                WeavingFailed = true;
+                return false;
             }
         }
     }

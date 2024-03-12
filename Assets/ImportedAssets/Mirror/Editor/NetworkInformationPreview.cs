@@ -73,7 +73,7 @@ namespace Mirror
 
         public override bool HasPreviewGUI()
         {
-            // need to check if target is null to stop MissingReferenceException 
+            // need to check if target is null to stop MissingReferenceException
             return target != null && target is GameObject gameObject && gameObject.GetComponent<NetworkIdentity>() != null;
         }
 
@@ -171,7 +171,7 @@ namespace Mirror
 
         float DrawObservers(NetworkIdentity identity, float initialX, float Y)
         {
-            if (identity.observers != null && identity.observers.Count > 0)
+            if (identity.observers.Count > 0)
             {
                 Rect observerRect = new Rect(initialX, Y + 10, 200, 20);
 
@@ -180,9 +180,9 @@ namespace Mirror
                 observerRect.x += 20;
                 observerRect.y += observerRect.height;
 
-                foreach (KeyValuePair<int, NetworkConnection> kvp in identity.observers)
+                foreach (KeyValuePair<int, NetworkConnectionToClient> kvp in identity.observers)
                 {
-                    GUI.Label(observerRect, kvp.Value.address + ":" + kvp.Value, styles.componentName);
+                    GUI.Label(observerRect, $"{kvp.Value.address}:{kvp.Value}", styles.componentName);
                     observerRect.y += observerRect.height;
                     Y = observerRect.y;
                 }
@@ -196,7 +196,7 @@ namespace Mirror
             if (identity.connectionToClient != null)
             {
                 Rect ownerRect = new Rect(initialX, Y + 10, 400, 20);
-                GUI.Label(ownerRect, new GUIContent("Client Authority: " + identity.connectionToClient), styles.labelStyle);
+                GUI.Label(ownerRect, new GUIContent($"Client Authority: {identity.connectionToClient}"), styles.labelStyle);
                 Y += ownerRect.height;
             }
             return Y;
@@ -252,7 +252,7 @@ namespace Mirror
                 infos.Add(GetString("Network ID", identity.netId.ToString()));
                 infos.Add(GetBoolean("Is Client", identity.isClient));
                 infos.Add(GetBoolean("Is Server", identity.isServer));
-                infos.Add(GetBoolean("Has Authority", identity.hasAuthority));
+                infos.Add(GetBoolean("Is Owned", identity.isOwned));
                 infos.Add(GetBoolean("Is Local Player", identity.isLocalPlayer));
             }
             return infos;
@@ -277,7 +277,7 @@ namespace Mirror
         NetworkIdentityInfo GetAssetId(NetworkIdentity identity)
         {
             string assetId = identity.assetId.ToString();
-            if (string.IsNullOrEmpty(assetId))
+            if (string.IsNullOrWhiteSpace(assetId))
             {
                 assetId = "<object has no prefab>";
             }

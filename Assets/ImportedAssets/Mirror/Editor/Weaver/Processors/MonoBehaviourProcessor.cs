@@ -2,53 +2,53 @@ using Mono.CecilX;
 
 namespace Mirror.Weaver
 {
-    /// <summary>
-    /// only shows warnings in case we use SyncVars etc. for MonoBehaviour.
-    /// </summary>
+    // only shows warnings in case we use SyncVars etc. for MonoBehaviour.
     static class MonoBehaviourProcessor
     {
-        public static void Process(TypeDefinition td)
+        public static void Process(Logger Log, TypeDefinition td, ref bool WeavingFailed)
         {
-            ProcessSyncVars(td);
-            ProcessMethods(td);
+            ProcessSyncVars(Log, td, ref WeavingFailed);
+            ProcessMethods(Log, td, ref WeavingFailed);
         }
 
-        static void ProcessSyncVars(TypeDefinition td)
+        static void ProcessSyncVars(Logger Log, TypeDefinition td, ref bool WeavingFailed)
         {
             // find syncvars
             foreach (FieldDefinition fd in td.Fields)
             {
-                if (fd.HasCustomAttribute(WeaverTypes.SyncVarType))
-                    Weaver.Error($"SyncVar {fd.Name} must be inside a NetworkBehaviour.  {td.Name} is not a NetworkBehaviour", fd);
+                if (fd.HasCustomAttribute<SyncVarAttribute>())
+                {
+                    Log.Error($"SyncVar {fd.Name} must be inside a NetworkBehaviour.  {td.Name} is not a NetworkBehaviour", fd);
+                    WeavingFailed = true;
+                }
 
                 if (SyncObjectInitializer.ImplementsSyncObject(fd.FieldType))
                 {
-                    Weaver.Error($"{fd.Name} is a SyncObject and must be inside a NetworkBehaviour.  {td.Name} is not a NetworkBehaviour", fd);
+                    Log.Error($"{fd.Name} is a SyncObject and must be inside a NetworkBehaviour.  {td.Name} is not a NetworkBehaviour", fd);
+                    WeavingFailed = true;
                 }
             }
         }
 
-        static void ProcessMethods(TypeDefinition td)
+        static void ProcessMethods(Logger Log, TypeDefinition td, ref bool WeavingFailed)
         {
             // find command and RPC functions
             foreach (MethodDefinition md in td.Methods)
             {
-                foreach (CustomAttribute ca in md.CustomAttributes)
+                if (md.HasCustomAttribute<CommandAttribute>())
                 {
-                    if (ca.AttributeType.FullName == WeaverTypes.CommandType.FullName)
-                    {
-                        Weaver.Error($"Command {md.Name} must be declared inside a NetworkBehaviour", md);
-                    }
-
-                    if (ca.AttributeType.FullName == WeaverTypes.ClientRpcType.FullName)
-                    {
-                        Weaver.Error($"ClientRpc {md.Name} must be declared inside a NetworkBehaviour", md);
-                    }
-
-                    if (ca.AttributeType.FullName == WeaverTypes.TargetRpcType.FullName)
-                    {
-                        Weaver.Error($"TargetRpc {md.Name} must be declared inside a NetworkBehaviour", md);
-                    }
+                    Log.Error($"Command {md.Name} must be declared inside a NetworkBehaviour", md);
+                    WeavingFailed = true;
+                }
+                if (md.HasCustomAttribute<ClientRpcAttribute>())
+                {
+                    Log.Error($"ClientRpc {md.Name} must be declared inside a NetworkBehaviour", md);
+                    WeavingFailed = true;
+                }
+                if (md.HasCustomAttribute<TargetRpcAttribute>())
+                {
+                    Log.Error($"TargetRpc {md.Name} must be declared inside a NetworkBehaviour", md);
+                    WeavingFailed = true;
                 }
             }
         }

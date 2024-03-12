@@ -90,7 +90,10 @@ public class AvatarFromUpgrade : MonoBehaviour {
             EventTrigger trigger = this.gameObject.AddComponent<EventTrigger>();
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerClick;
-            entry.callback.AddListener(delegate { OnClick(UpgradeType); });
+            entry.callback.AddListener(delegate {
+                Debug.Log($"Avatar is now {UpgradeType.ToString()}");
+                OnClick(UpgradeType); 
+            });
             trigger.triggers.Add(entry);
         }
     }

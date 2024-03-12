@@ -1,5 +1,3 @@
-using System;
-using System.ComponentModel;
 using UnityEngine;
 
 namespace Mirror
@@ -9,12 +7,10 @@ namespace Mirror
     /// <para>The RoomPrefab object of the NetworkRoomManager must have this component on it. This component holds basic room player data required for the room to function. Game specific data for room players can be put in other components on the RoomPrefab or in scripts derived from NetworkRoomPlayer.</para>
     /// </summary>
     [DisallowMultipleComponent]
-    [AddComponentMenu("Network/NetworkRoomPlayer")]
-    [HelpURL("https://mirror-networking.com/docs/Components/NetworkRoomPlayer.html")]
+    [AddComponentMenu("Network/Network Room Player")]
+    [HelpURL("https://mirror-networking.gitbook.io/docs/components/network-room-player")]
     public class NetworkRoomPlayer : NetworkBehaviour
     {
-        static readonly ILogger logger = LogFactory.GetLogger(typeof(NetworkRoomPlayer));
-
         /// <summary>
         /// This flag controls whether the default UI is shown for the room player.
         /// <para>As this UI is rendered using the old GUI system, it is only recommended for testing purposes.</para>
@@ -43,34 +39,37 @@ namespace Mirror
         #region Unity Callbacks
 
         /// <summary>
-        /// Do not use Start - Override OnStartrHost / OnStartClient instead!
+        /// Do not use Start - Override OnStartHost / OnStartClient instead!
         /// </summary>
-        public void Start()
+        public virtual void Start()
         {
             if (NetworkManager.singleton is NetworkRoomManager room)
             {
                 // NetworkRoomPlayer object must be set to DontDestroyOnLoad along with NetworkRoomManager
                 // in server and all clients, otherwise it will be respawned in the game scene which would
-                // have undesireable effects.
+                // have undesirable effects.
                 if (room.dontDestroyOnLoad)
                     DontDestroyOnLoad(gameObject);
 
                 room.roomSlots.Add(this);
-                room.RecalculateRoomPlayerIndices();
+
+                if (NetworkServer.active)
+                    room.RecalculateRoomPlayerIndices();
 
                 if (NetworkClient.active)
                     room.CallOnClientEnterRoom();
             }
-            else
-                logger.LogError("RoomPlayer could not find a NetworkRoomManager. The RoomPlayer requires a NetworkRoomManager object to function. Make sure that there is one in the scene.");
+            else Debug.LogError("RoomPlayer could not find a NetworkRoomManager. The RoomPlayer requires a NetworkRoomManager object to function. Make sure that there is one in the scene.");
         }
 
         public virtual void OnDisable()
         {
             if (NetworkClient.active && NetworkManager.singleton is NetworkRoomManager room)
             {
+                // only need to call this on client as server removes it before object is destroyed
                 room.roomSlots.Remove(this);
-                room.RecalculateRoomPlayerIndices();
+
+                room.CallOnClientExitRoom();
             }
         }
 
@@ -98,19 +97,14 @@ namespace Mirror
         /// </summary>
         /// <param name="oldIndex">The old index value</param>
         /// <param name="newIndex">The new index value</param>
-        public virtual void IndexChanged(int oldIndex, int newIndex) { }
+        public virtual void IndexChanged(int oldIndex, int newIndex) {}
 
         /// <summary>
         /// This is a hook that is invoked on clients when a RoomPlayer switches between ready or not ready.
         /// <para>This function is called when the a client player calls CmdChangeReadyState.</para>
         /// </summary>
         /// <param name="newReadyState">New Ready State</param>
-        public virtual void ReadyStateChanged(bool _, bool newReadyState)
-        {
-#pragma warning disable CS0618 // Type or member is obsolete
-            OnClientReady(newReadyState);
-#pragma warning restore CS0618 // Type or member is obsolete
-        }
+        public virtual void ReadyStateChanged(bool oldReadyState, bool newReadyState) {}
 
         #endregion
 
@@ -120,26 +114,19 @@ namespace Mirror
         /// This is a hook that is invoked on clients for all room player objects when entering the room.
         /// <para>Note: isLocalPlayer is not guaranteed to be set until OnStartLocalPlayer is called.</para>
         /// </summary>
-        public virtual void OnClientEnterRoom() { }
+        public virtual void OnClientEnterRoom() {}
 
         /// <summary>
         /// This is a hook that is invoked on clients for all room player objects when exiting the room.
         /// </summary>
-        public virtual void OnClientExitRoom() { }
-
-        // Deprecated 05/18/2020
-        /// <summary>
-        /// Obsolete: Override <see cref="ReadyStateChanged(bool, bool)">ReadyStateChanged(bool, bool)</see> instead.
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never), Obsolete("Override ReadyStateChanged(bool, bool) instead")]
-        public virtual void OnClientReady(bool readyState) { }
+        public virtual void OnClientExitRoom() {}
 
         #endregion
 
         #region Optional UI
 
         /// <summary>
-        /// Render a UI for the room.   Override to provide your on UI
+        /// Render a UI for the room. Override to provide your own UI
         /// </summary>
         public virtual void OnGUI()
         {
@@ -152,7 +139,7 @@ namespace Mirror
                 if (!room.showRoomGUI)
                     return;
 
-                if (!NetworkManager.IsSceneActive(room.RoomScene))
+                if (!Utils.IsSceneActive(room.RoomScene))
                     return;
 
                 DrawPlayerReadyState();

@@ -1,13 +1,5 @@
 ﻿using Mirror;
-using SquadBuilderNS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Players;
-using UnityEngine;
-using SubPhases;
 
 public class NetworkIdentity : NetworkBehaviour
 {
@@ -23,7 +15,7 @@ public class NetworkIdentity : NetworkBehaviour
 
     private void Start()
     {
-        if (this.hasAuthority)
+        if (this.isOwned)
         {
             Network.CurrentPlayer = this;
         }
@@ -143,7 +135,7 @@ public class NetworkIdentity : NetworkBehaviour
     {
         base.OnStartClient();
 
-        if (this.hasAuthority)
+        if (this.isOwned)
         {
             if (Network.ConnectionAttempt != null) Network.ConnectionAttempt.StopAttempt();
 

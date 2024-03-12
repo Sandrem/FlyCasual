@@ -6,34 +6,13 @@ using UnityEngine.Events;
 namespace Mirror.Discovery
 {
     [Serializable]
-    public class ServerFoundUnityEvent : UnityEvent<ServerResponse> { };
+    public class ServerFoundUnityEvent<TResponseType> : UnityEvent<TResponseType> {};
 
     [DisallowMultipleComponent]
-    [AddComponentMenu("Network/NetworkDiscovery")]
+    [AddComponentMenu("Network/Network Discovery")]
     public class NetworkDiscovery : NetworkDiscoveryBase<ServerRequest, ServerResponse>
     {
         #region Server
-
-        public long ServerId { get; private set; }
-
-        [Tooltip("Transport to be advertised during discovery")]
-        public Transport transport;
-
-        [Tooltip("Invoked when a server is found")]
-        public ServerFoundUnityEvent OnServerFound;
-
-        public override void Start()
-        {
-            ServerId = RandomLong();
-
-            // active transport gets initialized in awake
-            // so make sure we set it here in Start()  (after awakes)
-            // Or just let the user assign it in the inspector
-            if (transport == null)
-                transport = Transport.activeTransport;
-
-            base.Start();
-        }
 
         /// <summary>
         /// Process the request from a client
@@ -42,7 +21,7 @@ namespace Mirror.Discovery
         /// Override if you wish to provide more information to the clients
         /// such as the name of the host player
         /// </remarks>
-        /// <param name="request">Request comming from client</param>
+        /// <param name="request">Request coming from client</param>
         /// <param name="endpoint">Address of the client that sent the request</param>
         /// <returns>The message to be sent back to the client or null</returns>
         protected override ServerResponse ProcessRequest(ServerRequest request, IPEndPoint endpoint)

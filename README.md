@@ -1,8 +1,11 @@
 # Fly Casual
 
-Fly Casual is a fan-made ["Star Wars: X-Wing Miniatures Game"](https://www.fantasyflightgames.com/en/products/x-wing) simulator.
+AR update for Fly Casual - a fan-made ["Star Wars: X-Wing Miniatures Game"](https://www.fantasyflightgames.com/en/products/x-wing) simulator.
+
+![image](https://github.com/97saundersj/FlyCasualAR/assets/34074715/c66fdb32-27ce-403f-8648-b370daf7e2ed)
 
 Features:
+* NEW - AR support for Android
 * Available platforms: Windows, Mac, Linux, Android.
 * 3D (2D mode is supported).
 * Full automation of rules and abilities. Examples of gameplay: [v0.4.3](https://www.youtube.com/watch?v=YhYvjnKx1P8), [v0.2.0](https://www.youtube.com/watch?v=UhOgTgrdswM)
